@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to OnCue Gifts</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --black: #0D0D0D; --gold: #C9A84C; --gold-light: #E8C97A; --ivory: #F5F0E8; --white: #FFFFFF; --gray: #6B6B6B; }
+    html, body { height: 100%; }
+    body { background: var(--black); color: var(--white); font-family: 'Raleway', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; text-align: center; position: relative; overflow: hidden; }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(13,13,13,0.96); backdrop-filter: blur(12px);
+      padding: 0 5%; display: flex; align-items: center; justify-content: space-between;
+      height: 80px; border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+    .nav-logo { display: block; line-height: 0; }
+    .nav-logo img { height: 44px; width: auto; max-width: 110px; object-fit: contain; display: block; }
+
+    .page { max-width: 640px; margin: 0 auto; position: relative; z-index: 1; }
+
+    .checkmark {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(201,168,76,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 32px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.2s forwards;
+    }
+
+    .eyebrow {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.3s forwards;
+    }
+    .eyebrow::before, .eyebrow::after { content: ''; width: 32px; height: 1px; background: var(--gold); opacity: 0.4; }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.4s forwards;
+    }
+    h1 em { font-style: italic; color: var(--gold-light); }
+
+    .gold-line { width: 40px; height: 1px; background: var(--gold); margin: 0 auto 28px; opacity: 0; animation: fadeIn 0.6s ease 0.5s forwards; }
+
+    .sub {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.6s forwards;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 48px;
+      border: 1px solid rgba(201,168,76,0.15);
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.7s forwards;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 24px 28px;
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+      text-align: left;
+    }
+    .step-item:last-child { border-bottom: none; }
+
+    .step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--black);
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .step-text h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .step-text p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.6;
+    }
+
+    .cta-wrap {
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.9s forwards;
+    }
+
+    .btn-gold {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--black);
+      font-family: 'Raleway', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 18px 48px;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    .manage-link {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      text-decoration: none;
+      transition: color 0.2s;
+      display: block;
+      margin-top: 12px;
+    }
+    .manage-link:hover { color: var(--gold); }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(13,13,13,0.8);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 16px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    footer a { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.2); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--gold); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 0.5; } }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo"><img src="/logo-nav.png" alt="OnCue Gifts"></a>
+  </nav>
+
+  <div class="page">
+
+    <div class="checkmark">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+
+    <div class="eyebrow">You're In</div>
+
+    <h1>Welcome to<br><em>OnCue Gifts.</em></h1>
+
+    <div class="gold-line"></div>
+
+    <p class="sub">Your subscription is confirmed. There is one quick thing we need from you to get started - tell us about the people you would like us to take care of.</p>
+
+    <div class="steps">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <h3>Complete your onboarding</h3>
+          <p>Tell us about your recipients - their occasions, interests, and gift budget. Takes about 3 minutes.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          <h3>We take it from here</h3>
+          <p>14 days before each occasion we select a gift and send you a preview. Approve or swap in one click.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          <h3>Your gift arrives on time</h3>
+          <p>Beautifully packaged, delivered to your recipient's door. You get the credit. Every time.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-wrap">
+      <a href="https://tally.so/r/QKkJQX" class="btn-gold">Complete My Setup</a>
+      <a href="https://billing.stripe.com/p/login/test_cNi8wPe8C7qqdBDdiNgEg00" class="manage-link">Manage my subscription</a>
+    </div>
+
+  </div>
+
+  <footer>
+    <a href="/">Home</a>
+    <a href="/contact">Contact</a>
+    <a href="/privacy">Privacy Policy</a>
+    <a href="/terms">Terms of Service</a>
+  </footer>
+
+</body>
+</html>
