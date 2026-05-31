@@ -28,7 +28,7 @@
     .contact-title em { font-style: italic; color: var(--gold); }
     .contact-sub { font-size: 15px; font-weight: 300; line-height: 1.8; color: var(--gray); margin-bottom: 48px; }
     .contact-detail { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
-    .contact-detail-icon { width: 40px; height: 40px; background: var(--black); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .contact-detail-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .contact-detail-text h4 { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 500; color: var(--black); margin-bottom: 3px; }
     .contact-detail-text p { font-size: 13px; color: var(--gray); }
     .contact-detail-text a { color: var(--gold); text-decoration: none; font-size: 13px; }
@@ -82,21 +82,27 @@
       <h1 class="contact-title">We would love<br>to <em>hear from you.</em></h1>
       <p class="contact-sub">Have a question about how OnCue Gifts works? Need help with your subscription? Want to share feedback? We are here and happy to help.</p>
       <div class="contact-detail">
-        <div class="contact-detail-icon">✉</div>
+        <div class="contact-detail-icon" style="background:transparent;border:1.5px solid rgba(201,168,76,0.4);display:flex;align-items:center;justify-content:center;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        </div>
         <div class="contact-detail-text">
           <h4>Email Us</h4>
           <a href="mailto:contact@oncuegifts.com">contact@oncuegifts.com</a>
         </div>
       </div>
       <div class="contact-detail">
-        <div class="contact-detail-icon">⏱</div>
+        <div class="contact-detail-icon" style="background:transparent;border:1.5px solid rgba(201,168,76,0.4);display:flex;align-items:center;justify-content:center;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
         <div class="contact-detail-text">
           <h4>Response Time</h4>
           <p>We typically respond within 24 hours, Monday through Friday.</p>
         </div>
       </div>
       <div class="contact-detail">
-        <div class="contact-detail-icon">🎁</div>
+        <div class="contact-detail-icon" style="background:transparent;border:1.5px solid rgba(201,168,76,0.4);display:flex;align-items:center;justify-content:center;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="14" rx="2"/><rect x="7" y="8" width="10" height="4" rx="1"/><path d="M12 4c-1.5 0-3 .8-3 2s1.5 2 3 2m0-4c1.5 0 3 .8 3 2s-1.5 2-3 2m0-4v4"/></svg>
+        </div>
         <div class="contact-detail-text">
           <h4>Already a Subscriber?</h4>
           <p>Manage your plan, update billing, or cancel anytime through your <a href="https://billing.stripe.com/p/login/test_cNi8wPe8C7qqdBDdiNgEg00">subscriber portal.</a></p>
