@@ -11,12 +11,17 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root { --black: #0D0D0D; --gold: #C9A84C; --ivory: #F5F0E8; --white: #FFFFFF; --gray: #6B6B6B; }
-    body { background: var(--ivory); color: var(--black); font-family: 'Raleway', sans-serif; }
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(13,13,13,0.96); backdrop-filter: blur(12px); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 80px; border-bottom: 1px solid rgba(201,168,76,0.15); }
+    body { background: var(--ivory); color: var(--black); font-family: 'Raleway', sans-serif; padding-top: 80px; }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(13,13,13,0.96); backdrop-filter: blur(12px);
+      padding: 0 5%; display: flex; align-items: center; justify-content: space-between;
+      height: 80px; border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
     .nav-logo img { height: 48px; width: auto; display: block; object-fit: contain; }
     .nav-back { font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.5); text-decoration: none; }
     .nav-back:hover { color: var(--gold); }
-    .legal-page { max-width: 760px; margin: 0 auto; padding: 140px 5% 100px; }
+    .legal-page { max-width: 760px; margin: 0 auto; padding: 60px 5% 100px; }
     .legal-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
     .legal-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; color: var(--black); margin-bottom: 12px; }
     .legal-date { font-size: 12px; color: var(--gray); margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid rgba(0,0,0,0.08); }
