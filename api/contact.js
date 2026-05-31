@@ -5,16 +5,24 @@ export default async function handler(req, res) {
 
   const { firstName, lastName, email, subject, message } = req.body;
 
+  const apiKey = process.env.RESEND_API_KEY;
+
+  if (!apiKey) {
+    console.error('RESEND_API_KEY is not set');
+    return res.status(500).json({ error: 'Email service not configured' });
+  }
+
   try {
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + process.env.RESEND_API_KEY
+        'Authorization': 'Bearer ' + apiKey
       },
       body: JSON.stringify({
         from: 'OnCue Gifts <hello@oncuegifts.com>',
         to: ['contact@oncuegifts.com'],
+        reply_to: email,
         subject: 'New Contact Form - ' + (subject || 'General'),
         html: `
           <h2>New Contact Form Submission</h2>
@@ -29,13 +37,17 @@ export default async function handler(req, res) {
       })
     });
 
+    const responseText = await response.text();
+    console.log('Resend status:', response.status);
+    console.log('Resend response:', responseText);
+
     if (!response.ok) {
-      const error = await response.text();
-      return res.status(500).json({ error });
+      return res.status(500).json({ error: responseText });
     }
 
     return res.status(200).json({ success: true });
   } catch (err) {
+    console.error('Fetch error:', err.message);
     return res.status(500).json({ error: err.message });
   }
 }
