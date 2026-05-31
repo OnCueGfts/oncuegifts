@@ -6,320 +6,874 @@
   <title>OnCue Gifts — Every Occasion, Perfectly On Cue</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --midnight: #0D0D0D;
+      --black: #0D0D0D;
       --gold: #C9A84C;
       --gold-light: #E8C97A;
-      --gold-dim: rgba(201,168,76,0.15);
+      --gold-dim: rgba(201,168,76,0.12);
       --ivory: #F5F0E8;
-      --ivory-dim: rgba(245,240,232,0.06);
       --white: #FFFFFF;
       --gray: #6B6B6B;
-      --gray-light: rgba(255,255,255,0.08);
+      --gray-light: #F0EBE0;
     }
 
-    html, body {
-      height: 100%;
-      background: var(--midnight);
-      color: var(--white);
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ivory);
+      color: var(--black);
       font-family: 'Raleway', sans-serif;
       overflow-x: hidden;
     }
 
-    /* Grain overlay */
-    body::before {
-      content: '';
+    /* NAV */
+    nav {
       position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
+      top: 0;
+      left: 0;
+      right: 0;
       z-index: 100;
-      opacity: 0.4;
+      background: rgba(13,13,13,0.96);
+      backdrop-filter: blur(12px);
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      border-bottom: 1px solid rgba(201,168,76,0.15);
     }
 
-    /* Radial glow */
-    body::after {
-      content: '';
-      position: fixed;
-      top: -20%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 800px;
-      height: 600px;
-      background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
     }
 
-    .page {
+    .nav-logo img {
+      height: 44px;
+      width: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Raleway', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      background: var(--gold);
+      color: var(--black) !important;
+      padding: 10px 24px;
+      border-radius: 2px;
+      font-weight: 600 !important;
+    }
+
+    .nav-cta:hover { background: var(--gold-light) !important; color: var(--black) !important; }
+
+    /* HERO */
+    .hero {
       min-height: 100vh;
+      background: var(--black);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      text-align: center;
+      padding: 120px 5% 80px;
       position: relative;
-      z-index: 1;
-      padding: 3rem 2rem;
+      overflow: hidden;
     }
 
-    /* Logo */
-    .logo {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0;
-      opacity: 0;
-      animation: fadeUp 1s ease 0.2s forwards;
-    }
-
-    .logo svg {
-      width: 72px;
-      height: 80px;
-    }
-
-    .logo-wordmark {
-      text-align: center;
-      margin-top: 14px;
-    }
-
-    .logo-oncue {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 32px;
-      font-weight: 400;
-      letter-spacing: 0.1em;
-      color: var(--white);
-      display: block;
-      line-height: 1;
-    }
-
-    .logo-divider {
-      width: 32px;
-      height: 1px;
-      background: var(--gold);
-      margin: 8px auto;
-      opacity: 0.7;
-    }
-
-    .logo-gifts {
-      font-family: 'Raleway', sans-serif;
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.4em;
-      color: var(--gold);
-      text-transform: uppercase;
-      display: block;
-    }
-
-    /* Divider line */
-    .section-divider {
-      width: 1px;
-      height: 60px;
-      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
-      margin: 3rem 0;
-      opacity: 0;
-      animation: fadeIn 1s ease 0.8s forwards;
-    }
-
-    /* Hero text */
-    .hero {
-      text-align: center;
-      max-width: 680px;
-      opacity: 0;
-      animation: fadeUp 1s ease 0.5s forwards;
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 700px;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%);
+      pointer-events: none;
     }
 
     .hero-eyebrow {
-      font-family: 'Raleway', sans-serif;
       font-size: 10px;
       font-weight: 500;
       letter-spacing: 0.35em;
       text-transform: uppercase;
       color: var(--gold);
-      margin-bottom: 1.5rem;
+      margin-bottom: 28px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 12px;
+      gap: 14px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.2s forwards;
     }
 
-    .hero-eyebrow::before,
-    .hero-eyebrow::after {
+    .hero-eyebrow::before, .hero-eyebrow::after {
       content: '';
-      width: 32px;
+      width: 40px;
       height: 1px;
       background: var(--gold);
-      opacity: 0.5;
+      opacity: 0.4;
     }
 
-    .hero-headline {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: clamp(2.8rem, 6vw, 4.5rem);
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
       font-weight: 300;
-      line-height: 1.12;
-      letter-spacing: -0.01em;
       color: var(--white);
-      margin-bottom: 1.75rem;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.4s forwards;
     }
 
-    .hero-headline em {
+    .hero h1 em {
       font-style: italic;
       color: var(--gold-light);
     }
 
     .hero-sub {
-      font-family: 'Raleway', sans-serif;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 300;
-      line-height: 1.85;
-      color: rgba(255,255,255,0.55);
-      max-width: 520px;
-      margin: 0 auto 2.5rem;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.5);
+      max-width: 560px;
+      margin: 0 auto 48px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.6s forwards;
     }
 
-    /* Email form */
-    .notify-form {
+    .hero-actions {
       display: flex;
-      gap: 0;
-      max-width: 440px;
-      width: 100%;
-      margin: 0 auto;
-      border: 1px solid rgba(201,168,76,0.3);
-      border-radius: 3px;
-      overflow: hidden;
-      transition: border-color 0.3s ease;
+      gap: 16px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.8s forwards;
     }
 
-    .notify-form:focus-within {
-      border-color: var(--gold);
-    }
-
-    .notify-input {
-      flex: 1;
-      background: rgba(255,255,255,0.04);
-      border: none;
-      outline: none;
-      padding: 14px 20px;
-      font-family: 'Raleway', sans-serif;
-      font-size: 13px;
-      font-weight: 400;
-      letter-spacing: 0.03em;
-      color: var(--white);
-    }
-
-    .notify-input::placeholder {
-      color: rgba(255,255,255,0.3);
-    }
-
-    .notify-btn {
+    .btn-primary {
       background: var(--gold);
-      border: none;
-      padding: 14px 24px;
+      color: var(--black);
       font-family: 'Raleway', sans-serif;
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--midnight);
-      cursor: pointer;
-      transition: background 0.2s ease;
-      white-space: nowrap;
+      padding: 18px 40px;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-block;
     }
 
-    .notify-btn:hover {
+    .btn-primary:hover {
       background: var(--gold-light);
+      transform: translateY(-1px);
     }
 
-    .notify-note {
+    .btn-ghost {
+      color: rgba(255,255,255,0.5);
+      font-family: 'Raleway', sans-serif;
       font-size: 11px;
-      color: rgba(255,255,255,0.25);
-      letter-spacing: 0.05em;
-      margin-top: 14px;
-      text-align: center;
-    }
-
-    /* Three pillars */
-    .pillars {
-      display: flex;
-      gap: 1px;
-      margin-top: 4rem;
-      width: 100%;
-      max-width: 680px;
-      opacity: 0;
-      animation: fadeUp 1s ease 0.9s forwards;
-    }
-
-    .pillar {
-      flex: 1;
-      padding: 1.75rem 1.5rem;
-      background: var(--ivory-dim);
-      text-align: center;
-      border: 1px solid rgba(201,168,76,0.08);
-      transition: background 0.3s ease, border-color 0.3s ease;
-    }
-
-    .pillar:hover {
-      background: rgba(201,168,76,0.06);
-      border-color: rgba(201,168,76,0.2);
-    }
-
-    .pillar-icon {
-      margin-bottom: 1rem;
-    }
-
-    .pillar-title {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 17px;
       font-weight: 500;
-      letter-spacing: 0.05em;
-      color: var(--white);
-      margin-bottom: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 18px 24px;
+      transition: color 0.2s;
+      display: inline-block;
     }
 
-    .pillar-text {
-      font-size: 11px;
+    .btn-ghost:hover { color: var(--gold); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeIn 1s ease 1.4s forwards;
+    }
+
+    .hero-scroll span {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    /* PROBLEM */
+    .problem {
+      background: var(--ivory);
+      padding: 120px 5%;
+      text-align: center;
+    }
+
+    .section-eyebrow {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
       font-weight: 400;
-      letter-spacing: 0.04em;
-      color: rgba(255,255,255,0.35);
+      color: var(--black);
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .section-title em { font-style: italic; color: var(--gold); }
+
+    .section-sub {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--gray);
+      max-width: 580px;
+      margin: 0 auto 60px;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .problem-card {
+      background: var(--white);
+      padding: 40px 32px;
+      text-align: center;
+    }
+
+    .problem-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .problem-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 10px;
+    }
+
+    .problem-card p {
+      font-size: 13px;
+      color: var(--gray);
       line-height: 1.7;
     }
 
-    /* Footer */
-    .footer {
-      margin-top: 4rem;
+    /* HOW IT WORKS */
+    .how {
+      background: var(--black);
+      padding: 120px 5%;
       text-align: center;
-      opacity: 0;
-      animation: fadeIn 1s ease 1.2s forwards;
     }
 
-    .footer-text {
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      color: rgba(255,255,255,0.2);
-      text-transform: uppercase;
+    .how .section-title { color: var(--white); }
+    .how .section-sub { color: rgba(255,255,255,0.4); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      max-width: 960px;
+      margin: 0 auto;
     }
 
-    .footer-gold {
-      color: var(--gold);
-      opacity: 0.6;
+    .step {
+      padding: 48px 36px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(201,168,76,0.1);
+      position: relative;
     }
 
-    /* Success state */
-    .success-msg {
-      display: none;
+    .step-num {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 16px;
-      font-style: italic;
-      color: var(--gold-light);
-      text-align: center;
-      margin-top: 1rem;
-      letter-spacing: 0.03em;
+      font-size: 64px;
+      font-weight: 300;
+      color: rgba(201,168,76,0.15);
+      line-height: 1;
+      margin-bottom: 20px;
+      display: block;
     }
 
-    /* Animations */
+    .step h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .step p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.75;
+    }
+
+    .step-gold {
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
+      margin: 0 auto 20px;
+      opacity: 0.5;
+    }
+
+    /* WHAT'S INCLUDED */
+    .included {
+      background: var(--ivory);
+      padding: 120px 5%;
+    }
+
+    .included-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .included-text .section-title { text-align: left; }
+    .included-text .section-eyebrow { text-align: left; }
+    .included-text .section-sub { text-align: left; margin: 0 0 40px; }
+
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 14px;
+      color: var(--black);
+      line-height: 1.6;
+    }
+
+    .feature-check {
+      width: 20px;
+      height: 20px;
+      background: var(--black);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .feature-check::after {
+      content: '✓';
+      font-size: 10px;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .included-visual {
+      background: var(--black);
+      padding: 48px 40px;
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .gift-preview {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .gift-preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .gift-preview-label {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    .gift-preview-date {
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+    }
+
+    .gift-item {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,168,76,0.15);
+      padding: 20px;
+      border-radius: 2px;
+    }
+
+    .gift-item-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .gift-item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      color: var(--white);
+      font-weight: 400;
+    }
+
+    .gift-item-price {
+      font-size: 12px;
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    .gift-item-occasion {
+      font-size: 11px;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.05em;
+    }
+
+    .gift-item-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      color: rgba(255,255,255,0.3);
+      margin-top: 10px;
+      padding: 4px 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4CAF50;
+    }
+
+    /* PRICING */
+    .pricing {
+      background: var(--black);
+      padding: 120px 5%;
+      text-align: center;
+    }
+
+    .pricing .section-title { color: var(--white); }
+    .pricing .section-sub { color: rgba(255,255,255,0.4); }
+
+    .pricing-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 3px;
+      padding: 4px;
+      margin-bottom: 56px;
+    }
+
+    .toggle-btn {
+      font-family: 'Raleway', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 10px 24px;
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,0.4);
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .toggle-btn.active {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      max-width: 1000px;
+      margin: 0 auto 48px;
+    }
+
+    .pricing-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 48px 36px;
+      text-align: left;
+      position: relative;
+      transition: border-color 0.3s;
+    }
+
+    .pricing-card:hover {
+      border-color: rgba(201,168,76,0.3);
+    }
+
+    .pricing-card.featured {
+      background: rgba(201,168,76,0.06);
+      border-color: rgba(201,168,76,0.4);
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold);
+      color: var(--black);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 0 0 4px 4px;
+    }
+
+    .plan-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .plan-tagline {
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .plan-price {
+      margin-bottom: 28px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .plan-price-amount {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .plan-price-period {
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+      margin-left: 4px;
+    }
+
+    .plan-price-monthly {
+      font-size: 12px;
+      color: var(--gold);
+      margin-top: 6px;
+    }
+
+    .plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .plan-features li {
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.5;
+    }
+
+    .plan-features li::before {
+      content: '✦';
+      color: var(--gold);
+      font-size: 9px;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .plan-cta {
+      display: block;
+      text-align: center;
+      padding: 14px 24px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .plan-cta-gold {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    .plan-cta-gold:hover {
+      background: var(--gold-light);
+    }
+
+    .plan-cta-outline {
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.6);
+    }
+
+    .plan-cta-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .pricing-addon {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 24px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .addon-text h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .addon-text p {
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+    }
+
+    .addon-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      color: var(--gold);
+    }
+
+    /* FAQ */
+    .faq {
+      background: var(--ivory);
+      padding: 120px 5%;
+    }
+
+    .faq-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .faq-list {
+      margin-top: 56px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .faq-item {
+      background: var(--white);
+      border: none;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      gap: 16px;
+    }
+
+    .faq-question span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--black);
+      line-height: 1.3;
+    }
+
+    .faq-icon {
+      width: 24px;
+      height: 24px;
+      border: 1px solid rgba(0,0,0,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 14px;
+      color: var(--gold);
+      transition: transform 0.3s;
+    }
+
+    .faq-answer {
+      padding: 0 28px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+    .faq-answer p {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.75;
+      padding-bottom: 24px;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding-top: 0;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    /* FINAL CTA */
+    .final-cta {
+      background: var(--black);
+      padding: 120px 5%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .final-cta::before {
+      content: '';
+      position: absolute;
+      bottom: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .final-cta .section-title { color: var(--white); margin-bottom: 20px; }
+
+    .final-cta p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.4);
+      max-width: 500px;
+      margin: 0 auto 48px;
+      line-height: 1.8;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 40px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-logo img { height: 36px; }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    .footer-copy {
+      font-size: 11px;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.05em;
+    }
+
+    /* ANIMATIONS */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to { opacity: 1; transform: translateY(0); }
@@ -330,119 +884,381 @@
       to { opacity: 1; }
     }
 
-    /* Responsive */
-    @media (max-width: 600px) {
-      .pillars { flex-direction: column; gap: 1px; }
-      .notify-form { flex-direction: column; }
-      .notify-btn { padding: 14px; }
+    /* GOLD DIVIDER */
+    .gold-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      margin: 0 auto 24px;
+      opacity: 0.5;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .problem-grid, .steps, .pricing-cards { grid-template-columns: 1fr; }
+      .included-inner { grid-template-columns: 1fr; gap: 40px; }
+      .pricing-addon { flex-direction: column; text-align: center; }
+      footer { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
 <body>
-  <div class="page">
 
-    <!-- Logo -->
-    <div class="logo">
-      <svg viewBox="0 0 80 88" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="8" y="38" width="64" height="46" rx="2" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
-        <rect x="8" y="38" width="64" height="14" rx="2" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
-        <line x1="40" y1="38" x2="40" y2="84" stroke="#C9A84C" stroke-width="1.5"/>
-        <line x1="40" y1="26" x2="40" y2="38" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
-        <path d="M40 26 C38 20 29 15 22 17.5 C16 19.5 16 26 21 27.5 C26 29 34 27 40 26Z" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
-        <path d="M40 26 C42 20 51 15 58 17.5 C64 19.5 64 26 59 27.5 C54 29 46 27 40 26Z" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
-        <circle cx="40" cy="26" r="2.5" fill="#C9A84C"/>
-      </svg>
-      <div class="logo-wordmark">
-        <span class="logo-oncue">OnCue</span>
-        <div class="logo-divider"></div>
-        <span class="logo-gifts">Gifts</span>
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <img src="https://oncuegifts.com/logo.png" alt="OnCue Gifts">
+    </a>
+    <ul class="nav-links">
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#pricing" class="nav-cta">Get Started</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">The Concierge Gift Service</div>
+    <h1>Never miss a moment<br>for the people you <em>love.</em></h1>
+    <p class="hero-sub">OnCue Gifts remembers every occasion, selects a thoughtful gift, and delivers it on time — automatically. You set it up once. We handle everything else.</p>
+    <div class="hero-actions">
+      <a href="#pricing" class="btn-primary">Start For $8 / Month</a>
+      <a href="#how" class="btn-ghost">See How It Works</a>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="problem">
+    <span class="section-eyebrow">Sound Familiar?</span>
+    <h2 class="section-title">The moments that matter<br>are the ones we <em>forget.</em></h2>
+    <p class="section-sub">Life is busy. Birthdays slip by. Anniversaries sneak up. Important people in your life deserve better than a last-minute apology.</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <span class="problem-icon">📅</span>
+        <h3>You Forgot Again</h3>
+        <p>Another birthday passed. Another anniversary missed. The guilt is real — and it costs you more than a gift would have.</p>
+      </div>
+      <div class="problem-card">
+        <span class="problem-icon">😰</span>
+        <h3>Last-Minute Scramble</h3>
+        <p>You remembered — barely. Now you're rushing, overpaying, and sending something that says "I grabbed whatever I could find."</p>
+      </div>
+      <div class="problem-card">
+        <span class="problem-icon">🎁</span>
+        <h3>The Wrong Gift</h3>
+        <p>You tried. But picking the right gift for the right person at the right moment takes more thought than you had time for.</p>
       </div>
     </div>
+  </section>
 
-    <div class="section-divider"></div>
-
-    <!-- Hero -->
-    <div class="hero">
-      <div class="hero-eyebrow">Launching Soon</div>
-      <h1 class="hero-headline">
-        Every occasion,<br>
-        <em>perfectly on cue.</em>
-      </h1>
-      <p class="hero-sub">
-        The concierge gift service that remembers, selects, and sends meaningful gifts for every important person in your life — automatically.
-      </p>
-
-      <form class="notify-form" onsubmit="handleNotify(event)">
-        <input
-          class="notify-input"
-          type="email"
-          placeholder="Your email address"
-          required
-          id="emailInput"
-        />
-        <button class="notify-btn" type="submit">Notify Me</button>
-      </form>
-      <p class="notify-note">Be first to know when we launch. No spam, ever.</p>
-      <p class="success-msg" id="successMsg">
-        You're on the list — we'll be in touch soon. ✦
-      </p>
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how">
+    <span class="section-eyebrow">The OnCue Way</span>
+    <h2 class="section-title" style="color:var(--white)">Three steps to becoming<br>the most <em>thoughtful</em> person they know.</h2>
+    <p class="section-sub">Setup takes 10 minutes. Everything after that is automatic.</p>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <div class="step-gold"></div>
+        <h3>You Set It Up</h3>
+        <p>Tell us about the people who matter — their occasions, preferences, and budget. One form, one time, done.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <div class="step-gold"></div>
+        <h3>We Handle Everything</h3>
+        <p>14 days before each occasion we curate the perfect gift, write a personal card, and send you a preview for approval.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <div class="step-gold"></div>
+        <h3>You Get the Credit</h3>
+        <p>The gift arrives beautifully packaged, right on time. They feel remembered. You look extraordinary. Every single time.</p>
+      </div>
     </div>
+  </section>
 
-    <!-- Three pillars -->
-    <div class="pillars">
-      <div class="pillar">
-        <div class="pillar-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="9" stroke="#C9A84C" stroke-width="1.2"/>
-            <polyline points="12,7 12,12 15,15" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round"/>
-          </svg>
+  <!-- WHAT'S INCLUDED -->
+  <section class="included">
+    <div class="included-inner">
+      <div class="included-text">
+        <span class="section-eyebrow">What You Get</span>
+        <h2 class="section-title">Everything handled.<br><em>Nothing forgotten.</em></h2>
+        <p class="section-sub">OnCue Gifts is a complete gifting concierge — not just a reminder app. We do the work so you don't have to.</p>
+        <ul class="feature-list">
+          <li><span class="feature-check"></span>Curated gifts selected within your budget — no generic choices</li>
+          <li><span class="feature-check"></span>Personalized card message written for each occasion</li>
+          <li><span class="feature-check"></span>Gift preview sent 14 days before — approve or swap in one click</li>
+          <li><span class="feature-check"></span>Direct delivery to your recipient's door — beautifully packaged</li>
+          <li><span class="feature-check"></span>Delivery tracking and confirmation so you always know</li>
+          <li><span class="feature-check"></span>Covers birthdays, anniversaries, holidays, and more</li>
+          <li><span class="feature-check"></span>Add unlimited people at $39 per person per year</li>
+        </ul>
+      </div>
+      <div class="included-visual">
+        <div class="gift-preview">
+          <div class="gift-preview-header">
+            <span class="gift-preview-label">Upcoming Gift Preview</span>
+            <span class="gift-preview-date">14 days away</span>
+          </div>
+          <div class="gift-item">
+            <div class="gift-item-top">
+              <span class="gift-item-name">Artisan Candle Collection</span>
+              <span class="gift-item-price">$48</span>
+            </div>
+            <div class="gift-item-occasion">Sarah's Birthday - June 15th</div>
+            <div class="gift-item-status">
+              <span class="status-dot"></span>
+              Approved - Ships June 12th
+            </div>
+          </div>
+          <div class="gift-item">
+            <div class="gift-item-top">
+              <span class="gift-item-name">Wine and Cheese Gift Set</span>
+              <span class="gift-item-price">$72</span>
+            </div>
+            <div class="gift-item-occasion">Mom and Dad's Anniversary - June 22nd</div>
+            <div class="gift-item-status">
+              <span class="status-dot" style="background:#C9A84C"></span>
+              Awaiting Your Approval
+            </div>
+          </div>
+          <div class="gift-item" style="opacity:0.4">
+            <div class="gift-item-top">
+              <span class="gift-item-name">Premium Tech Accessories</span>
+              <span class="gift-item-price">$95</span>
+            </div>
+            <div class="gift-item-occasion">James's Work Anniversary - July 8th</div>
+            <div class="gift-item-status">
+              <span class="status-dot" style="background:rgba(255,255,255,0.2)"></span>
+              Selection In Progress
+            </div>
+          </div>
         </div>
-        <div class="pillar-title">Set It Once</div>
-        <div class="pillar-text">Enter your people, dates, and budget. Ten minutes a year.</div>
       </div>
-      <div class="pillar">
-        <div class="pillar-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M20 7H4C2.9 7 2 7.9 2 9v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2z" stroke="#C9A84C" stroke-width="1.2"/>
-            <polyline points="16,3 12,7 8,3" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-            <line x1="12" y1="7" x2="12" y2="17" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round"/>
-          </svg>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <span class="section-eyebrow">Simple Pricing</span>
+    <h2 class="section-title" style="color:var(--white)">One subscription.<br>Every occasion, <em>covered.</em></h2>
+    <p class="section-sub">Start with one person. Add more anytime. Cancel whenever you want.</p>
+
+    <div class="pricing-toggle">
+      <button class="toggle-btn active" onclick="setToggle('annual', this)">Annual — Save 17%</button>
+      <button class="toggle-btn" onclick="setToggle('monthly', this)">Monthly</button>
+    </div>
+
+    <div class="pricing-cards">
+      <div class="pricing-card">
+        <div class="plan-name">Essential</div>
+        <div class="plan-tagline">Perfect for gifting one important person</div>
+        <div class="plan-price">
+          <span class="plan-price-amount" id="essential-price">$79</span>
+          <span class="plan-price-period" id="essential-period">/year</span>
+          <div class="plan-price-monthly" id="essential-sub">Just $6.58/month billed annually</div>
         </div>
-        <div class="pillar-title">We Handle It</div>
-        <div class="pillar-text">We curate, personalize, and send every gift on time.</div>
+        <ul class="plan-features">
+          <li>1 recipient covered</li>
+          <li>3 gift occasions per year</li>
+          <li>Gift budget up to $35</li>
+          <li>Personalized card included</li>
+          <li>Gift preview and approval</li>
+        </ul>
+        <a href="https://buy.stripe.com/test_essential_annual" class="plan-cta plan-cta-outline" id="essential-link">Get Started</a>
       </div>
-      <div class="pillar">
-        <div class="pillar-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Most Popular</div>
+        <div class="plan-name">Classic</div>
+        <div class="plan-tagline">The complete gifting experience</div>
+        <div class="plan-price">
+          <span class="plan-price-amount" id="classic-price">$99</span>
+          <span class="plan-price-period" id="classic-period">/year</span>
+          <div class="plan-price-monthly" id="classic-sub">Just $8.25/month billed annually</div>
         </div>
-        <div class="pillar-title">You Get the Credit</div>
-        <div class="pillar-text">They feel remembered. You look thoughtful. Every time.</div>
+        <ul class="plan-features">
+          <li>1 recipient covered</li>
+          <li>3 gift occasions per year</li>
+          <li>Gift budget up to $50</li>
+          <li>Personalized card included</li>
+          <li>Gift preview and approval</li>
+        </ul>
+        <a href="https://buy.stripe.com/test_cNi8wPe8C7qqdBDdiNgEg00" class="plan-cta plan-cta-gold" id="classic-link">Get Started</a>
+      </div>
+
+      <div class="pricing-card">
+        <div class="plan-name">Premium</div>
+        <div class="plan-tagline">For those who never want to miss a thing</div>
+        <div class="plan-price">
+          <span class="plan-price-amount" id="premium-price">$149</span>
+          <span class="plan-price-period" id="premium-period">/year</span>
+          <div class="plan-price-monthly" id="premium-sub">Just $12.42/month billed annually</div>
+        </div>
+        <ul class="plan-features">
+          <li>Up to 3 recipients included</li>
+          <li>3 gift occasions per recipient</li>
+          <li>Gift budget up to $75</li>
+          <li>Personalized card included</li>
+          <li>Gift preview and approval</li>
+        </ul>
+        <a href="https://buy.stripe.com/test_premium_annual" class="plan-cta plan-cta-outline" id="premium-link">Get Started</a>
       </div>
     </div>
 
-    <!-- Footer -->
-    <div class="footer">
-      <p class="footer-text">
-        <span class="footer-gold">✦</span>&nbsp;&nbsp;oncuegifts.com&nbsp;&nbsp;<span class="footer-gold">✦</span>
-      </p>
+    <div class="pricing-addon">
+      <div class="addon-text">
+        <h4>Need to add more people?</h4>
+        <p>Add any additional recipient to your plan for just $39/year. Each person gets their own 3 occasions and gift budget.</p>
+      </div>
+      <div class="addon-price">+$39 / person / year</div>
     </div>
+  </section>
 
-  </div>
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="faq-inner">
+      <span class="section-eyebrow">Questions Answered</span>
+      <h2 class="section-title">Everything you need<br>to know before you <em>start.</em></h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>How does the gift selection work?</span>
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">
+            <p>14 days before each occasion our team curates a thoughtful gift based on the recipient information you provided — their interests, age, relationship, and budget. We send you a preview email showing the selected gift. You can approve it with one click, or request a swap if you'd like something different. If we don't hear from you within 48 hours the gift is automatically approved and ordered.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>When am I charged for the gifts?</span>
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">
+            <p>Your annual or monthly subscription fee is charged at signup. Gift costs are charged separately to your card on file when each gift is approved and ordered — approximately 10-12 days before the occasion. You always see exactly what you're being charged before it happens.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>What occasions are covered?</span>
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">
+            <p>You choose 3 occasions per person from our list: Birthday, Christmas or Holiday, Valentine's Day, Anniversary, Mother's Day, Father's Day, Work Anniversary, Graduation, or Just Because. You pick what matters most for each person in your life.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Can I add more people to my plan?</span>
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">
+            <p>Yes — you can add as many people as you want at $39 per person per year. Each additional person gets their own 3 occasions, gift budget selection, and curated gifts. The Premium plan already includes up to 3 people.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>What if I want to cancel?</span>
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">
+            <p>You can cancel anytime through your subscriber portal — no phone calls, no waiting, no questions asked. Your plan stays active until the end of your current billing period. We'd be sad to see you go but we make it completely painless.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>What kinds of gifts do you send?</span>
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">
+            <p>We source from a curated catalog of premium brands across categories including food and drink, wellness, home and lifestyle, experiences, tech accessories, fashion, and more. Every gift is selected to feel thoughtful and personal — never generic. We match the gift to what you've told us about your recipient.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <div class="gold-divider"></div>
+    <h2 class="section-title">The people who matter<br>deserve to feel <em>remembered.</em></h2>
+    <p>Start today and never miss an occasion again. Setup takes 10 minutes. Everything after that runs on autopilot.</p>
+    <a href="#pricing" class="btn-primary">Start For $8 / Month</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">
+      <img src="https://oncuegifts.com/logo.png" alt="OnCue Gifts">
+    </div>
+    <ul class="footer-links">
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="mailto:contact@oncuegifts.com">Contact</a></li>
+    </ul>
+    <span class="footer-copy">© 2025 OnCue Gifts. All rights reserved.</span>
+  </footer>
 
   <script>
-    function handleNotify(e) {
-      e.preventDefault();
-      const email = document.getElementById('emailInput').value;
-      const form = document.querySelector('.notify-form');
-      const note = document.querySelector('.notify-note');
-      const success = document.getElementById('successMsg');
-      form.style.display = 'none';
-      note.style.display = 'none';
-      success.style.display = 'block';
-      console.log('Email captured:', email);
+    // Pricing toggle
+    const prices = {
+      annual: {
+        essential: { price: '$79', period: '/year', sub: 'Just $6.58/month billed annually', link: 'https://buy.stripe.com/test_essential_annual' },
+        classic: { price: '$99', period: '/year', sub: 'Just $8.25/month billed annually', link: 'https://buy.stripe.com/test_cNi8wPe8C7qqdBDdiNgEg00' },
+        premium: { price: '$149', period: '/year', sub: 'Just $12.42/month billed annually', link: 'https://buy.stripe.com/test_premium_annual' }
+      },
+      monthly: {
+        essential: { price: '$8', period: '/month', sub: 'Billed monthly - cancel anytime', link: 'https://buy.stripe.com/test_essential_monthly' },
+        classic: { price: '$10', period: '/month', sub: 'Billed monthly - cancel anytime', link: 'https://buy.stripe.com/test_classic_monthly' },
+        premium: { price: '$15', period: '/month', sub: 'Billed monthly - cancel anytime', link: 'https://buy.stripe.com/test_premium_monthly' }
+      }
+    };
+
+    function setToggle(type, btn) {
+      document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      ['essential', 'classic', 'premium'].forEach(plan => {
+        document.getElementById(plan + '-price').textContent = prices[type][plan].price;
+        document.getElementById(plan + '-period').textContent = prices[type][plan].period;
+        document.getElementById(plan + '-sub').textContent = prices[type][plan].sub;
+        document.getElementById(plan + '-link').href = prices[type][plan].link;
+      });
     }
+
+    // FAQ toggle
+    function toggleFaq(btn) {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.problem-card, .step, .pricing-card, .faq-item').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
   </script>
+
 </body>
 </html>
