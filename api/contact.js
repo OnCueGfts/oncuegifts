@@ -10,7 +10,7 @@ export default async function handler(req, res) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer re_NjQV6v6j_HSUHShZeHwHRcPiBszG1hYNH'
+        'Authorization': 'Bearer ' + process.env.RESEND_API_KEY
       },
       body: JSON.stringify({
         from: 'OnCue Gifts <hello@oncuegifts.com>',
