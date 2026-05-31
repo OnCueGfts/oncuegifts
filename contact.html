@@ -172,8 +172,10 @@
   </footer>
 
   <script>
-    const SUPABASE_URL = 'https://your-project.supabase.co';
-    const SUPABASE_ANON_KEY = 'your-anon-key';
+    const SUPABASE_URL = 'https://pmsyedigegptahzuldhf.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtc3llZGlnZWdwdGFoenVsZGhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MzU3MzcsImV4cCI6MjA5NTQxMTczN30.lHLUZBS2nl_7tPqoHAco9RGIJWYWKjx5r68XPmCal6k';
+
+    const RESEND_API_KEY = 're_NjQV6v6j_HSUHShZeHwHRcPiBszG1hYNH';
 
     document.getElementById('contactForm').addEventListener('submit', async function(e) {
       e.preventDefault();
@@ -181,18 +183,24 @@
       btn.textContent = 'Sending...';
       btn.disabled = true;
 
+      const firstName = document.getElementById('firstName').value;
+      const lastName = document.getElementById('lastName').value;
+      const email = document.getElementById('email').value;
+      const subject = document.getElementById('subject').value;
+      const message = document.getElementById('message').value;
+
       const data = {
-        first_name: document.getElementById('firstName').value,
-        last_name: document.getElementById('lastName').value,
-        email: document.getElementById('email').value,
-        subject: document.getElementById('subject').value,
-        message: document.getElementById('message').value,
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        subject: subject,
+        message: message,
         created_at: new Date().toISOString()
       };
 
       try {
-        // Save to Supabase
-        const res = await fetch(SUPABASE_URL + '/rest/v1/contact_submissions', {
+        // 1 — Save to Supabase
+        await fetch(SUPABASE_URL + '/rest/v1/contact_submissions', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -203,12 +211,32 @@
           body: JSON.stringify(data)
         });
 
-        // Show success regardless - email notification handled server side
-        document.getElementById('contactForm').style.display = 'none';
-        document.getElementById('formSuccess').style.display = 'block';
+        // 2 — Send email notification via Resend
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + RESEND_API_KEY
+          },
+          body: JSON.stringify({
+            from: 'OnCue Gifts <hello@oncuegifts.com>',
+            to: ['contact@oncuegifts.com'],
+            subject: 'New Contact Form Submission - ' + subject,
+            html: '<h2>New Contact Form Submission</h2>' +
+                  '<p><strong>Name:</strong> ' + firstName + ' ' + lastName + '</p>' +
+                  '<p><strong>Email:</strong> ' + email + '</p>' +
+                  '<p><strong>Subject:</strong> ' + subject + '</p>' +
+                  '<p><strong>Message:</strong></p>' +
+                  '<p>' + message + '</p>' +
+                  '<hr>' +
+                  '<p style="color:#999;font-size:12px">Submitted via oncuegifts.com/contact</p>'
+          })
+        });
 
       } catch(err) {
-        // Still show success to user - data captured
+        console.error('Submission error:', err);
+      } finally {
+        // Always show success to user
         document.getElementById('contactForm').style.display = 'none';
         document.getElementById('formSuccess').style.display = 'block';
       }
