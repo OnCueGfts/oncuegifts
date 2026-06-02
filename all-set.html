@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You're All Set — OnCue Gifts</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --black: #0D0D0D; --gold: #C9A84C; --gold-light: #E8C97A; --ivory: #F5F0E8; --white: #FFFFFF; --gray: #6B6B6B; }
+    body { background: var(--black); color: var(--white); font-family: 'Raleway', sans-serif; min-height: 100vh; padding: 120px 2rem 80px; text-align: center; position: relative; overflow-x: hidden; }
+    body::before { content: ''; position: fixed; top: -20%; left: 50%; transform: translateX(-50%); width: 800px; height: 600px; background: radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%); pointer-events: none; }
+ 
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(13,13,13,0.96); backdrop-filter: blur(12px); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 80px; border-bottom: 1px solid rgba(201,168,76,0.15); }
+    .nav-logo { display: block; line-height: 0; }
+    .nav-logo img { height: 44px; width: auto; max-width: 110px; object-fit: contain; display: block; }
+ 
+    .page { max-width: 680px; margin: 0 auto; position: relative; z-index: 1; }
+ 
+    .gold-ring { width: 80px; height: 80px; border-radius: 50%; border: 1.5px solid rgba(201,168,76,0.4); display: flex; align-items: center; justify-content: center; margin: 0 auto 40px; opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards; }
+ 
+    .eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; display: flex; align-items: center; justify-content: center; gap: 12px; opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards; }
+    .eyebrow::before, .eyebrow::after { content: ''; width: 32px; height: 1px; background: var(--gold); opacity: 0.4; }
+ 
+    h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.6rem, 5vw, 4rem); font-weight: 300; color: var(--white); line-height: 1.15; margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards; }
+    h1 em { font-style: italic; color: var(--gold-light); }
+ 
+    .gold-line { width: 40px; height: 1px; background: var(--gold); margin: 0 auto 32px; opacity: 0; animation: fadeIn 0.8s ease 0.5s forwards; }
+ 
+    .lead { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1rem, 2.5vw, 1.4rem); font-weight: 300; line-height: 1.8; color: rgba(255,255,255,0.6); max-width: 560px; margin: 0 auto 48px; opacity: 0; animation: fadeUp 0.8s ease 0.6s forwards; }
+ 
+    .promise-box { background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.2); padding: 40px 48px; margin-bottom: 48px; opacity: 0; animation: fadeUp 0.8s ease 0.7s forwards; }
+ 
+    .promise-box p { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--white); line-height: 1.8; font-style: italic; }
+ 
+    .promise-box cite { display: block; margin-top: 20px; font-family: 'Raleway', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); font-style: normal; }
+ 
+    .what-happens { display: flex; flex-direction: column; gap: 2px; margin-bottom: 56px; opacity: 0; animation: fadeUp 0.8s ease 0.8s forwards; }
+ 
+    .what-item { display: flex; align-items: center; gap: 20px; padding: 20px 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); text-align: left; }
+ 
+    .what-icon { width: 36px; height: 36px; border-radius: 50%; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; }
+ 
+    .what-text { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+    .what-text strong { color: var(--white); font-weight: 500; display: block; margin-bottom: 2px; font-size: 14px; }
+ 
+    .manage-link { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.2); text-decoration: none; transition: color 0.2s; display: inline-block; margin-top: 16px; }
+    .manage-link:hover { color: var(--gold); }
+ 
+    footer { background: rgba(13,13,13,0.8); border-top: 1px solid rgba(255,255,255,0.05); padding: 24px 5%; display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap; margin-top: 60px; }
+    footer a { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.2); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--gold); }
+ 
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 0.5; } }
+  </style>
+</head>
+<body>
+ 
+  <nav>
+    <a href="/" class="nav-logo"><img src="/logo-nav.png" alt="OnCue Gifts"></a>
+  </nav>
+ 
+  <div class="page">
+ 
+    <div class="gold-ring">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+        <path d="M8 12l3 3 5-5"/>
+      </svg>
+    </div>
+ 
+    <div class="eyebrow">You're All Set</div>
+ 
+    <h1>Sit back. Relax.<br>We've got the <em>people you love.</em></h1>
+ 
+    <div class="gold-line"></div>
+ 
+    <p class="lead">From this moment on, every important occasion for the people in your life is handled. Thoughtfully. Automatically. By real people who care about getting it right.</p>
+ 
+    <div class="promise-box">
+      <p>"You will never have to scramble for a last-minute gift, forget an important occasion, or wonder what to send again. That is our promise to you."</p>
+      <cite>— David Klein, Founder of OnCue Gifts</cite>
+    </div>
+ 
+    <div class="what-happens">
+      <div class="what-item">
+        <div class="what-icon">📅</div>
+        <div class="what-text">
+          <strong>14 days before each occasion</strong>
+          We select a thoughtful gift and send you a preview. It auto-sends unless you request a change.
+        </div>
+      </div>
+      <div class="what-item">
+        <div class="what-icon">🎁</div>
+        <div class="what-text">
+          <strong>Your recipient gets something meaningful</strong>
+          Beautifully packaged, delivered to their door, with a personal note that sounds like you.
+        </div>
+      </div>
+      <div class="what-item">
+        <div class="what-icon">✦</div>
+        <div class="what-text">
+          <strong>You become the most thoughtful person they know</strong>
+          Every time. Without the stress. Without the scramble. Without ever forgetting again.
+        </div>
+      </div>
+    </div>
+ 
+    <a href="https://billing.stripe.com/p/login/00w4gz9z8aXz8N66AH4AU00" class="manage-link">Manage my subscription</a>
+ 
+  </div>
+ 
+  <footer>
+    <a href="/">Home</a>
+    <a href="/contact">Contact</a>
+    <a href="/privacy">Privacy Policy</a>
+    <a href="/terms">Terms of Service</a>
+  </footer>
+ 
+</body>
+</html>
