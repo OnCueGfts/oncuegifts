@@ -570,7 +570,12 @@
     </div>
   </section>
   
-<!-- TESTIMONIALS -->
+<style>
+    @media (max-width: 768px) {
+      .testimonial-grid { grid-template-columns: 1fr !important; }
+    }
+  </style>
+  <!-- TESTIMONIALS -->
   <section style="background:#111111;padding:120px 5%;text-align:center;">
     <div style="max-width:1000px;margin:0 auto;">
       <span class="section-eyebrow">Member Reviews</span>
@@ -586,7 +591,7 @@
         <span style="font-size:13px;color:rgba(255,255,255,0.35);margin-left:4px;letter-spacing:0.05em;">5.0 &nbsp;&middot;&nbsp; Based on member reviews</span>
       </div>
 
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:56px;">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:56px;" class="testimonial-grid">
 
         <!-- Testimonial 1 -->
         <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(201,168,76,0.2);padding:36px 32px;text-align:left;display:flex;flex-direction:column;">
