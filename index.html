@@ -19,7 +19,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    @media (max-width: 768px) { .testimonial-grid { grid-template-columns: 1fr !important; } }
     :root {
       --black: #0D0D0D;
       --gold: #C9A84C;
@@ -32,7 +31,7 @@
     html { scroll-behavior: smooth; }
     body { background: var(--ivory); color: var(--black); font-family: 'Raleway', sans-serif; overflow-x: hidden; }
 
-    /* NAV */
+    /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       background: rgba(13,13,13,0.96); backdrop-filter: blur(12px);
@@ -46,8 +45,15 @@
     .nav-links a:hover { color: var(--gold); }
     .nav-cta { background: var(--gold) !important; color: var(--black) !important; padding: 10px 24px; border-radius: 2px; font-weight: 600 !important; cursor: pointer; border: none; font-family: 'Raleway', sans-serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; }
     .nav-cta:hover { background: var(--gold-light) !important; }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: rgba(255,255,255,0.6); border-radius: 2px; transition: all 0.3s; }
+    .mobile-menu { display: none; position: fixed; top: 80px; left: 0; right: 0; background: rgba(13,13,13,0.98); backdrop-filter: blur(12px); padding: 24px 5%; border-bottom: 1px solid rgba(201,168,76,0.15); z-index: 99; flex-direction: column; gap: 20px; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a, .mobile-menu button { font-size: 13px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.7); text-decoration: none; background: none; border: none; font-family: 'Raleway', sans-serif; cursor: pointer; text-align: left; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .mobile-menu a:hover, .mobile-menu button:hover { color: var(--gold); }
+    .mobile-menu .mobile-cta { background: var(--gold) !important; color: var(--black) !important; padding: 14px 24px; border-radius: 2px; text-align: center; border: none; margin-top: 8px; }
 
-    /* HERO */
+    /* ── HERO ── */
     .hero {
       min-height: 100vh; background: var(--black);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -61,19 +67,11 @@
     }
     .hero-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; display: flex; align-items: center; gap: 14px; opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards; }
     .hero-eyebrow::before, .hero-eyebrow::after { content: ''; width: 40px; height: 1px; background: var(--gold); opacity: 0.4; }
-    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 300; color: var(--white); line-height: 1.1; letter-spacing: -0.01em; margin-bottom: 28px; opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.6rem, 7vw, 5.5rem); font-weight: 300; color: var(--white); line-height: 1.1; letter-spacing: -0.01em; margin-bottom: 28px; opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards; }
     .hero h1 em { font-style: italic; color: var(--gold-light); }
     .hero-sub { font-size: 16px; font-weight: 300; line-height: 1.8; color: rgba(255,255,255,0.5); max-width: 560px; margin: 0 auto 16px; opacity: 0; animation: fadeUp 0.8s ease 0.6s forwards; }
-
-    /* PRICING TRANSPARENCY LINE */
-    .hero-pricing-note {
-      font-size: 12px; font-weight: 400; color: rgba(255,255,255,0.35);
-      margin: 0 auto 40px; max-width: 480px; line-height: 1.6;
-      opacity: 0; animation: fadeUp 0.8s ease 0.7s forwards;
-      padding: 12px 20px; border: 1px solid rgba(201,168,76,0.15); border-radius: 2px;
-    }
+    .hero-pricing-note { font-size: 12px; font-weight: 400; color: rgba(255,255,255,0.35); margin: 0 auto 40px; max-width: 480px; line-height: 1.6; opacity: 0; animation: fadeUp 0.8s ease 0.7s forwards; padding: 12px 20px; border: 1px solid rgba(201,168,76,0.15); border-radius: 2px; }
     .hero-pricing-note strong { color: var(--gold); font-weight: 500; }
-
     .hero-actions { display: flex; gap: 16px; align-items: center; justify-content: center; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s ease 0.8s forwards; }
     .btn-primary { background: var(--gold); color: var(--black); font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; padding: 18px 40px; border-radius: 2px; text-decoration: none; transition: background 0.2s, transform 0.2s; display: inline-block; border: none; cursor: pointer; }
     .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
@@ -82,16 +80,15 @@
     .hero-scroll { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0; animation: fadeIn 1s ease 1.4s forwards; }
     .hero-scroll span { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.2); }
     .scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s ease infinite; }
-    @keyframes scrollPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 
-    /* SHARED */
+    /* ── SHARED ── */
     .section-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: block; }
     .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 400; color: var(--black); line-height: 1.2; margin-bottom: 20px; }
     .section-title em { font-style: italic; color: var(--gold); }
     .section-sub { font-size: 15px; font-weight: 300; line-height: 1.8; color: var(--gray); max-width: 580px; margin: 0 auto 60px; }
     .gold-divider { width: 40px; height: 1px; background: var(--gold); margin: 0 auto 24px; opacity: 0.5; }
 
-    /* PROBLEM */
+    /* ── PROBLEM ── */
     .problem { background: var(--ivory); padding: 120px 5%; text-align: center; }
     .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; max-width: 900px; margin: 0 auto; }
     .problem-card { background: var(--white); padding: 40px 32px; text-align: center; }
@@ -99,7 +96,7 @@
     .problem-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 500; color: var(--black); margin-bottom: 10px; }
     .problem-card p { font-size: 13px; color: var(--gray); line-height: 1.7; }
 
-    /* HOW IT WORKS */
+    /* ── HOW IT WORKS ── */
     .how { background: var(--black); padding: 120px 5%; text-align: center; }
     .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; max-width: 960px; margin: 0 auto; }
     .step { padding: 48px 36px; background: rgba(255,255,255,0.03); border: 1px solid rgba(201,168,76,0.1); }
@@ -108,17 +105,16 @@
     .step p { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.75; }
     .step-gold { width: 32px; height: 1px; background: var(--gold); margin: 0 auto 20px; opacity: 0.5; }
 
-    /* HUMAN CURATION BANNER */
+    /* ── HUMAN BANNER ── */
     .human-banner { background: var(--gold); padding: 20px 5%; text-align: center; }
     .human-banner p { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--black); letter-spacing: 0.02em; }
     .human-banner p span { font-style: italic; }
 
-    /* INCLUDED */
+    /* ── INCLUDED ── */
     .included { background: var(--ivory); padding: 120px 5%; }
     .included-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-    .included-text .section-title { text-align: left; }
-    .included-text .section-eyebrow { text-align: left; }
-    .included-text .section-sub { text-align: left; margin: 0 0 40px; }
+    .included-text .section-title, .included-text .section-eyebrow, .included-text .section-sub { text-align: left; margin-left: 0; }
+    .included-text .section-sub { margin: 0 0 40px; }
     .feature-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
     .feature-list li { display: flex; align-items: flex-start; gap: 14px; font-size: 14px; color: var(--black); line-height: 1.6; }
     .feature-check { width: 20px; height: 20px; background: var(--black); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
@@ -136,9 +132,13 @@
     .gift-item-status { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 10px; padding: 4px 10px; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; }
     .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #4CAF50; }
 
-    /* GIFT BUDGETS */
+    /* ── FOUNDER ── */
+    .founder-section { background: var(--ivory); padding: 100px 5%; text-align: center; }
+    .founder-card { background: var(--white); padding: 56px 48px; border-left: 3px solid var(--gold); text-align: left; margin-top: 16px; max-width: 680px; margin-left: auto; margin-right: auto; }
+
+    /* ── GIFT BUDGETS ── */
     .budgets { background: var(--black); padding: 120px 5%; text-align: center; }
-    .budget-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; max-width: 900px; margin: 0 auto 60px; }
+    .budget-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; max-width: 900px; margin: 0 auto 48px; }
     .budget-card { padding: 40px 24px; border: 1px solid rgba(201,168,76,0.1); background: rgba(255,255,255,0.02); text-align: center; transition: border-color 0.3s, background 0.3s; }
     .budget-card:hover { border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.05); }
     .budget-amount { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: var(--gold); line-height: 1; margin-bottom: 8px; }
@@ -146,19 +146,73 @@
     .budget-examples { list-style: none; display: flex; flex-direction: column; gap: 8px; }
     .budget-examples li { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.5; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
     .budget-examples li:last-child { border-bottom: none; }
+    .see-examples-wrap { text-align: center; margin-top: 0; }
+    .see-examples-wrap p { font-size: 13px; color: rgba(255,255,255,0.35); margin-bottom: 16px; line-height: 1.6; }
+    .btn-see-examples { background: none; border: 1px solid rgba(201,168,76,0.4); color: var(--gold); font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; padding: 14px 36px; border-radius: 2px; cursor: pointer; transition: all 0.2s; }
+    .btn-see-examples:hover { border-color: var(--gold); background: rgba(201,168,76,0.06); }
 
-    /* GIFT CATEGORIES */
+    /* ── GIFT CATEGORIES ── */
     .categories { background: var(--ivory); padding: 120px 5%; text-align: center; }
     .category-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; max-width: 960px; margin: 0 auto; }
     .category-card { background: var(--white); padding: 36px 28px; text-align: left; }
-    .category-icon { font-size: 28px; margin-bottom: 16px; display: block; }
     .category-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 500; color: var(--black); margin-bottom: 12px; }
     .category-items { list-style: none; display: flex; flex-direction: column; gap: 6px; }
     .category-items li { font-size: 12px; color: var(--gray); display: flex; align-items: center; gap: 8px; }
     .category-items li::before { content: '✦'; color: var(--gold); font-size: 8px; flex-shrink: 0; }
 
-    /* PLAN MODAL */
-    .modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(13,13,13,0.92); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 2rem; }
+    /* ── GUARANTEE ── */
+    .guarantee-section { background: #111110; padding: 120px 5%; text-align: center; font-family: 'Raleway', sans-serif; }
+    .guarantee-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; color: #c9a84c; text-transform: uppercase; margin-bottom: 24px; display: flex; align-items: center; justify-content: center; gap: 16px; }
+    .guarantee-eyebrow::before, .guarantee-eyebrow::after { content: ''; display: block; width: 48px; height: 1px; background: #c9a84c; opacity: 0.5; }
+    .guarantee-headline { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 500; color: #f5f0e8; line-height: 1.1; margin-bottom: 24px; }
+    .guarantee-headline em { font-style: italic; color: #c9a84c; }
+    .guarantee-subtext { font-size: 15px; color: #7a756a; line-height: 1.8; max-width: 560px; margin: 0 auto 72px; }
+    .shield-wrap { display: flex; justify-content: center; margin-bottom: 64px; }
+    .shield-circle { width: 90px; height: 90px; border: 1px solid #c9a84c; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .shield-circle svg { width: 42px; height: 42px; }
+    .pillars { display: grid; grid-template-columns: repeat(3, 1fr); max-width: 900px; margin: 0 auto 72px; border: 1px solid #2a2a26; border-radius: 2px; overflow: hidden; }
+    .pillar { background: #1c1c1a; padding: 40px 32px; text-align: left; border-right: 1px solid #2a2a26; }
+    .pillar:last-child { border-right: none; }
+    .pillar-number { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 400; color: #2e2e2a; line-height: 1; margin-bottom: 20px; }
+    .pillar-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 500; color: #f5f0e8; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .pillar-title::before { content: ''; display: block; width: 24px; height: 1px; background: #c9a84c; flex-shrink: 0; }
+    .pillar-body { font-size: 13px; color: #6a6560; line-height: 1.7; }
+    .promise-outer { max-width: 720px; margin: 0 auto; background: #ffffff; padding: 6px; border-radius: 2px; position: relative; }
+    .promise-inner { border: 1.5px solid #c9a84c; outline: 3px solid #c9a84c; outline-offset: -6px; padding: 52px 56px; position: relative; text-align: left; }
+    .promise-inner::before { content: ''; position: absolute; top: 10px; left: 10px; width: 18px; height: 18px; border-color: #c9a84c; border-style: solid; border-width: 2px 0 0 2px; }
+    .promise-inner::after { content: ''; position: absolute; top: 10px; right: 10px; width: 18px; height: 18px; border-color: #c9a84c; border-style: solid; border-width: 2px 2px 0 0; }
+    .corner-bl { position: absolute; bottom: 10px; left: 10px; width: 18px; height: 18px; border-color: #c9a84c; border-style: solid; border-width: 0 0 2px 2px; }
+    .corner-br { position: absolute; bottom: 10px; right: 10px; width: 18px; height: 18px; border-color: #c9a84c; border-style: solid; border-width: 0 2px 2px 0; }
+    .ornament-top { position: absolute; top: -10px; left: 50%; width: 16px; height: 16px; background: #ffffff; border: 1.5px solid #c9a84c; transform: translateX(-50%) rotate(45deg); }
+    .promise-label { font-size: 10px; font-weight: 600; letter-spacing: 0.22em; color: #c9a84c; text-transform: uppercase; margin-bottom: 20px; text-align: center; }
+    .promise-quote { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-style: italic; font-weight: 400; color: #0d0d0d; line-height: 1.55; margin-bottom: 28px; text-align: center; }
+    .promise-fine { font-size: 13px; color: #5a5550; line-height: 1.8; border-top: 1px solid rgba(201,168,76,0.3); padding-top: 20px; text-align: center; }
+
+    /* ── FAQ ── */
+    .faq { background: var(--ivory); padding: 120px 5%; }
+    .faq-inner { max-width: 800px; margin: 0 auto; text-align: center; }
+    .faq-list { margin-top: 56px; text-align: left; display: flex; flex-direction: column; gap: 32px; }
+    .faq-item { border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 32px; }
+    .faq-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .faq-q { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 500; color: var(--black); margin-bottom: 14px; line-height: 1.3; }
+    .faq-a { font-size: 14px; color: var(--gray); line-height: 1.8; }
+
+    /* ── FINAL CTA ── */
+    .final-cta { background: var(--black); padding: 120px 5%; text-align: center; position: relative; overflow: hidden; }
+    .final-cta::before { content: ''; position: absolute; bottom: -20%; left: 50%; transform: translateX(-50%); width: 800px; height: 600px; background: radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 70%); pointer-events: none; }
+    .final-cta .section-title { color: var(--white); margin-bottom: 20px; }
+    .final-cta p { font-size: 15px; color: rgba(255,255,255,0.4); max-width: 500px; margin: 0 auto 48px; line-height: 1.8; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--black); border-top: 1px solid rgba(255,255,255,0.05); padding: 40px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+    .footer-logo img { height: 44px; width: auto; max-width: 110px; object-fit: contain; display: block; }
+    .footer-links { display: flex; gap: 24px; list-style: none; flex-wrap: wrap; }
+    .footer-links a { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-copy { font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 0.05em; }
+
+    /* ── PLAN MODAL ── */
+    .modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(13,13,13,0.92); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 1rem; }
     .modal-overlay.open { display: flex; }
     .modal { background: var(--black); border: 1px solid rgba(201,168,76,0.2); border-radius: 4px; max-width: 960px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 48px 40px; position: relative; }
     .modal-close { position: absolute; top: 20px; right: 24px; background: none; border: none; color: rgba(255,255,255,0.4); font-size: 24px; cursor: pointer; line-height: 1; transition: color 0.2s; }
@@ -169,8 +223,8 @@
     .modal-sub { font-size: 13px; color: rgba(255,255,255,0.4); text-align: center; margin-bottom: 12px; line-height: 1.6; }
     .modal-pricing-note { font-size: 12px; color: rgba(255,255,255,0.3); text-align: center; margin-bottom: 36px; padding: 10px 20px; border: 1px solid rgba(201,168,76,0.15); border-radius: 2px; line-height: 1.6; }
     .modal-pricing-note strong { color: var(--gold); }
-    .modal-toggle { display: inline-flex; align-items: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 3px; padding: 4px; margin-bottom: 32px; }
-    .modal-toggle-wrap { text-align: center; }
+    .modal-toggle-wrap { text-align: center; margin-bottom: 32px; }
+    .modal-toggle { display: inline-flex; align-items: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 3px; padding: 4px; }
     .toggle-btn { font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 24px; border: none; background: transparent; color: rgba(255,255,255,0.4); cursor: pointer; border-radius: 2px; transition: all 0.2s; }
     .toggle-btn.active { background: var(--gold); color: var(--black); }
     .modal-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 24px; }
@@ -197,44 +251,85 @@
     .plan-cta-outline:hover { border-color: var(--gold); color: var(--gold); }
     .modal-budget-note { text-align: center; font-size: 12px; color: rgba(255,255,255,0.3); padding: 16px; border: 1px solid rgba(255,255,255,0.06); line-height: 1.6; }
     .modal-budget-note strong { color: rgba(255,255,255,0.5); }
+    .terms-row { margin-bottom: 12px; display: flex; align-items: flex-start; gap: 8px; }
+    .terms-row input { margin-top: 3px; accent-color: var(--gold); flex-shrink: 0; }
+    .terms-row label { font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.5; cursor: pointer; }
+    .terms-row label a { color: var(--gold); text-decoration: none; }
 
-    /* FAQ */
-    .faq { background: var(--ivory); padding: 120px 5%; }
-    .faq-inner { max-width: 800px; margin: 0 auto; text-align: center; }
-    .faq-list { margin-top: 56px; text-align: left; display: flex; flex-direction: column; gap: 32px; }
-    .faq-item { border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 32px; }
-    .faq-item:last-child { border-bottom: none; padding-bottom: 0; }
-    .faq-q { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 500; color: var(--black); margin-bottom: 14px; line-height: 1.3; }
-    .faq-a { font-size: 14px; color: var(--gray); line-height: 1.8; }
+    /* ── EXAMPLES MODAL ── */
+    .examples-modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(13,13,13,0.94); backdrop-filter: blur(8px); display: none; align-items: flex-start; justify-content: center; padding: 2rem 1rem; overflow-y: auto; }
+    .examples-modal-overlay.open { display: flex; }
+    .examples-modal { background: var(--black); border: 1px solid rgba(201,168,76,0.2); border-radius: 4px; max-width: 1100px; width: 100%; padding: 48px 40px; position: relative; margin: auto; }
+    .ex-close { position: absolute; top: 20px; right: 24px; background: none; border: none; color: rgba(255,255,255,0.4); font-size: 24px; cursor: pointer; line-height: 1; transition: color 0.2s; }
+    .ex-close:hover { color: var(--gold); }
+    .ex-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-bottom: 40px; }
+    .ex-card { background: #1c1c1a; border: 1px solid #2a2a26; border-radius: 2px; overflow: hidden; display: flex; flex-direction: column; }
+    .ex-card.featured { border-color: var(--gold); }
+    .ex-badge { background: var(--gold); text-align: center; padding: 5px; font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--black); }
+    .ex-header { padding: 20px 22px 16px; border-bottom: 1px solid #2a2a26; }
+    .ex-plan-tag { display: inline-block; font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(201,168,76,0.35); padding: 3px 8px; margin-bottom: 12px; }
+    .ex-persona { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 500; color: #f5f0e8; margin-bottom: 3px; }
+    .ex-desc { font-size: 11px; color: #5a5550; font-style: italic; }
+    .ex-gifts { padding: 20px 22px; flex: 1; border-bottom: 1px solid #2a2a26; }
+    .ex-gifts-label { font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #3a3830; margin-bottom: 14px; }
+    .ex-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid #1e1e1c; gap: 8px; }
+    .ex-row:last-child { border-bottom: none; }
+    .ex-occasion { font-size: 12px; color: #f5f0e8; flex: 1; }
+    .ex-amount { font-family: 'Cormorant Garamond', serif; font-size: 15px; color: var(--gold); flex-shrink: 0; }
+    .ex-totals { padding: 16px 22px; border-bottom: 1px solid #2a2a26; }
+    .ex-total-row { display: flex; justify-content: space-between; padding: 4px 0; }
+    .ex-total-label { font-size: 12px; color: #5a5550; }
+    .ex-total-val { font-family: 'Cormorant Garamond', serif; font-size: 15px; color: #9a9488; }
+    .ex-total-row.highlight { border-top: 1px solid #2a2a26; margin-top: 8px; padding-top: 10px; }
+    .ex-total-row.highlight .ex-total-label { font-size: 13px; color: #f5f0e8; font-weight: 600; }
+    .ex-total-row.highlight .ex-total-val { font-size: 20px; color: #f5f0e8; }
+    .ex-footer { padding: 16px 22px; background: #0d0d0b; }
+    .ex-zero { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-style: italic; color: var(--gold); margin-bottom: 2px; }
+    .ex-zero-sub { font-size: 11px; color: #5a5550; }
 
-    /* FINAL CTA */
-    .final-cta { background: var(--black); padding: 120px 5%; text-align: center; position: relative; overflow: hidden; }
-    .final-cta::before { content: ''; position: absolute; bottom: -20%; left: 50%; transform: translateX(-50%); width: 800px; height: 600px; background: radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 70%); pointer-events: none; }
-    .final-cta .section-title { color: var(--white); margin-bottom: 20px; }
-    .final-cta p { font-size: 15px; color: rgba(255,255,255,0.4); max-width: 500px; margin: 0 auto 48px; line-height: 1.8; }
-
-    /* FOOTER */
-    footer { background: var(--black); border-top: 1px solid rgba(255,255,255,0.05); padding: 40px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
-    .footer-logo img { height: 44px; width: auto; max-width: 110px; object-fit: contain; display: block; }
-    .footer-links { display: flex; gap: 24px; list-style: none; flex-wrap: wrap; }
-    .footer-links a { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); text-decoration: none; transition: color 0.2s; }
-    .footer-links a:hover { color: var(--gold); }
-    .footer-copy { font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 0.05em; }
-
+    /* ── ANIMATIONS ── */
     @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes scrollPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 
+    /* ── MOBILE ── */
     @media (max-width: 768px) {
       .nav-links { display: none; }
-      .problem-grid, .steps, .budget-grid, .category-grid, .modal-cards { grid-template-columns: 1fr; }
+      .nav-hamburger { display: flex; }
+      .hero { padding: 120px 5% 80px; }
+      .hero h1 { font-size: 2.6rem; }
+      .hero-sub { font-size: 14px; }
+      .problem-grid, .steps, .category-grid { grid-template-columns: 1fr; }
+      .budget-grid { grid-template-columns: repeat(2, 1fr); }
       .included-inner { grid-template-columns: 1fr; gap: 40px; }
-      footer { flex-direction: column; text-align: center; }
+      .included-text .section-title, .included-text .section-eyebrow { text-align: center; }
+      .included-text .section-sub { text-align: center; }
+      .feature-list { text-align: left; }
+      .pillars { grid-template-columns: 1fr; }
+      .pillar { border-right: none; border-bottom: 1px solid #2a2a26; }
+      .pillar:last-child { border-bottom: none; }
+      .promise-inner { padding: 40px 24px; }
+      .promise-quote { font-size: 20px; }
       .modal { padding: 32px 20px; }
+      .modal-cards { grid-template-columns: 1fr; }
+      .founder-card { padding: 36px 24px; }
+      .guarantee-section { padding: 80px 5%; }
+      footer { flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+      .ex-grid { grid-template-columns: 1fr; }
+      .examples-modal { padding: 32px 20px; }
+      .human-banner p { font-size: 15px; }
+    }
+    @media (max-width: 480px) {
+      .budget-grid { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; width: 100%; }
+      .btn-primary, .btn-ghost { width: 100%; text-align: center; }
     }
   </style>
 </head>
 <body>
 
+  <!-- NAV -->
   <nav>
     <a href="/" class="nav-logo"><img src="/logo-nav.png" alt="OnCue Gifts"></a>
     <ul class="nav-links">
@@ -244,7 +339,19 @@
       <li><a href="/contact">Contact</a></li>
       <li><button class="nav-cta" onclick="openModal()">Build My Gift Plan</button></li>
     </ul>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#how" onclick="toggleMobileMenu()">How It Works</a>
+    <a href="#gifts" onclick="toggleMobileMenu()">Gift Options</a>
+    <a href="#faq" onclick="toggleMobileMenu()">FAQ</a>
+    <a href="/contact" onclick="toggleMobileMenu()">Contact</a>
+    <button class="mobile-cta" onclick="toggleMobileMenu();openModal();">Build My Gift Plan</button>
+  </div>
 
   <!-- HERO -->
   <section class="hero">
@@ -315,7 +422,7 @@
     </div>
   </section>
 
-  <!-- HUMAN CURATION BANNER -->
+  <!-- HUMAN BANNER -->
   <div class="human-banner">
     <p>Every gift selected by a real person. Every card written by a real person. <span>Every occasion managed with genuine care.</span></p>
   </div>
@@ -344,69 +451,44 @@
             <span class="gift-preview-date">14 days away</span>
           </div>
           <div class="gift-item">
-            <div class="gift-item-top">
-              <span class="gift-item-name">Artisan Candle Collection</span>
-              <span class="gift-item-price">$50</span>
-            </div>
+            <div class="gift-item-top"><span class="gift-item-name">Artisan Candle Collection</span><span class="gift-item-price">$50</span></div>
             <div class="gift-item-occasion">Sarah's Birthday - June 15th</div>
-            <div class="gift-item-status">
-              <span class="status-dot"></span>Approved - Ships June 12th
-            </div>
+            <div class="gift-item-status"><span class="status-dot"></span>Approved - Ships June 12th</div>
           </div>
           <div class="gift-item">
-            <div class="gift-item-top">
-              <span class="gift-item-name">Wine and Cheese Gift Set</span>
-              <span class="gift-item-price">$75</span>
-            </div>
+            <div class="gift-item-top"><span class="gift-item-name">Wine and Cheese Gift Set</span><span class="gift-item-price">$75</span></div>
             <div class="gift-item-occasion">Mom's Anniversary - June 22nd</div>
-            <div class="gift-item-status">
-              <span class="status-dot" style="background:#C9A84C"></span>Preview Sent - Auto-Sends in 14 Days
-            </div>
+            <div class="gift-item-status"><span class="status-dot" style="background:#C9A84C"></span>Preview Sent - Auto-Sends in 14 Days</div>
           </div>
           <div class="gift-item">
-            <div class="gift-item-top">
-              <span class="gift-item-name">Premium Tech Accessories</span>
-              <span class="gift-item-price">$35</span>
-            </div>
+            <div class="gift-item-top"><span class="gift-item-name">Premium Tech Accessories</span><span class="gift-item-price">$35</span></div>
             <div class="gift-item-occasion">James's Work Anniversary - July 8th</div>
-            <div class="gift-item-status">
-              <span class="status-dot" style="background:#5B8FE8"></span>Selection In Progress - Preview Coming Soon
-            </div>
+            <div class="gift-item-status"><span class="status-dot" style="background:#5B8FE8"></span>Selection In Progress - Preview Coming Soon</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
- <!-- FOUNDER STORY -->
-<section style="background:var(--ivory);padding:100px 5%;text-align:center;">
-  <div style="max-width:680px;margin:0 auto;">
-    <span class="section-eyebrow">Why I Started OnCue</span>
-    <h2 class="section-title" style="margin-bottom:32px;">The story behind<br><em>every gift we send.</em></h2>
-    <div style="background:var(--white);padding:56px 48px;border-left:3px solid var(--gold);text-align:left;margin-top:16px;">
-      <p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--black);line-height:1.7;margin-bottom:24px;">
-        I built OnCue Gifts after realizing I was constantly remembering birthdays a day late, scrambling for last-minute gifts, and disappointing people I genuinely cared about.
-      </p>
-      <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;font-style:italic;color:var(--gray);line-height:1.7;margin-bottom:24px;">
-        The problem was not that I did not care. The problem was that life got busy.
-      </p>
-      <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--black);line-height:1.7;margin-bottom:40px;">
-        OnCue exists to make sure important people never feel forgotten again.
-      </p>
-      <div style="display:flex;align-items:center;gap:16px;padding-top:24px;border-top:1px solid rgba(0,0,0,0.08);">
-        <img
-          src="Founder.jpg"
-          alt="David Klein, Founder of OnCue Gifts"
-          style="width:56px;height:56px;border-radius:50%;object-fit:cover;object-position:center top;flex-shrink:0;border:2px solid var(--gold);"
-        />
-        <div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--black);">David Klein</div>
-          <div style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-top:3px;">Founder, OnCue Gifts</div>
+  <!-- FOUNDER STORY -->
+  <section class="founder-section">
+    <div style="max-width:680px;margin:0 auto;">
+      <span class="section-eyebrow">Why I Started OnCue</span>
+      <h2 class="section-title" style="margin-bottom:32px;">The story behind<br><em>every gift we send.</em></h2>
+      <div class="founder-card">
+        <p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--black);line-height:1.7;margin-bottom:24px;">I built OnCue Gifts after realizing I was constantly remembering birthdays a day late, scrambling for last-minute gifts, and disappointing people I genuinely cared about.</p>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;font-style:italic;color:var(--gray);line-height:1.7;margin-bottom:24px;">The problem was not that I did not care. The problem was that life got busy.</p>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--black);line-height:1.7;margin-bottom:40px;">OnCue exists to make sure important people never feel forgotten again.</p>
+        <div style="display:flex;align-items:center;gap:16px;padding-top:24px;border-top:1px solid rgba(0,0,0,0.08);">
+          <img src="Founder.jpg" alt="David Klein, Founder of OnCue Gifts" style="width:56px;height:56px;border-radius:50%;object-fit:cover;object-position:center top;flex-shrink:0;border:2px solid var(--gold);" />
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--black);">David Klein</div>
+            <div style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-top:3px;">Founder, OnCue Gifts</div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
   <!-- GIFT BUDGETS -->
   <section class="budgets" id="gifts">
@@ -419,49 +501,33 @@
         <div class="budget-amount">$35</div>
         <div class="budget-label">per gift</div>
         <div style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:16px;">Essential</div>
-        <ul class="budget-examples">
-          <li>Gourmet chocolates and treats</li>
-          <li>Scented candle set</li>
-          <li>Succulent garden kit</li>
-          <li>Coffee or tea collection</li>
-        </ul>
+        <ul class="budget-examples"><li>Gourmet chocolates and treats</li><li>Scented candle set</li><li>Succulent garden kit</li><li>Coffee or tea collection</li></ul>
       </div>
       <div class="budget-card" style="border-color:rgba(201,168,76,0.3)">
         <div style="font-size:9px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;padding:5px 10px;border:1px solid rgba(201,168,76,0.3);border-radius:2px;display:inline-block;">Gift Budget</div>
         <div class="budget-amount">$50</div>
         <div class="budget-label">per gift</div>
         <div style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:16px;">Classic</div>
-        <ul class="budget-examples">
-          <li>Artisan food and wine pairing</li>
-          <li>Spa and wellness kit</li>
-          <li>Personalized keepsake</li>
-          <li>Premium book and journal set</li>
-        </ul>
+        <ul class="budget-examples"><li>Artisan food and wine pairing</li><li>Spa and wellness kit</li><li>Personalized keepsake</li><li>Premium book and journal set</li></ul>
       </div>
       <div class="budget-card">
         <div style="font-size:9px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;padding:5px 10px;border:1px solid rgba(201,168,76,0.3);border-radius:2px;display:inline-block;">Gift Budget</div>
         <div class="budget-amount">$75</div>
         <div class="budget-label">per gift</div>
         <div style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:16px;">Premium</div>
-        <ul class="budget-examples">
-          <li>Curated charcuterie experience</li>
-          <li>Luxury skincare collection</li>
-          <li>Tech accessories bundle</li>
-          <li>Fine wine and glassware set</li>
-        </ul>
+        <ul class="budget-examples"><li>Curated charcuterie experience</li><li>Luxury skincare collection</li><li>Tech accessories bundle</li><li>Fine wine and glassware set</li></ul>
       </div>
       <div class="budget-card">
         <div style="font-size:9px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;padding:5px 10px;border:1px solid rgba(201,168,76,0.3);border-radius:2px;display:inline-block;">Gift Budget</div>
         <div class="budget-amount">$100</div>
         <div class="budget-label">per gift</div>
         <div style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:16px;">Luxury</div>
-        <ul class="budget-examples">
-          <li>Premium experience voucher</li>
-          <li>Designer accessory gift set</li>
-          <li>Gourmet dinner at home kit</li>
-          <li>Luxury fragrance collection</li>
-        </ul>
+        <ul class="budget-examples"><li>Premium experience voucher</li><li>Designer accessory gift set</li><li>Gourmet dinner at home kit</li><li>Luxury fragrance collection</li></ul>
       </div>
+    </div>
+    <div class="see-examples-wrap">
+      <p>Not sure which plan fits your life?</p>
+      <button class="btn-see-examples" onclick="openExamples()">See Member Examples</button>
     </div>
   </section>
 
@@ -474,62 +540,74 @@
       <div class="category-card">
         <img src="/Food.png" alt="Food and Drink" style="width:75%;height:140px;object-fit:cover;border-radius:4px;display:block;margin:0 0 16px;">
         <div class="category-name">Food and Drink</div>
-        <ul class="category-items">
-          <li>Artisan cheese and charcuterie boards</li>
-          <li>Curated wine and spirits selections</li>
-          <li>Specialty coffee and tea collections</li>
-          <li>Gourmet snack and treat boxes</li>
-        </ul>
+        <ul class="category-items"><li>Artisan cheese and charcuterie boards</li><li>Curated wine and spirits selections</li><li>Specialty coffee and tea collections</li><li>Gourmet snack and treat boxes</li></ul>
       </div>
       <div class="category-card">
-         <img src="/Wellness.png" alt="Wellness and Self-Care" style="width:75%;height:140px;object-fit:cover;border-radius:4px;display:block;margin:0 0 16px;">
+        <img src="/Wellness.png" alt="Wellness and Self-Care" style="width:75%;height:140px;object-fit:cover;border-radius:4px;display:block;margin:0 0 16px;">
         <div class="category-name">Wellness and Self-Care</div>
-        <ul class="category-items">
-          <li>Luxury bath and body collections</li>
-          <li>Aromatherapy and candle sets</li>
-          <li>Skincare and beauty gift sets</li>
-          <li>Mindfulness and relaxation kits</li>
-        </ul>
+        <ul class="category-items"><li>Luxury bath and body collections</li><li>Aromatherapy and candle sets</li><li>Skincare and beauty gift sets</li><li>Mindfulness and relaxation kits</li></ul>
       </div>
       <div class="category-card">
-         <img src="/Lifestyle.png" alt="Home and Lifestyle" style="width:75%;height:140px;object-fit:cover;border-radius:4px;display:block;margin:0 0 16px;">
+        <img src="/Lifestyle.png" alt="Home and Lifestyle" style="width:75%;height:140px;object-fit:cover;border-radius:4px;display:block;margin:0 0 16px;">
         <div class="category-name">Home and Lifestyle</div>
-        <ul class="category-items">
-          <li>Premium kitchen and entertaining</li>
-          <li>Decorative home accents</li>
-          <li>Indoor plants and garden kits</li>
-          <li>Cozy throws and comfort gifts</li>
-        </ul>
+        <ul class="category-items"><li>Premium kitchen and entertaining</li><li>Decorative home accents</li><li>Indoor plants and garden kits</li><li>Cozy throws and comfort gifts</li></ul>
       </div>
       <div class="category-card">
         <img src="/Experiences.png" alt="Experiences" style="width:75%;height:140px;object-fit:cover;border-radius:4px;display:block;margin:0 0 16px;">
         <div class="category-name">Experiences</div>
-        <ul class="category-items">
-          <li>Cooking and mixology classes</li>
-          <li>Spa and wellness day passes</li>
-          <li>Local dining experience vouchers</li>
-          <li>Adventure and outdoor activities</li>
-        </ul>
+        <ul class="category-items"><li>Cooking and mixology classes</li><li>Spa and wellness day passes</li><li>Local dining experience vouchers</li><li>Adventure and outdoor activities</li></ul>
       </div>
       <div class="category-card">
-         <img src="/Tech.png" alt="Tech and Accessories" style="width:75%;height:140px;object-fit:cover;border-radius:4px;display:block;margin:0 0 16px;">
+        <img src="/Tech.png" alt="Tech and Accessories" style="width:75%;height:140px;object-fit:cover;border-radius:4px;display:block;margin:0 0 16px;">
         <div class="category-name">Tech and Accessories</div>
-        <ul class="category-items">
-          <li>Premium gadget accessories</li>
-          <li>Wireless audio and speakers</li>
-          <li>Smart home essentials</li>
-          <li>Stylish phone and laptop gear</li>
-        </ul>
+        <ul class="category-items"><li>Premium gadget accessories</li><li>Wireless audio and speakers</li><li>Smart home essentials</li><li>Stylish phone and laptop gear</li></ul>
       </div>
       <div class="category-card">
         <img src="/Learning.png" alt="Books and Learning" style="width:75%;height:140px;object-fit:cover;border-radius:4px;display:block;margin:0 0 16px;">
         <div class="category-name">Books and Learning</div>
-        <ul class="category-items">
-          <li>Curated bestseller selections</li>
-          <li>Online course subscriptions</li>
-          <li>Premium journal and stationery sets</li>
-          <li>Hobby and skill-building kits</li>
-        </ul>
+        <ul class="category-items"><li>Curated bestseller selections</li><li>Online course subscriptions</li><li>Premium journal and stationery sets</li><li>Hobby and skill-building kits</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUARANTEE -->
+  <section class="guarantee-section">
+    <p class="guarantee-eyebrow">Our commitment to you</p>
+    <h2 class="guarantee-headline">We go the extra mile.<br><em>Every time.</em></h2>
+    <p class="guarantee-subtext">We can't control every carrier or predict every preference — but we can control how hard we work on your behalf. If something is within our power to fix, we fix it.</p>
+    <div class="shield-wrap">
+      <div class="shield-circle">
+        <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M21 4L7 9.5v10c0 9 6.1 17.3 14 19.8C28.9 36.8 35 28.5 35 19.5v-10L21 4z" stroke="#c9a84c" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M15 21l4 4 8-8" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <p class="pillar-number">01</p>
+        <h3 class="pillar-title">Thoughtful selection</h3>
+        <p class="pillar-body">You receive a preview 14 days before every occasion. Not feeling our pick? Request a change and we'll find something better — before it ever ships.</p>
+      </div>
+      <div class="pillar">
+        <p class="pillar-number">02</p>
+        <h3 class="pillar-title">Delivery follow-through</h3>
+        <p class="pillar-body">We order every gift with ample lead time and track it every step of the way. If a delay is within our control, we act immediately. If it isn't, we're still in your corner advocating on your behalf.</p>
+      </div>
+      <div class="pillar">
+        <p class="pillar-number">03</p>
+        <h3 class="pillar-title">Personal touch</h3>
+        <p class="pillar-body">Every card is written by a real person to sound like you. If the message doesn't feel right before it goes out, tell us and we'll rewrite it — no charge, no hassle.</p>
+      </div>
+    </div>
+    <div class="promise-outer">
+      <div class="promise-inner">
+        <span class="corner-bl"></span>
+        <span class="corner-br"></span>
+        <span class="ornament-top"></span>
+        <p class="promise-label">The OnCue Commitment</p>
+        <p class="promise-quote">"If something is within our control and it isn't right,<br>we will make it right — no questions asked."</p>
+        <p class="promise-fine">Every gift preview gives you a 14-day window to request changes before anything ships. If an issue on our end affects your experience, reach out within 7 days of the occasion and we will do everything in our power to make it right. That's the standard we hold ourselves to.</p>
       </div>
     </div>
   </section>
@@ -571,348 +649,7 @@
       </div>
     </div>
   </section>
-  
-<style>
-    @media (max-width: 768px) {
-      .testimonial-grid { grid-template-columns: 1fr !important; }
-    }
-  </style>
 
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OnCue Gifts — Guarantee Block</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
- <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OnCue Gifts — Guarantee Block</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  .guarantee-section {
-    background: #111110;
-    padding: 120px 48px;
-    text-align: center;
-    font-family: 'Montserrat', sans-serif;
-  }
-
-  .guarantee-eyebrow {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    color: #c9a84c;
-    text-transform: uppercase;
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-  }
-
-  .guarantee-eyebrow::before,
-  .guarantee-eyebrow::after {
-    content: '';
-    display: block;
-    width: 48px;
-    height: 1px;
-    background: #c9a84c;
-    opacity: 0.5;
-  }
-
-  .guarantee-headline {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 58px;
-    font-weight: 500;
-    color: #f5f0e8;
-    line-height: 1.1;
-    margin-bottom: 24px;
-  }
-
-  .guarantee-headline em {
-    font-style: italic;
-    color: #c9a84c;
-  }
-
-  .guarantee-subtext {
-    font-size: 15px;
-    color: #7a756a;
-    line-height: 1.8;
-    max-width: 560px;
-    margin: 0 auto 72px;
-    font-weight: 400;
-  }
-
-  .shield-wrap {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 64px;
-  }
-
-  .shield-circle {
-    width: 90px;
-    height: 90px;
-    border: 1px solid #c9a84c;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .shield-circle svg {
-    width: 42px;
-    height: 42px;
-  }
-
-  .pillars {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 900px;
-    margin: 0 auto 72px;
-    border: 1px solid #2a2a26;
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .pillar {
-    background: #1c1c1a;
-    padding: 40px 32px;
-    text-align: left;
-    border-right: 1px solid #2a2a26;
-  }
-
-  .pillar:last-child { border-right: none; }
-
-  .pillar-number {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 48px;
-    font-weight: 400;
-    color: #2e2e2a;
-    line-height: 1;
-    margin-bottom: 20px;
-  }
-
-  .pillar-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 500;
-    color: #f5f0e8;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .pillar-title::before {
-    content: '';
-    display: block;
-    width: 24px;
-    height: 1px;
-    background: #c9a84c;
-    flex-shrink: 0;
-  }
-
-  .pillar-body {
-    font-size: 13px;
-    color: #6a6560;
-    line-height: 1.7;
-  }
-
-  /* ── PROMISE BOX — white card with ornament corners ── */
-  .promise-outer {
-    max-width: 720px;
-    margin: 0 auto;
-    background: #ffffff;
-    padding: 6px;
-    border-radius: 2px;
-    position: relative;
-  }
-
-  /* Double gold line via outline + border */
-  .promise-inner {
-    border: 1.5px solid #c9a84c;
-    outline: 3px solid #c9a84c;
-    outline-offset: -6px;
-    padding: 52px 56px;
-    position: relative;
-    text-align: left;
-  }
-
-  /* Ornament corners — pure CSS */
-  .promise-inner::before,
-  .promise-inner::after,
-  .promise-inner .corner-bl,
-  .promise-inner .corner-br {
-    content: '';
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    border-color: #c9a84c;
-    border-style: solid;
-  }
-
-  /* Top-left */
-  .promise-inner::before {
-    top: 10px; left: 10px;
-    border-width: 2px 0 0 2px;
-  }
-
-  /* Top-right */
-  .promise-inner::after {
-    top: 10px; right: 10px;
-    border-width: 2px 2px 0 0;
-  }
-
-  /* Bottom-left */
-  .promise-inner .corner-bl {
-    bottom: 10px; left: 10px;
-    border-width: 0 0 2px 2px;
-  }
-
-  /* Bottom-right */
-  .promise-inner .corner-br {
-    bottom: 10px; right: 10px;
-    border-width: 0 2px 2px 0;
-  }
-
-  /* Small diamond ornament centered top */
-  .promise-inner .ornament-top {
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 16px;
-    height: 16px;
-    background: #ffffff;
-    border: 1.5px solid #c9a84c;
-    transform: translateX(-50%) rotate(45deg);
-  }
-
-  .promise-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    color: #c9a84c;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-
-  .promise-quote {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 26px;
-    font-style: italic;
-    font-weight: 400;
-    color: #0d0d0d;
-    line-height: 1.55;
-    margin-bottom: 28px;
-    text-align: center;
-  }
-
-  .promise-fine {
-    font-size: 13px;
-    color: #5a5550;
-    line-height: 1.8;
-    border-top: 1px solid rgba(201,168,76,0.3);
-    padding-top: 20px;
-    text-align: center;
-  }
-
-  @media (max-width: 768px) {
-    .guarantee-section { padding: 80px 24px; }
-    .guarantee-headline { font-size: 40px; }
-    .pillars { grid-template-columns: 1fr; }
-    .pillar { border-right: none; border-bottom: 1px solid #2a2a26; }
-    .pillar:last-child { border-bottom: none; }
-    .promise-inner { padding: 40px 28px; }
-    .promise-quote { font-size: 21px; }
-  }
-</style>
-</head>
-<body>
-
-<section class="guarantee-section">
-
-  <p class="guarantee-eyebrow">Our commitment to you</p>
-
-  <h2 class="guarantee-headline">
-    We go the extra mile.<br><em>Every time.</em>
-  </h2>
-
-  <p class="guarantee-subtext">
-    We can't control every carrier or predict every preference — but we can
-    control how hard we work on your behalf. If something is within our power
-    to fix, we fix it.
-  </p>
-
-  <div class="shield-wrap">
-    <div class="shield-circle">
-      <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M21 4L7 9.5v10c0 9 6.1 17.3 14 19.8C28.9 36.8 35 28.5 35 19.5v-10L21 4z"
-              stroke="#c9a84c" stroke-width="1.5" stroke-linejoin="round"/>
-        <path d="M15 21l4 4 8-8"
-              stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-  </div>
-
-  <div class="pillars">
-    <div class="pillar">
-      <p class="pillar-number">01</p>
-      <h3 class="pillar-title">Thoughtful selection</h3>
-      <p class="pillar-body">You receive a preview 14 days before every occasion. Not feeling our pick? Request a change and we'll find something better — before it ever ships.</p>
-    </div>
-    <div class="pillar">
-      <p class="pillar-number">02</p>
-      <h3 class="pillar-title">Delivery follow-through</h3>
-      <p class="pillar-body">We order every gift with ample lead time and track it every step of the way. If a delay is within our control, we act immediately. If it isn't, we're still in your corner advocating on your behalf.</p>
-    </div>
-    <div class="pillar">
-      <p class="pillar-number">03</p>
-      <h3 class="pillar-title">Personal touch</h3>
-      <p class="pillar-body">Every card is written by a real person to sound like you. If the message doesn't feel right before it goes out, tell us and we'll rewrite it — no charge, no hassle.</p>
-    </div>
-  </div>
-
-  <!-- White promise card with double gold border + ornament corners -->
-  <div class="promise-outer">
-    <div class="promise-inner">
-
-      <!-- Corner ornaments -->
-      <span class="corner-bl"></span>
-      <span class="corner-br"></span>
-      <span class="ornament-top"></span>
-
-      <p class="promise-label">The OnCue Commitment</p>
-
-      <p class="promise-quote">
-        "If something is within our control and it isn't right,<br>
-        we will make it right — no questions asked."
-      </p>
-
-      <p class="promise-fine">
-        Every gift preview gives you a 14-day window to request changes before anything ships.
-        If an issue on our end affects your experience, reach out within 7 days of the occasion
-        and we will do everything in our power to make it right.
-        That's the standard we hold ourselves to.
-      </p>
-
-    </div>
-  </div>
-
-</section>
-
-</body>
-</html>
-  
   <!-- FINAL CTA -->
   <section class="final-cta">
     <div class="gold-divider"></div>
@@ -938,13 +675,11 @@
   <!-- PLAN MODAL -->
   <div class="modal-overlay" id="planModal">
     <div class="modal">
-      <button class="modal-close" onclick="closeModal()">x</button>
+      <button class="modal-close" onclick="closeModal()">✕</button>
       <span class="modal-eyebrow">Choose Your Plan</span>
       <h2 class="modal-title">Build your <em>gift plan.</em></h2>
       <p class="modal-sub">Select how many gifts you want to send per person per year. You choose the budget for each gift separately.</p>
-      <div class="modal-pricing-note">
-        <strong>One low membership fee</strong> plus the cost of each gift when we send it. No markups. No surprises.
-      </div>
+      <div class="modal-pricing-note"><strong>One low membership fee</strong> plus the cost of each gift when we send it. No markups. No surprises.</div>
       <div class="modal-toggle-wrap">
         <div class="modal-toggle">
           <button class="toggle-btn active" onclick="setToggle('annual',this)">Annual - Save 17%</button>
@@ -972,9 +707,9 @@
             <li>Gift preview with change option</li>
             <li>Add more people at $39/person/yr</li>
           </ul>
-          <div style="margin-bottom:12px;display:flex;align-items:flex-start;gap:8px;">
-            <input type="checkbox" id="terms-essential" checked required style="margin-top:3px;accent-color:var(--gold);flex-shrink:0;">
-            <label for="terms-essential" style="font-size:11px;color:rgba(255,255,255,0.35);line-height:1.5;cursor:pointer;">I agree to the <a href="/terms" target="_blank" style="color:var(--gold);text-decoration:none;">Terms of Service</a> and understand I will be charged for gifts as they are sent.</label>
+          <div class="terms-row">
+            <input type="checkbox" id="terms-essential" checked required>
+            <label for="terms-essential">I agree to the <a href="/terms" target="_blank">Terms of Service</a> and understand I will be charged for gifts as they are sent.</label>
           </div>
           <a href="https://buy.stripe.com/8x2fZhaDc8Pr7J20cj4AU03" class="plan-cta plan-cta-outline" id="essential-link" onclick="return checkTerms('essential')">Get Started</a>
         </div>
@@ -999,9 +734,9 @@
             <li>Gift preview with change option</li>
             <li>Add more people at $39/person/yr</li>
           </ul>
-          <div style="margin-bottom:12px;display:flex;align-items:flex-start;gap:8px;">
-            <input type="checkbox" id="terms-classic" checked required style="margin-top:3px;accent-color:var(--gold);flex-shrink:0;">
-            <label for="terms-classic" style="font-size:11px;color:rgba(255,255,255,0.35);line-height:1.5;cursor:pointer;">I agree to the <a href="/terms" target="_blank" style="color:var(--gold);text-decoration:none;">Terms of Service</a> and understand I will be charged for gifts as they are sent.</label>
+          <div class="terms-row">
+            <input type="checkbox" id="terms-classic" checked required>
+            <label for="terms-classic">I agree to the <a href="/terms" target="_blank">Terms of Service</a> and understand I will be charged for gifts as they are sent.</label>
           </div>
           <a href="https://buy.stripe.com/8x2bJ126GaXz7J26AH4AU05" class="plan-cta plan-cta-gold" id="classic-link" onclick="return checkTerms('classic')">Get Started</a>
         </div>
@@ -1025,26 +760,158 @@
             <li>Gift preview with change option</li>
             <li>Add more people at $39/person/yr</li>
           </ul>
-          <div style="margin-bottom:12px;display:flex;align-items:flex-start;gap:8px;">
-            <input type="checkbox" id="terms-premium" checked required style="margin-top:3px;accent-color:var(--gold);flex-shrink:0;">
-            <label for="terms-premium" style="font-size:11px;color:rgba(255,255,255,0.35);line-height:1.5;cursor:pointer;">I agree to the <a href="/terms" target="_blank" style="color:var(--gold);text-decoration:none;">Terms of Service</a> and understand I will be charged for gifts as they are sent.</label>
+          <div class="terms-row">
+            <input type="checkbox" id="terms-premium" checked required>
+            <label for="terms-premium">I agree to the <a href="/terms" target="_blank">Terms of Service</a> and understand I will be charged for gifts as they are sent.</label>
           </div>
           <a href="https://buy.stripe.com/4gMbJ14eO5Df1kE8IP4AU01" class="plan-cta plan-cta-outline" id="premium-link" onclick="return checkTerms('premium')">Get Started</a>
         </div>
       </div>
-      <div class="modal-budget-note">
-        <strong>Gift budgets available for every occasion:</strong> $35 / $50 / $75 / $100 — you choose per gift when you set up each recipient.
+      <div class="modal-budget-note"><strong>Gift budgets available for every occasion:</strong> $35 / $50 / $75 / $100 — you choose per gift when you set up each recipient.</div>
+    </div>
+  </div>
+
+  <!-- EXAMPLES MODAL -->
+  <div class="examples-modal-overlay" id="examplesModal">
+    <div class="examples-modal">
+      <button class="ex-close" onclick="closeExamples()">✕</button>
+      <p style="font-size:10px;font-weight:500;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;text-align:center;">See It In Action</p>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:400;color:var(--white);text-align:center;margin-bottom:8px;">Real plans. <em style="font-style:italic;color:var(--gold-light);">Real people. Zero stress.</em></h2>
+      <p style="font-size:13px;color:rgba(255,255,255,0.35);text-align:center;margin-bottom:48px;font-style:italic;">Your plan is built around your people — these are examples only.</p>
+
+      <div class="ex-grid">
+
+        <!-- Card 1: Essential Starter -->
+        <div class="ex-card">
+          <div class="ex-header">
+            <span class="ex-plan-tag">Essential · $79/yr</span>
+            <p class="ex-persona">The Starter</p>
+            <p class="ex-desc">Covers what matters most</p>
+          </div>
+          <div class="ex-gifts">
+            <p class="ex-gifts-label">Occasions</p>
+            <div class="ex-row"><span class="ex-occasion">Spouse Birthday</span><span class="ex-amount">$50</span></div>
+            <div class="ex-row"><span class="ex-occasion">Anniversary</span><span class="ex-amount">$75</span></div>
+          </div>
+          <div class="ex-totals">
+            <div class="ex-total-row"><span class="ex-total-label">Gift spend</span><span class="ex-total-val">$125</span></div>
+            <div class="ex-total-row"><span class="ex-total-label">Membership</span><span class="ex-total-val">$79</span></div>
+            <div class="ex-total-row highlight"><span class="ex-total-label">Total/year</span><span class="ex-total-val">$204</span></div>
+          </div>
+          <div class="ex-footer">
+            <p class="ex-zero">0 hours shopping</p>
+            <p class="ex-zero-sub">14-day preview on both occasions</p>
+          </div>
+        </div>
+
+        <!-- Card 2: Classic - Busy Professional -->
+        <div class="ex-card featured">
+          <div class="ex-badge">Most Popular</div>
+          <div class="ex-header">
+            <span class="ex-plan-tag">Classic · $99/yr</span>
+            <p class="ex-persona">The Busy Professional</p>
+            <p class="ex-desc">Never misses what matters</p>
+          </div>
+          <div class="ex-gifts">
+            <p class="ex-gifts-label">Occasions</p>
+            <div class="ex-row"><span class="ex-occasion">Spouse Birthday</span><span class="ex-amount">$75</span></div>
+            <div class="ex-row"><span class="ex-occasion">Anniversary</span><span class="ex-amount">$100</span></div>
+            <div class="ex-row"><span class="ex-occasion">Mom's Birthday</span><span class="ex-amount">$50</span></div>
+            <div class="ex-row"><span class="ex-occasion">Sister's Birthday</span><span class="ex-amount">$35</span></div>
+            <div class="ex-row"><span class="ex-occasion">Father's Day</span><span class="ex-amount">$50</span></div>
+          </div>
+          <div class="ex-totals">
+            <div class="ex-total-row"><span class="ex-total-label">Gift spend</span><span class="ex-total-val">$310</span></div>
+            <div class="ex-total-row"><span class="ex-total-label">Membership</span><span class="ex-total-val">$99</span></div>
+            <div class="ex-total-row highlight"><span class="ex-total-label">Total/year</span><span class="ex-total-val">$409</span></div>
+          </div>
+          <div class="ex-footer">
+            <p class="ex-zero">0 hours shopping</p>
+            <p class="ex-zero-sub">14-day preview on all 5 occasions</p>
+          </div>
+        </div>
+
+        <!-- Card 3: Classic - Family Man -->
+        <div class="ex-card">
+          <div class="ex-header">
+            <span class="ex-plan-tag">Classic · $99/yr</span>
+            <p class="ex-persona">The Family Man</p>
+            <p class="ex-desc">Shows up for everyone</p>
+          </div>
+          <div class="ex-gifts">
+            <p class="ex-gifts-label">Occasions</p>
+            <div class="ex-row"><span class="ex-occasion">Wife's Birthday</span><span class="ex-amount">$75</span></div>
+            <div class="ex-row"><span class="ex-occasion">Anniversary</span><span class="ex-amount">$100</span></div>
+            <div class="ex-row"><span class="ex-occasion">Mom's Birthday</span><span class="ex-amount">$50</span></div>
+            <div class="ex-row"><span class="ex-occasion">Mother's Day</span><span class="ex-amount">$35</span></div>
+            <div class="ex-row"><span class="ex-occasion">Dad's Birthday</span><span class="ex-amount">$50</span></div>
+          </div>
+          <div class="ex-totals">
+            <div class="ex-total-row"><span class="ex-total-label">Gift spend</span><span class="ex-total-val">$310</span></div>
+            <div class="ex-total-row"><span class="ex-total-label">Membership</span><span class="ex-total-val">$99</span></div>
+            <div class="ex-total-row highlight"><span class="ex-total-label">Total/year</span><span class="ex-total-val">$409</span></div>
+          </div>
+          <div class="ex-footer">
+            <p class="ex-zero">0 hours shopping</p>
+            <p class="ex-zero-sub">14-day preview on all 5 occasions</p>
+          </div>
+        </div>
+
+        <!-- Card 4: Premium - The Connector -->
+        <div class="ex-card">
+          <div class="ex-header">
+            <span class="ex-plan-tag">Premium · $149/yr</span>
+            <p class="ex-persona">The Connector</p>
+            <p class="ex-desc">Never lets a moment slip by</p>
+          </div>
+          <div class="ex-gifts">
+            <p class="ex-gifts-label">Occasions</p>
+            <div class="ex-row"><span class="ex-occasion">Wife's Birthday</span><span class="ex-amount">$100</span></div>
+            <div class="ex-row"><span class="ex-occasion">Anniversary</span><span class="ex-amount">$100</span></div>
+            <div class="ex-row"><span class="ex-occasion">Mom's Birthday</span><span class="ex-amount">$50</span></div>
+            <div class="ex-row"><span class="ex-occasion">Dad's Birthday</span><span class="ex-amount">$50</span></div>
+            <div class="ex-row"><span class="ex-occasion">Best Friend B-day</span><span class="ex-amount">$35</span></div>
+            <div class="ex-row"><span class="ex-occasion">Mother's Day</span><span class="ex-amount">$50</span></div>
+            <div class="ex-row"><span class="ex-occasion">Father's Day</span><span class="ex-amount">$35</span></div>
+          </div>
+          <div class="ex-totals">
+            <div class="ex-total-row"><span class="ex-total-label">Gift spend</span><span class="ex-total-val">$420</span></div>
+            <div class="ex-total-row"><span class="ex-total-label">Membership</span><span class="ex-total-val">$149</span></div>
+            <div class="ex-total-row highlight"><span class="ex-total-label">Total/year</span><span class="ex-total-val">$569</span></div>
+          </div>
+          <div class="ex-footer">
+            <p class="ex-zero">0 hours shopping</p>
+            <p class="ex-zero-sub">14-day preview on all 7 occasions</p>
+          </div>
+        </div>
+
+      </div><!-- end ex-grid -->
+
+      <p style="font-size:12px;color:rgba(255,255,255,0.25);font-style:italic;text-align:center;margin-bottom:40px;line-height:1.7;">* Example members only. Gift budgets of $35, $50, $75, or $100 are chosen per occasion — mix and match as you like.<br>Additional recipients can be added to any plan at $39/person/year.</p>
+
+      <div style="text-align:center;">
+        <button onclick="closeExamples();openModal();" class="btn-primary">Build My Gift Plan</button>
       </div>
     </div>
   </div>
 
   <script>
+    /* ── Mobile menu ── */
+    function toggleMobileMenu() {
+      document.getElementById('mobileMenu').classList.toggle('open');
+    }
+    document.addEventListener('click', function(e) {
+      const menu = document.getElementById('mobileMenu');
+      const hamburger = document.querySelector('.nav-hamburger');
+      if (menu.classList.contains('open') && !menu.contains(e.target) && !hamburger.contains(e.target)) {
+        menu.classList.remove('open');
+      }
+    });
+
+    /* ── Plan modal ── */
     function checkTerms(plan) {
       const cb = document.getElementById('terms-' + plan);
-      if (!cb.checked) {
-        alert('Please agree to the Terms of Service before continuing.');
-        return false;
-      }
+      if (!cb.checked) { alert('Please agree to the Terms of Service before continuing.'); return false; }
       return true;
     }
     function openModal() {
@@ -1058,19 +925,36 @@
     document.getElementById('planModal').addEventListener('click', function(e) {
       if (e.target === this) closeModal();
     });
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeModal();
+
+    /* ── Examples modal ── */
+    function openExamples() {
+      document.getElementById('examplesModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeExamples() {
+      document.getElementById('examplesModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('examplesModal').addEventListener('click', function(e) {
+      if (e.target === this) closeExamples();
     });
+
+    /* ── Escape key closes both modals ── */
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { closeModal(); closeExamples(); }
+    });
+
+    /* ── Pricing toggle ── */
     const prices = {
       annual: {
-        essential: { price: '$79', period: '/year', sub: 'Just $6.58/month billed annually', link: 'https://buy.stripe.com/8x2fZhaDc8Pr7J20cj4AU03' },
-        classic:   { price: '$99', period: '/year', sub: 'Just $8.25/month billed annually', link: 'https://buy.stripe.com/8x2bJ126GaXz7J26AH4AU05' },
-        premium:   { price: '$129', period: '/year', sub: 'Just $10.75/month billed annually', link: 'https://buy.stripe.com/4gMbJ14eO5Df1kE8IP4AU01' }
+        essential: { price: '$79',  period: '/year',  sub: 'Just $6.58/month billed annually',  link: 'https://buy.stripe.com/8x2fZhaDc8Pr7J20cj4AU03' },
+        classic:   { price: '$99',  period: '/year',  sub: 'Just $8.25/month billed annually',  link: 'https://buy.stripe.com/8x2bJ126GaXz7J26AH4AU05' },
+        premium:   { price: '$149', period: '/year',  sub: 'Just $12.42/month billed annually', link: 'https://buy.stripe.com/4gMbJ14eO5Df1kE8IP4AU01' }
       },
       monthly: {
-        essential: { price: '$8', period: '/month', sub: 'Billed monthly - cancel anytime', link: 'https://buy.stripe.com/fZu9AT26G9Tvd3m5wD4AU04' },
-        classic:   { price: '$10', period: '/month', sub: 'Billed monthly - cancel anytime', link: 'https://buy.stripe.com/6oU28r8v4c1DaVee394AU02' },
-        premium:   { price: '$15', period: '/month', sub: 'Billed monthly - cancel anytime', link: 'https://buy.stripe.com/00w4gz9z8aXz8N66AH4AU00' }
+        essential: { price: '$8',  period: '/month', sub: 'Billed monthly — cancel anytime', link: 'https://buy.stripe.com/fZu9AT26G9Tvd3m5wD4AU04' },
+        classic:   { price: '$10', period: '/month', sub: 'Billed monthly — cancel anytime', link: 'https://buy.stripe.com/6oU28r8v4c1DaVee394AU02' },
+        premium:   { price: '$15', period: '/month', sub: 'Billed monthly — cancel anytime', link: 'https://buy.stripe.com/00w4gz9z8aXz8N66AH4AU00' }
       }
     };
     function setToggle(type, btn) {
@@ -1083,6 +967,8 @@
         document.getElementById(plan+'-link').href = prices[type][plan].link;
       });
     }
+
+    /* ── Scroll animations ── */
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -1091,7 +977,7 @@
         }
       });
     }, { threshold: 0.1 });
-    document.querySelectorAll('.problem-card,.step,.budget-card,.category-card,.faq-item').forEach(el => {
+    document.querySelectorAll('.problem-card,.step,.budget-card,.category-card,.faq-item,.ex-card').forEach(el => {
       el.style.opacity = '0';
       el.style.transform = 'translateY(20px)';
       el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
