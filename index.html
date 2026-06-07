@@ -588,194 +588,7 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* ── GUARANTEE SECTION ── */
-  .guarantee-section {
-    background: #111110;
-    padding: 120px 48px;
-    text-align: center;
-    font-family: 'Montserrat', sans-serif;
-  }
-
-  .guarantee-eyebrow {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    color: #c9a84c;
-    text-transform: uppercase;
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-  }
-
-  .guarantee-eyebrow::before,
-  .guarantee-eyebrow::after {
-    content: '';
-    display: block;
-    width: 48px;
-    height: 1px;
-    background: #c9a84c;
-    opacity: 0.5;
-  }
-
-  .guarantee-headline {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 58px;
-    font-weight: 500;
-    color: #f5f0e8;
-    line-height: 1.1;
-    margin-bottom: 24px;
-  }
-
-  .guarantee-headline em {
-    font-style: italic;
-    color: #c9a84c;
-  }
-
-  .guarantee-subtext {
-    font-size: 15px;
-    color: #7a756a;
-    line-height: 1.8;
-    max-width: 540px;
-    margin: 0 auto 72px;
-    font-weight: 400;
-  }
-
-  /* Shield icon */
-  .shield-wrap {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 64px;
-  }
-
-  .shield-circle {
-    width: 90px;
-    height: 90px;
-    border: 1px solid #c9a84c;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .shield-circle svg {
-    width: 42px;
-    height: 42px;
-  }
-
-  /* Three pillars */
-  .pillars {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 900px;
-    margin: 0 auto 72px;
-    border: 1px solid #2a2a26;
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .pillar {
-    background: #1c1c1a;
-    padding: 40px 32px;
-    text-align: left;
-    border-right: 1px solid #2a2a26;
-    position: relative;
-  }
-
-  .pillar:last-child {
-    border-right: none;
-  }
-
-  .pillar-number {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 48px;
-    font-weight: 400;
-    color: #2e2e2a;
-    line-height: 1;
-    margin-bottom: 20px;
-  }
-
-  .pillar-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 500;
-    color: #f5f0e8;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .pillar-title::before {
-    content: '';
-    display: block;
-    width: 24px;
-    height: 1px;
-    background: #c9a84c;
-    flex-shrink: 0;
-  }
-
-  .pillar-body {
-    font-size: 13px;
-    color: #6a6560;
-    line-height: 1.7;
-  }
-
-  /* Promise blockquote */
-  .promise-wrap {
-    max-width: 720px;
-    margin: 0 auto;
-    background: #1c1c1a;
-    border: 1px solid #2a2a26;
-    border-left: 2px solid #c9a84c;
-    padding: 44px 48px;
-    text-align: left;
-    border-radius: 2px;
-  }
-
-  .promise-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    color: #c9a84c;
-    text-transform: uppercase;
-    margin-bottom: 18px;
-  }
-
-  .promise-quote {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 26px;
-    font-style: italic;
-    font-weight: 400;
-    color: #f5f0e8;
-    line-height: 1.55;
-    margin-bottom: 24px;
-  }
-
-  .promise-fine {
-    font-size: 13px;
-    color: #5a5550;
-    line-height: 1.7;
-    border-top: 1px solid #2a2a26;
-    padding-top: 20px;
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .guarantee-section { padding: 80px 24px; }
-    .guarantee-headline { font-size: 40px; }
-    .pillars { grid-template-columns: 1fr; }
-    .pillar { border-right: none; border-bottom: 1px solid #2a2a26; }
-    .pillar:last-child { border-bottom: none; }
-    .promise-wrap { padding: 32px 28px; }
-    .promise-quote { font-size: 22px; }
-  }
-</style>
-</head>
-<body>
-
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -913,24 +726,84 @@
     line-height: 1.7;
   }
 
-  .promise-wrap {
+  /* ── PROMISE BOX — white card with ornament corners ── */
+  .promise-outer {
     max-width: 720px;
     margin: 0 auto;
-    background: #1c1c1a;
-    border: 1px solid #2a2a26;
-    border-left: 2px solid #c9a84c;
-    padding: 44px 48px;
-    text-align: left;
+    background: #ffffff;
+    padding: 6px;
     border-radius: 2px;
+    position: relative;
+  }
+
+  /* Double gold line via outline + border */
+  .promise-inner {
+    border: 1.5px solid #c9a84c;
+    outline: 3px solid #c9a84c;
+    outline-offset: -6px;
+    padding: 52px 56px;
+    position: relative;
+    text-align: left;
+  }
+
+  /* Ornament corners — pure CSS */
+  .promise-inner::before,
+  .promise-inner::after,
+  .promise-inner .corner-bl,
+  .promise-inner .corner-br {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-color: #c9a84c;
+    border-style: solid;
+  }
+
+  /* Top-left */
+  .promise-inner::before {
+    top: 10px; left: 10px;
+    border-width: 2px 0 0 2px;
+  }
+
+  /* Top-right */
+  .promise-inner::after {
+    top: 10px; right: 10px;
+    border-width: 2px 2px 0 0;
+  }
+
+  /* Bottom-left */
+  .promise-inner .corner-bl {
+    bottom: 10px; left: 10px;
+    border-width: 0 0 2px 2px;
+  }
+
+  /* Bottom-right */
+  .promise-inner .corner-br {
+    bottom: 10px; right: 10px;
+    border-width: 0 2px 2px 0;
+  }
+
+  /* Small diamond ornament centered top */
+  .promise-inner .ornament-top {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    background: #ffffff;
+    border: 1.5px solid #c9a84c;
+    transform: translateX(-50%) rotate(45deg);
   }
 
   .promise-label {
     font-size: 10px;
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.22em;
     color: #c9a84c;
     text-transform: uppercase;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
+    text-align: center;
   }
 
   .promise-quote {
@@ -938,17 +811,19 @@
     font-size: 26px;
     font-style: italic;
     font-weight: 400;
-    color: #f5f0e8;
+    color: #0d0d0d;
     line-height: 1.55;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
+    text-align: center;
   }
 
   .promise-fine {
     font-size: 13px;
     color: #5a5550;
-    line-height: 1.7;
-    border-top: 1px solid #2a2a26;
+    line-height: 1.8;
+    border-top: 1px solid rgba(201,168,76,0.3);
     padding-top: 20px;
+    text-align: center;
   }
 
   @media (max-width: 768px) {
@@ -957,8 +832,8 @@
     .pillars { grid-template-columns: 1fr; }
     .pillar { border-right: none; border-bottom: 1px solid #2a2a26; }
     .pillar:last-child { border-bottom: none; }
-    .promise-wrap { padding: 32px 28px; }
-    .promise-quote { font-size: 22px; }
+    .promise-inner { padding: 40px 28px; }
+    .promise-quote { font-size: 21px; }
   }
 </style>
 </head>
@@ -973,8 +848,9 @@
   </h2>
 
   <p class="guarantee-subtext">
-    We can't control every carrier or predict every preference, but we can
-    control how hard we work on your behalf. We will do everything we can to make it the best experience for your gift recipient.
+    We can't control every carrier or predict every preference — but we can
+    control how hard we work on your behalf. If something is within our power
+    to fix, we fix it.
   </p>
 
   <div class="shield-wrap">
@@ -989,38 +865,47 @@
   </div>
 
   <div class="pillars">
-
     <div class="pillar">
       <p class="pillar-number">01</p>
       <h3 class="pillar-title">Thoughtful selection</h3>
-      <p class="pillar-body">You receive a preview 14 days before every occasion. Not feeling our pick? Request a change and we'll find something different, before it ever ships.</p>
+      <p class="pillar-body">You receive a preview 14 days before every occasion. Not feeling our pick? Request a change and we'll find something better — before it ever ships.</p>
     </div>
-
     <div class="pillar">
       <p class="pillar-number">02</p>
       <h3 class="pillar-title">Delivery follow-through</h3>
       <p class="pillar-body">We order every gift with ample lead time and track it every step of the way. If a delay is within our control, we act immediately. If it isn't, we're still in your corner advocating on your behalf.</p>
     </div>
-
     <div class="pillar">
       <p class="pillar-number">03</p>
       <h3 class="pillar-title">Personal touch</h3>
-      <p class="pillar-body">Every card is written by a real person to sound like you. If the message doesn't feel right before it goes out, tell us and we'll rewrite it. No charge. No hassle.</p>
+      <p class="pillar-body">Every card is written by a real person to sound like you. If the message doesn't feel right before it goes out, tell us and we'll rewrite it — no charge, no hassle.</p>
     </div>
-
   </div>
 
-  <div class="promise-wrap">
-    <p class="promise-label">The OnCue commitment</p>
-    <p class="promise-quote">
-      "If something is within our control and it isn't right,
-      we will make it right, no questions asked."
-    </p>
-    <p class="promise-fine">
-      Every gift preview gives you a 14-day window to request changes before anything ships.
-      If an issue on our end affects your experience, reach out within 7 days of the occasion
-      and we will do everything in our power to make it right. That's the standard we hold ourselves to.
-    </p>
+  <!-- White promise card with double gold border + ornament corners -->
+  <div class="promise-outer">
+    <div class="promise-inner">
+
+      <!-- Corner ornaments -->
+      <span class="corner-bl"></span>
+      <span class="corner-br"></span>
+      <span class="ornament-top"></span>
+
+      <p class="promise-label">The OnCue Commitment</p>
+
+      <p class="promise-quote">
+        "If something is within our control and it isn't right,<br>
+        we will make it right — no questions asked."
+      </p>
+
+      <p class="promise-fine">
+        Every gift preview gives you a 14-day window to request changes before anything ships.
+        If an issue on our end affects your experience, reach out within 7 days of the occasion
+        and we will do everything in our power to make it right.
+        That's the standard we hold ourselves to.
+      </p>
+
+    </div>
   </div>
 
 </section>
