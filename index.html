@@ -775,24 +775,209 @@
 </head>
 <body>
 
-<!-- ══════════════════════════════════════
-     GUARANTEE SECTION — drop in place of
-     the social proof / reviews section
-     ══════════════════════════════════════ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OnCue Gifts — Guarantee Block</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .guarantee-section {
+    background: #111110;
+    padding: 120px 48px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .guarantee-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: #c9a84c;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .guarantee-eyebrow::before,
+  .guarantee-eyebrow::after {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 1px;
+    background: #c9a84c;
+    opacity: 0.5;
+  }
+
+  .guarantee-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 58px;
+    font-weight: 500;
+    color: #f5f0e8;
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+
+  .guarantee-headline em {
+    font-style: italic;
+    color: #c9a84c;
+  }
+
+  .guarantee-subtext {
+    font-size: 15px;
+    color: #7a756a;
+    line-height: 1.8;
+    max-width: 560px;
+    margin: 0 auto 72px;
+    font-weight: 400;
+  }
+
+  .shield-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 64px;
+  }
+
+  .shield-circle {
+    width: 90px;
+    height: 90px;
+    border: 1px solid #c9a84c;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .shield-circle svg {
+    width: 42px;
+    height: 42px;
+  }
+
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 900px;
+    margin: 0 auto 72px;
+    border: 1px solid #2a2a26;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .pillar {
+    background: #1c1c1a;
+    padding: 40px 32px;
+    text-align: left;
+    border-right: 1px solid #2a2a26;
+  }
+
+  .pillar:last-child { border-right: none; }
+
+  .pillar-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 400;
+    color: #2e2e2a;
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+
+  .pillar-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: #f5f0e8;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pillar-title::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: #c9a84c;
+    flex-shrink: 0;
+  }
+
+  .pillar-body {
+    font-size: 13px;
+    color: #6a6560;
+    line-height: 1.7;
+  }
+
+  .promise-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #1c1c1a;
+    border: 1px solid #2a2a26;
+    border-left: 2px solid #c9a84c;
+    padding: 44px 48px;
+    text-align: left;
+    border-radius: 2px;
+  }
+
+  .promise-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: #c9a84c;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+
+  .promise-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-style: italic;
+    font-weight: 400;
+    color: #f5f0e8;
+    line-height: 1.55;
+    margin-bottom: 24px;
+  }
+
+  .promise-fine {
+    font-size: 13px;
+    color: #5a5550;
+    line-height: 1.7;
+    border-top: 1px solid #2a2a26;
+    padding-top: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .guarantee-section { padding: 80px 24px; }
+    .guarantee-headline { font-size: 40px; }
+    .pillars { grid-template-columns: 1fr; }
+    .pillar { border-right: none; border-bottom: 1px solid #2a2a26; }
+    .pillar:last-child { border-bottom: none; }
+    .promise-wrap { padding: 32px 28px; }
+    .promise-quote { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
 <section class="guarantee-section">
 
-  <p class="guarantee-eyebrow">Our promise to you</p>
+  <p class="guarantee-eyebrow">Our commitment to you</p>
 
   <h2 class="guarantee-headline">
-    You're covered.<br><em>Every time.</em>
+    We go the extra mile.<br><em>Every time.</em>
   </h2>
 
   <p class="guarantee-subtext">
-    We stand behind every gift we send. If something isn't right,
-    we make it right — no questions asked, no hoops to jump through.
+    We can't control every carrier or predict every preference — but we can
+    control how hard we work on your behalf. If something is within our power
+    to fix, we fix it.
   </p>
 
-  <!-- Shield icon -->
   <div class="shield-wrap">
     <div class="shield-circle">
       <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -804,40 +989,38 @@
     </div>
   </div>
 
-  <!-- Three guarantee pillars -->
   <div class="pillars">
 
     <div class="pillar">
       <p class="pillar-number">01</p>
-      <h3 class="pillar-title">Gift guarantee</h3>
-      <p class="pillar-body">If your recipient doesn't love the gift, we'll curate a replacement at no additional cost. Every time.</p>
+      <h3 class="pillar-title">Thoughtful selection</h3>
+      <p class="pillar-body">You receive a preview 14 days before every occasion. Not feeling our pick? Request a change and we'll find something better — before it ever ships.</p>
     </div>
 
     <div class="pillar">
       <p class="pillar-number">02</p>
-      <h3 class="pillar-title">On-time, always</h3>
-      <p class="pillar-body">Every gift arrives before the occasion. If it doesn't, we take full responsibility and make it right immediately.</p>
+      <h3 class="pillar-title">Delivery follow-through</h3>
+      <p class="pillar-body">We order every gift with ample lead time and track it every step of the way. If a delay is within our control, we act immediately. If it isn't, we're still in your corner advocating on your behalf.</p>
     </div>
 
     <div class="pillar">
       <p class="pillar-number">03</p>
       <h3 class="pillar-title">Personal touch</h3>
-      <p class="pillar-body">Every card is written by a real person to sound like you. If it doesn't feel right, we rewrite it — no charge.</p>
+      <p class="pillar-body">Every card is written by a real person to sound like you. If the message doesn't feel right before it goes out, tell us and we'll rewrite it — no charge, no hassle.</p>
     </div>
 
   </div>
 
-  <!-- The promise statement -->
   <div class="promise-wrap">
-    <p class="promise-label">The OnCue promise</p>
+    <p class="promise-label">The OnCue commitment</p>
     <p class="promise-quote">
-      "If your first gift doesn't land the way you hoped,
-      we'll make it right — no questions asked."
+      "If something is within our control and it isn't right,
+      we will make it right — no questions asked."
     </p>
     <p class="promise-fine">
-      This covers gift quality, card messaging, and delivery timing.
-      Simply reach out within 7 days of the occasion and we handle the rest.
-      Your satisfaction is the only outcome we'll accept.
+      Every gift preview gives you a 14-day window to request changes before anything ships.
+      If an issue on our end affects your experience, reach out within 7 days of the occasion
+      and we will do everything in our power to make it right. That's the standard we hold ourselves to.
     </p>
   </div>
 
