@@ -5,5 +5,6 @@
     { "source": "/terms", "destination": "/terms.html" },
     { "source": "/thank-you", "destination": "/thank-you.html" },
     { "source": "/all-set", "destination": "/all-set.html" }
+    { "source": "/last-minute-gifts", "destination": "/last-minute-gifts.html" }
   ]
 }
