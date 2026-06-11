@@ -165,7 +165,7 @@
     .order-header .section-sub { max-width: 540px; margin: 0 auto; }
 
     .pricing-breakdown {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-bottom: 48px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 48px;
     }
     .price-tier {
       background: var(--white); padding: 32px 24px; text-align: center;
@@ -317,7 +317,7 @@
       .nav-hamburger { display: flex; }
       .steps { grid-template-columns: 1fr; }
       .gift-grid { grid-template-columns: 1fr; }
-      .pricing-breakdown { grid-template-columns: repeat(2, 1fr); }
+      .pricing-breakdown { grid-template-columns: 1fr; }
       .prevention-inner { grid-template-columns: 1fr; gap: 40px; }
       .prevention-text .section-title, .prevention-text .section-eyebrow { text-align: center; }
       .prevention-text .section-sub { text-align: center; }
@@ -329,7 +329,6 @@
       .footer-links { justify-content: center; }
     }
     @media (max-width: 480px) {
-      .pricing-breakdown { grid-template-columns: repeat(2, 1fr); }
       .budget-tabs { gap: 8px; }
       .hero-actions { flex-direction: column; width: 100%; }
       .btn-primary, .btn-ghost { width: 100%; text-align: center; }
@@ -410,14 +409,13 @@
     <p class="section-sub" style="color:rgba(255,255,255,0.4);text-align:center;max-width:520px;margin:0 auto 48px;">Every option below is available for next-day delivery. Pick your budget — we handle the rest.</p>
 
     <div class="budget-tabs">
-      <button class="budget-tab active" onclick="showBudget('40', this)">$40</button>
-      <button class="budget-tab" onclick="showBudget('60', this)">$60</button>
-      <button class="budget-tab" onclick="showBudget('80', this)">$80</button>
+      <button class="budget-tab active" onclick="showBudget('50', this)">$50</button>
+      <button class="budget-tab" onclick="showBudget('75', this)">$75</button>
       <button class="budget-tab" onclick="showBudget('100', this)">$100</button>
     </div>
 
-    <!-- $40 Panel -->
-    <div class="gift-panel active" id="panel-40">
+    <!-- $50 Panel -->
+    <div class="gift-panel active" id="panel-50">
       <div class="gift-grid">
         <div class="gift-card">
           <div class="gift-occasion">Birthday</div>
@@ -425,8 +423,8 @@
           <div class="gift-desc">A beautifully curated collection of premium soy candles and bath salts — thoughtful, elegant, and universally loved.</div>
           <div class="gift-footer">
             <div>
-              <div class="gift-price">$40</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. service fee</div>
+              <div class="gift-price">$50</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. $19.95 service fee</div>
             </div>
             <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
           </div>
@@ -437,8 +435,8 @@
           <div class="gift-desc">A premium assortment of artisan chocolates and confections — classic, indulgent, and always a welcome surprise.</div>
           <div class="gift-footer">
             <div>
-              <div class="gift-price">$40</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. service fee</div>
+              <div class="gift-price">$50</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. $19.95 service fee</div>
             </div>
             <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
           </div>
@@ -449,8 +447,8 @@
           <div class="gift-desc">A curated selection of single-origin coffees and premium loose-leaf teas — the gift for anyone who starts their day intentionally.</div>
           <div class="gift-footer">
             <div>
-              <div class="gift-price">$40</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. service fee</div>
+              <div class="gift-price">$50</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. $19.95 service fee</div>
             </div>
             <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
           </div>
@@ -458,8 +456,8 @@
       </div>
     </div>
 
-    <!-- $60 Panel -->
-    <div class="gift-panel" id="panel-60">
+    <!-- $75 Panel -->
+    <div class="gift-panel" id="panel-75">
       <div class="gift-grid">
         <div class="gift-card">
           <div class="gift-occasion">Birthday</div>
@@ -467,8 +465,8 @@
           <div class="gift-desc">A luxurious collection of skincare essentials, bath oils, and relaxation tools — the kind of gift that says you genuinely thought about it.</div>
           <div class="gift-footer">
             <div>
-              <div class="gift-price">$60</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. service fee</div>
+              <div class="gift-price">$75</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. $19.95 service fee</div>
             </div>
             <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
           </div>
@@ -479,8 +477,8 @@
           <div class="gift-desc">A curated selection of premium wines paired with artisan cheeses and accompaniments — a shared evening in a box.</div>
           <div class="gift-footer">
             <div>
-              <div class="gift-price">$60</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. service fee</div>
+              <div class="gift-price">$75</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. $19.95 service fee</div>
             </div>
             <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
           </div>
@@ -491,50 +489,8 @@
           <div class="gift-desc">A beautifully crafted memory box, engraved with a personal message — something they will keep long after the occasion passes.</div>
           <div class="gift-footer">
             <div>
-              <div class="gift-price">$60</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. service fee</div>
-            </div>
-            <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- $80 Panel -->
-    <div class="gift-panel" id="panel-80">
-      <div class="gift-grid">
-        <div class="gift-card">
-          <div class="gift-occasion">Birthday</div>
-          <div class="gift-name">Premium Tech Accessories Bundle</div>
-          <div class="gift-desc">A thoughtfully assembled collection of premium wireless earbuds, charging accessories, and desk essentials for the person who appreciates quality gear.</div>
-          <div class="gift-footer">
-            <div>
-              <div class="gift-price">$80</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. service fee</div>
-            </div>
-            <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
-          </div>
-        </div>
-        <div class="gift-card">
-          <div class="gift-occasion">Anniversary</div>
-          <div class="gift-name">Fine Wine &amp; Glassware Set</div>
-          <div class="gift-desc">Two premium bottles paired with elegant crystal glassware — a toast to the occasion, delivered in beautiful packaging with a personal card.</div>
-          <div class="gift-footer">
-            <div>
-              <div class="gift-price">$80</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. service fee</div>
-            </div>
-            <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
-          </div>
-        </div>
-        <div class="gift-card">
-          <div class="gift-occasion">Any Occasion</div>
-          <div class="gift-name">Luxury Home Fragrance Collection</div>
-          <div class="gift-desc">A sophisticated set of hand-poured candles, diffuser oils, and linen sprays from premium home fragrance brands — the gift that transforms a room.</div>
-          <div class="gift-footer">
-            <div>
-              <div class="gift-price">$80</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. service fee</div>
+              <div class="gift-price">$75</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. $19.95 service fee</div>
             </div>
             <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
           </div>
@@ -552,7 +508,7 @@
           <div class="gift-footer">
             <div>
               <div class="gift-price">$100</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. service fee</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. $19.95 service fee</div>
             </div>
             <div class="gift-delivery"><span class="delivery-dot"></span>Digital delivery same day</div>
           </div>
@@ -564,7 +520,7 @@
           <div class="gift-footer">
             <div>
               <div class="gift-price">$100</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. service fee</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. $19.95 service fee</div>
             </div>
             <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
           </div>
@@ -576,7 +532,7 @@
           <div class="gift-footer">
             <div>
               <div class="gift-price">$100</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. service fee</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;">incl. $19.95 service fee</div>
             </div>
             <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
           </div>
@@ -602,24 +558,19 @@
       <!-- Pricing Breakdown -->
       <div class="pricing-breakdown">
         <div class="price-tier">
-          <div class="price-tier-amount">$40</div>
+          <div class="price-tier-amount">$50</div>
           <div class="price-tier-label">Total cost</div>
-          <div class="price-tier-breakdown"><strong>~$30 gift + $9.95 fee</strong>Curated gift, personal card, expedited delivery</div>
+          <div class="price-tier-breakdown"><strong>~$30 gift + $19.95 fee</strong>Curated gift, personal card, expedited delivery</div>
         </div>
         <div class="price-tier">
-          <div class="price-tier-amount">$60</div>
+          <div class="price-tier-amount">$75</div>
           <div class="price-tier-label">Total cost</div>
-          <div class="price-tier-breakdown"><strong>~$50 gift + $9.95 fee</strong>Curated gift, personal card, expedited delivery</div>
-        </div>
-        <div class="price-tier">
-          <div class="price-tier-amount">$80</div>
-          <div class="price-tier-label">Total cost</div>
-          <div class="price-tier-breakdown"><strong>~$70 gift + $9.95 fee</strong>Curated gift, personal card, expedited delivery</div>
+          <div class="price-tier-breakdown"><strong>~$55 gift + $19.95 fee</strong>Curated gift, personal card, expedited delivery</div>
         </div>
         <div class="price-tier">
           <div class="price-tier-amount">$100</div>
           <div class="price-tier-label">Total cost</div>
-          <div class="price-tier-breakdown"><strong>~$90 gift + $9.95 fee</strong>Curated gift, personal card, expedited delivery</div>
+          <div class="price-tier-breakdown"><strong>~$80 gift + $19.95 fee</strong>Curated gift, personal card, expedited delivery</div>
         </div>
       </div>
 
