@@ -11,12 +11,12 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Secure Checkout — OnCue Gifts</title>
+  <title>Complete Your Membership — OnCue Gifts</title>
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -25,88 +25,240 @@
       --gold-light: #E8C97A;
       --ivory: #F5F0E8;
       --white: #FFFFFF;
+      --gray: #6B6B6B;
     }
-    body {
-      background: var(--black); color: var(--white); font-family: 'Raleway', sans-serif;
-      min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; padding: 24px; position: relative; overflow: hidden;
+    body { background: var(--black); color: var(--white); font-family: 'Raleway', sans-serif; min-height: 100vh; }
+
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 64px 24px 80px; position: relative; }
+    .wrap::before {
+      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 600px;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
     }
-    body::before {
-      content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 800px; height: 600px;
-      background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
+    .inner { position: relative; z-index: 1; text-align: center; }
+
     .logo { margin-bottom: 48px; }
-    .logo img { height: 56px; width: auto; }
-    .spinner {
-      width: 48px; height: 48px; border: 2px solid rgba(201,168,76,0.15);
-      border-top-color: var(--gold); border-radius: 50%;
-      animation: spin 0.9s linear infinite; margin: 0 auto 32px;
+    .logo img { height: 48px; width: auto; }
+
+    /* Progress indicator */
+    .progress {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      margin-bottom: 48px; font-size: 10px; font-weight: 500; letter-spacing: 0.18em;
+      text-transform: uppercase;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    .pstep { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.3); }
+    .pstep.done { color: rgba(255,255,255,0.55); }
+    .pstep.active { color: var(--gold); }
+    .pnum {
+      width: 22px; height: 22px; border-radius: 50%; border: 1px solid currentColor;
+      display: flex; align-items: center; justify-content: center; font-size: 10px;
+    }
+    .pstep.done .pnum { background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.4); color: var(--gold); }
+    .pstep.done .pnum::after { content: '✓'; font-weight: 700; }
+    .pstep.done .pnum span { display: none; }
+    .pstep.active .pnum { background: var(--gold); color: var(--black); border-color: var(--gold); }
+    .pline { width: 28px; height: 1px; background: rgba(255,255,255,0.15); }
+
+    .eyebrow {
+      font-size: 10px; font-weight: 500; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px; display: flex; align-items: center;
+      justify-content: center; gap: 14px;
+    }
+    .eyebrow::before, .eyebrow::after { content: ''; width: 40px; height: 1px; background: var(--gold); opacity: 0.4; }
+
     h1 {
-      font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 4vw, 2.6rem);
-      font-weight: 400; color: var(--white); margin-bottom: 12px; line-height: 1.3;
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 300; line-height: 1.15; margin-bottom: 18px;
     }
     h1 em { font-style: italic; color: var(--gold-light); }
-    .sub { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.45); line-height: 1.7; max-width: 420px; margin: 0 auto; }
-    .fallback { display: none; margin-top: 40px; }
-    .fallback.show { display: block; }
-    .fallback p { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 24px; }
-    .fallback-links { display: flex; flex-direction: column; gap: 10px; max-width: 360px; margin: 0 auto; }
-    .fallback-links a {
-      display: block; padding: 14px 24px; border: 1px solid rgba(201,168,76,0.35); border-radius: 2px;
-      color: var(--gold); text-decoration: none; font-size: 11px; font-weight: 600;
-      letter-spacing: 0.15em; text-transform: uppercase; transition: all 0.2s;
+
+    .sub {
+      font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.5);
+      line-height: 1.8; max-width: 560px; margin: 0 auto 16px;
     }
-    .fallback-links a:hover { background: rgba(201,168,76,0.08); border-color: var(--gold); }
-    .home-link { margin-top: 28px; display: inline-block; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); text-decoration: none; }
-    .home-link:hover { color: var(--gold); }
+    .saved-note {
+      font-size: 12px; color: rgba(201,168,76,0.85); margin-bottom: 56px;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 18px; border: 1px solid rgba(201,168,76,0.25); border-radius: 100px;
+    }
+    .saved-note::before {
+      content: '✓'; width: 16px; height: 16px; border-radius: 50%;
+      background: var(--gold); color: var(--black); font-size: 10px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* Plan cards */
+    .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 32px; text-align: left; }
+    .plan-card {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+      padding: 36px 28px; position: relative; transition: border-color 0.3s, background 0.3s;
+    }
+    .plan-card:hover { border-color: rgba(201,168,76,0.3); }
+    .plan-card.featured { background: rgba(201,168,76,0.06); border-color: rgba(201,168,76,0.4); }
+    .plan-badge {
+      position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+      background: var(--gold); color: var(--black); font-size: 9px; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase; padding: 5px 16px;
+      border-radius: 0 0 4px 4px; white-space: nowrap;
+    }
+    .plan-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 500; color: var(--white); margin-bottom: 4px; }
+    .plan-tagline { font-size: 11px; color: rgba(255,255,255,0.35); margin-bottom: 20px; line-height: 1.5; }
+    .plan-price-wrap { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .plan-price-amount { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 400; color: var(--white); line-height: 1; }
+    .plan-price-period { font-size: 11px; color: rgba(255,255,255,0.35); margin-left: 4px; }
+    .plan-price-monthly { font-size: 11px; color: var(--gold); margin-top: 4px; }
+    .plan-gifts { background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2); padding: 10px 14px; border-radius: 2px; margin-bottom: 16px; }
+    .plan-gifts-up { font-size: 11px; color: rgba(255,255,255,0.4); display: block; margin-bottom: 2px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .plan-gifts-num { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--gold); font-weight: 400; }
+    .plan-gifts-label { font-size: 11px; color: rgba(255,255,255,0.4); margin-left: 6px; }
+    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+    .plan-features li { font-size: 12px; color: rgba(255,255,255,0.55); display: flex; align-items: flex-start; gap: 8px; line-height: 1.5; }
+    .plan-features li::before { content: '✦'; color: var(--gold); font-size: 8px; flex-shrink: 0; margin-top: 3px; }
+    .plan-cta {
+      display: block; text-align: center; padding: 16px 24px;
+      font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none;
+      border-radius: 2px; transition: all 0.2s;
+    }
+    .plan-cta-gold { background: var(--gold); color: var(--black); }
+    .plan-cta-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .plan-cta-outline { border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); }
+    .plan-cta-outline:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.04); }
+
+    .reassurance {
+      max-width: 580px; margin: 0 auto; text-align: center;
+      font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.8;
+      padding: 20px; border: 1px solid rgba(255,255,255,0.06); border-radius: 2px;
+    }
+    .reassurance strong { color: rgba(255,255,255,0.55); font-weight: 500; }
+
+    .footer-line {
+      text-align: center; margin-top: 48px; font-size: 11px;
+      color: rgba(255,255,255,0.25); letter-spacing: 0.08em;
+    }
+    .footer-line a { color: rgba(201,168,76,0.7); text-decoration: none; }
+    .footer-line a:hover { color: var(--gold); }
+
+    @media (max-width: 768px) {
+      .plans { grid-template-columns: 1fr; }
+      .progress { font-size: 9px; gap: 8px; flex-wrap: wrap; }
+      .pline { width: 18px; }
+    }
   </style>
 </head>
 <body>
-  <div class="logo"><img src="/logo-nav.png" alt="OnCue Gifts"></div>
-  <div class="spinner" id="spinner"></div>
-  <h1 id="headline">Your plan is saved.<br><em>Taking you to secure checkout…</em></h1>
-  <p class="sub" id="subtext">One moment — we're redirecting you to complete your membership. Your gift plan details are already with our team.</p>
+  <div class="wrap">
+    <div class="inner">
+      <div class="logo"><img src="/logo-nav.png" alt="OnCue Gifts"></div>
 
-  <div class="fallback" id="fallback">
-    <p>If you weren't redirected automatically, choose your plan below to complete checkout:</p>
-    <div class="fallback-links">
-      <a href="https://buy.stripe.com/eVq28rcLkghTd3mbV14AU07">Essential — $59/year</a>
-      <a href="https://buy.stripe.com/8x2fZhaDc8Pr7J20cj4AU03">Classic — $79/year</a>
-      <a href="https://buy.stripe.com/bJe9ATaDc1mZ5AU2kr4AU08">Premium — $119/year</a>
+      <!-- Progress indicator -->
+      <div class="progress">
+        <div class="pstep done"><div class="pnum"><span>1</span></div>Tell Us About Your People</div>
+        <div class="pline"></div>
+        <div class="pstep active"><div class="pnum">2</div>Confirm Membership</div>
+        <div class="pline"></div>
+        <div class="pstep"><div class="pnum">3</div>Done</div>
+      </div>
+
+      <div class="eyebrow">Almost There</div>
+      <h1>Your plan is saved.<br>Confirm your <em>membership</em> to start.</h1>
+      <p class="sub">Choose the plan that fits your life. Your gift plan details are already with our team — payment is the last step before we get to work.</p>
+      <div class="saved-note">Your gift plan details have been saved</div>
+
+      <!-- Plan cards -->
+      <div class="plans">
+        <div class="plan-card">
+          <div class="plan-name">Essential</div>
+          <div class="plan-tagline">Perfect for one or two important occasions</div>
+          <div class="plan-price-wrap">
+            <span class="plan-price-amount">$59</span>
+            <span class="plan-price-period">/year</span>
+            <div class="plan-price-monthly">Just $4.92/month billed annually</div>
+          </div>
+          <div class="plan-gifts">
+            <span class="plan-gifts-up">Up to</span>
+            <span class="plan-gifts-num">2</span>
+            <span class="plan-gifts-label">gifts per person per year</span>
+          </div>
+          <ul class="plan-features">
+            <li>Any gift budget — $35, $50, $75, or $100</li>
+            <li>Real person selects every gift</li>
+            <li>Personalized card written for you</li>
+            <li>Gift preview with change option</li>
+          </ul>
+          <a href="https://buy.stripe.com/eVq28rcLkghTd3mbV14AU07"
+             class="plan-cta plan-cta-outline"
+             onclick="trackCheckout('essential_annual')">Confirm Essential</a>
+        </div>
+
+        <div class="plan-card featured">
+          <div class="plan-badge">Most Popular</div>
+          <div class="plan-name">Classic</div>
+          <div class="plan-tagline">The complete gifting experience</div>
+          <div class="plan-price-wrap">
+            <span class="plan-price-amount">$79</span>
+            <span class="plan-price-period">/year</span>
+            <div class="plan-price-monthly">Just $6.58/month billed annually</div>
+          </div>
+          <div class="plan-gifts">
+            <span class="plan-gifts-up">Up to</span>
+            <span class="plan-gifts-num">5</span>
+            <span class="plan-gifts-label">gifts per person per year</span>
+          </div>
+          <ul class="plan-features">
+            <li>Any gift budget — $35, $50, $75, or $100</li>
+            <li>Real person selects every gift</li>
+            <li>Personalized card written for you</li>
+            <li>Gift preview with change option</li>
+          </ul>
+          <a href="https://buy.stripe.com/8x2fZhaDc8Pr7J20cj4AU03"
+             class="plan-cta plan-cta-gold"
+             onclick="trackCheckout('classic_annual')">Confirm Classic</a>
+        </div>
+
+        <div class="plan-card">
+          <div class="plan-name">Premium</div>
+          <div class="plan-tagline">For those who never want to miss a thing</div>
+          <div class="plan-price-wrap">
+            <span class="plan-price-amount">$119</span>
+            <span class="plan-price-period">/year</span>
+            <div class="plan-price-monthly">Just $9.92/month billed annually</div>
+          </div>
+          <div class="plan-gifts">
+            <span class="plan-gifts-up">Up to</span>
+            <span class="plan-gifts-num">10</span>
+            <span class="plan-gifts-label">gifts per person per year</span>
+          </div>
+          <ul class="plan-features">
+            <li>Any gift budget — $35, $50, $75, or $100</li>
+            <li>Real person selects every gift</li>
+            <li>Personalized card written for you</li>
+            <li>Gift preview with change option</li>
+          </ul>
+          <a href="https://buy.stripe.com/bJe9ATaDc1mZ5AU2kr4AU08"
+             class="plan-cta plan-cta-outline"
+             onclick="trackCheckout('premium_annual')">Confirm Premium</a>
+        </div>
+      </div>
+
+      <div class="reassurance">
+        <strong>Secure checkout via Stripe.</strong> Your gift budget per occasion is chosen during onboarding — $35, $50, $75, or $100 per gift, charged separately when each gift is sent. No markups, no surprises.
+      </div>
+
+      <div class="footer-line">
+        Need to update your gift plan details? <a href="https://oncuegifts.com/contact">Contact us</a>
+      </div>
     </div>
-    <a href="https://oncuegifts.com/" class="home-link">← Back to OnCue Gifts</a>
   </div>
 
   <script>
-    (function () {
-      var STRIPE_LINKS = {
-        'essential_annual': 'https://buy.stripe.com/eVq28rcLkghTd3mbV14AU07',
-        'classic_annual':   'https://buy.stripe.com/8x2fZhaDc8Pr7J20cj4AU03',
-        'premium_annual':   'https://buy.stripe.com/bJe9ATaDc1mZ5AU2kr4AU08'
-      };
-
-      var params = new URLSearchParams(window.location.search);
-      var plan = (params.get('plan') || '').toLowerCase().trim();
-      var target = STRIPE_LINKS[plan];
-
-      if (target) {
-        // Track the checkout handoff in GA4, then redirect
-        if (typeof gtag === 'function') {
-          gtag('event', 'begin_checkout', { plan: plan });
-        }
-        setTimeout(function () { window.location.replace(target); }, 900);
-      } else {
-        // Unknown or missing plan — show manual fallback
-        document.getElementById('spinner').style.display = 'none';
-        document.getElementById('headline').innerHTML = 'Almost there.<br><em>Choose your plan to continue.</em>';
-        document.getElementById('subtext').textContent = 'Your gift plan details have been saved. Select your membership below to complete checkout.';
-        document.getElementById('fallback').classList.add('show');
+    function trackCheckout(plan) {
+      if (typeof gtag === 'function') {
+        gtag('event', 'begin_checkout', { plan: plan });
       }
-    })();
+      return true;
+    }
   </script>
 </body>
 </html>
