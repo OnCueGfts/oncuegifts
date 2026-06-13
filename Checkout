@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8DEFJLVX4S"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8DEFJLVX4S');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Checkout — OnCue Gifts</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0D0D0D;
+      --gold: #C9A84C;
+      --gold-light: #E8C97A;
+      --ivory: #F5F0E8;
+      --white: #FFFFFF;
+    }
+    body {
+      background: var(--black); color: var(--white); font-family: 'Raleway', sans-serif;
+      min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 24px; position: relative; overflow: hidden;
+    }
+    body::before {
+      content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 800px; height: 600px;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .logo { margin-bottom: 48px; }
+    .logo img { height: 56px; width: auto; }
+    .spinner {
+      width: 48px; height: 48px; border: 2px solid rgba(201,168,76,0.15);
+      border-top-color: var(--gold); border-radius: 50%;
+      animation: spin 0.9s linear infinite; margin: 0 auto 32px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    h1 {
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 400; color: var(--white); margin-bottom: 12px; line-height: 1.3;
+    }
+    h1 em { font-style: italic; color: var(--gold-light); }
+    .sub { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.45); line-height: 1.7; max-width: 420px; margin: 0 auto; }
+    .fallback { display: none; margin-top: 40px; }
+    .fallback.show { display: block; }
+    .fallback p { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 24px; }
+    .fallback-links { display: flex; flex-direction: column; gap: 10px; max-width: 360px; margin: 0 auto; }
+    .fallback-links a {
+      display: block; padding: 14px 24px; border: 1px solid rgba(201,168,76,0.35); border-radius: 2px;
+      color: var(--gold); text-decoration: none; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase; transition: all 0.2s;
+    }
+    .fallback-links a:hover { background: rgba(201,168,76,0.08); border-color: var(--gold); }
+    .home-link { margin-top: 28px; display: inline-block; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); text-decoration: none; }
+    .home-link:hover { color: var(--gold); }
+  </style>
+</head>
+<body>
+  <div class="logo"><img src="/logo-nav.png" alt="OnCue Gifts"></div>
+  <div class="spinner" id="spinner"></div>
+  <h1 id="headline">Your plan is saved.<br><em>Taking you to secure checkout…</em></h1>
+  <p class="sub" id="subtext">One moment — we're redirecting you to complete your membership. Your gift plan details are already with our team.</p>
+
+  <div class="fallback" id="fallback">
+    <p>If you weren't redirected automatically, choose your plan below to complete checkout:</p>
+    <div class="fallback-links">
+      <a href="https://buy.stripe.com/eVq28rcLkghTd3mbV14AU07">Essential — $59/year</a>
+      <a href="https://buy.stripe.com/8x2fZhaDc8Pr7J20cj4AU03">Classic — $79/year</a>
+      <a href="https://buy.stripe.com/bJe9ATaDc1mZ5AU2kr4AU08">Premium — $119/year</a>
+    </div>
+    <a href="https://oncuegifts.com/" class="home-link">← Back to OnCue Gifts</a>
+  </div>
+
+  <script>
+    (function () {
+      var STRIPE_LINKS = {
+        'essential_annual': 'https://buy.stripe.com/eVq28rcLkghTd3mbV14AU07',
+        'classic_annual':   'https://buy.stripe.com/8x2fZhaDc8Pr7J20cj4AU03',
+        'premium_annual':   'https://buy.stripe.com/bJe9ATaDc1mZ5AU2kr4AU08'
+      };
+
+      var params = new URLSearchParams(window.location.search);
+      var plan = (params.get('plan') || '').toLowerCase().trim();
+      var target = STRIPE_LINKS[plan];
+
+      if (target) {
+        // Track the checkout handoff in GA4, then redirect
+        if (typeof gtag === 'function') {
+          gtag('event', 'begin_checkout', { plan: plan });
+        }
+        setTimeout(function () { window.location.replace(target); }, 900);
+      } else {
+        // Unknown or missing plan — show manual fallback
+        document.getElementById('spinner').style.display = 'none';
+        document.getElementById('headline').innerHTML = 'Almost there.<br><em>Choose your plan to continue.</em>';
+        document.getElementById('subtext').textContent = 'Your gift plan details have been saved. Select your membership below to complete checkout.';
+        document.getElementById('fallback').classList.add('show');
+      }
+    })();
+  </script>
+</body>
+</html>
