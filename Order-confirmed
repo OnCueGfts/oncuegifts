@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8DEFJLVX4S"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8DEFJLVX4S');
+    gtag('event', 'emergency_purchase_complete');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmed — OnCue Gifts</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0D0D0D;
+      --gold: #C9A84C;
+      --gold-light: #E8C97A;
+      --ivory: #F5F0E8;
+      --white: #FFFFFF;
+      --gray: #6B6B6B;
+    }
+    body { background: var(--black); color: var(--white); font-family: 'Raleway', sans-serif; min-height: 100vh; }
+
+    .wrap { max-width: 760px; margin: 0 auto; padding: 80px 24px 100px; text-align: center; position: relative; }
+    .wrap::before {
+      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 500px;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .logo { margin-bottom: 56px; }
+    .logo img { height: 52px; width: auto; }
+
+    .check-circle {
+      width: 84px; height: 84px; border: 1px solid var(--gold); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 36px;
+    }
+    .check-circle svg { width: 38px; height: 38px; }
+
+    .eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 14px; }
+    .eyebrow::before, .eyebrow::after { content: ''; width: 40px; height: 1px; background: var(--gold); opacity: 0.4; }
+    h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 300; line-height: 1.15; margin-bottom: 20px; }
+    h1 em { font-style: italic; color: var(--gold-light); }
+    .sub { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.5); line-height: 1.8; max-width: 520px; margin: 0 auto 64px; }
+
+    .timeline { text-align: left; max-width: 560px; margin: 0 auto 80px; border: 1px solid rgba(201,168,76,0.15); border-radius: 2px; }
+    .t-step { display: flex; gap: 18px; padding: 24px 28px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .t-step:last-child { border-bottom: none; }
+    .t-num { width: 32px; height: 32px; border-radius: 50%; background: var(--gold); color: var(--black); font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .t-body h3 { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 500; color: var(--white); margin-bottom: 4px; }
+    .t-body p { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.7; }
+
+    /* Coupon reveal card */
+    .coupon-card { max-width: 600px; margin: 0 auto 48px; background: var(--white); padding: 6px; border-radius: 2px; position: relative; }
+    .coupon-inner { border: 1.5px solid var(--gold); outline: 3px solid var(--gold); outline-offset: -6px; padding: 48px 40px; position: relative; }
+    .coupon-inner::before { content: ''; position: absolute; top: 10px; left: 10px; width: 18px; height: 18px; border-color: var(--gold); border-style: solid; border-width: 2px 0 0 2px; }
+    .coupon-inner::after { content: ''; position: absolute; top: 10px; right: 10px; width: 18px; height: 18px; border-color: var(--gold); border-style: solid; border-width: 2px 2px 0 0; }
+    .corner-bl { position: absolute; bottom: 10px; left: 10px; width: 18px; height: 18px; border-color: var(--gold); border-style: solid; border-width: 0 0 2px 2px; }
+    .corner-br { position: absolute; bottom: 10px; right: 10px; width: 18px; height: 18px; border-color: var(--gold); border-style: solid; border-width: 0 2px 2px 0; }
+    .ornament { position: absolute; top: -10px; left: 50%; width: 16px; height: 16px; background: var(--white); border: 1.5px solid var(--gold); transform: translateX(-50%) rotate(45deg); }
+    .coupon-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+    .coupon-headline { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 500; color: var(--black); line-height: 1.3; margin-bottom: 16px; }
+    .coupon-headline em { font-style: italic; color: var(--gold); }
+    .coupon-body { font-size: 13px; color: var(--gray); line-height: 1.8; margin-bottom: 24px; }
+    .coupon-code {
+      font-family: 'Raleway', sans-serif; font-size: 28px; font-weight: 700; letter-spacing: 0.25em;
+      color: var(--black); background: var(--ivory); border: 2px dashed rgba(201,168,76,0.6);
+      padding: 16px 32px; display: inline-block; margin-bottom: 10px; border-radius: 2px;
+    }
+    .coupon-note { font-size: 11px; color: var(--gray); margin-bottom: 20px; }
+    .coupon-fine { font-size: 11px; color: rgba(0,0,0,0.35); line-height: 1.7; border-top: 1px solid rgba(201,168,76,0.2); padding-top: 16px; }
+
+    .btn-primary { background: var(--gold); color: var(--black); font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; padding: 18px 40px; border-radius: 2px; text-decoration: none; transition: background 0.2s, transform 0.2s; display: inline-block; border: none; cursor: pointer; }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .home-link { display: block; margin-top: 28px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); text-decoration: none; }
+    .home-link:hover { color: var(--gold); }
+
+    @media (max-width: 600px) {
+      .wrap { padding: 56px 20px 80px; }
+      .coupon-inner { padding: 36px 22px; }
+      .coupon-code { font-size: 22px; padding: 14px 22px; }
+      .t-step { padding: 20px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="logo"><img src="/logo-nav.png" alt="OnCue Gifts"></div>
+
+    <div class="check-circle">
+      <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M8 20l8 8 14-16" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div class="eyebrow">Order Confirmed</div>
+    <h1>Crisis averted.<br><em>We're on it.</em></h1>
+    <p class="sub">Your emergency gift order is confirmed and our team is already working on it. You'll receive a text and email the moment your gift is ordered, with tracking to follow.</p>
+
+    <div class="timeline">
+      <div class="t-step">
+        <div class="t-num">1</div>
+        <div class="t-body">
+          <h3>We're sourcing your gift now</h3>
+          <p>A real person is selecting your gift based on the details you shared — and writing a card that sounds like you.</p>
+        </div>
+      </div>
+      <div class="t-step">
+        <div class="t-num">2</div>
+        <div class="t-body">
+          <h3>Confirmation within 30 minutes</h3>
+          <p>During business hours (9am–6pm EST), you'll get a text and email confirming exactly what we ordered and when it will arrive.</p>
+        </div>
+      </div>
+      <div class="t-step">
+        <div class="t-num">3</div>
+        <div class="t-body">
+          <h3>Delivered tomorrow</h3>
+          <p>Your gift ships with expedited delivery, beautifully presented, card included. You get the credit.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="coupon-card">
+      <div class="coupon-inner">
+        <span class="corner-bl"></span>
+        <span class="corner-br"></span>
+        <span class="ornament"></span>
+        <span class="coupon-eyebrow">Your reward for handling it</span>
+        <h2 class="coupon-headline">Make today the <em>last</em> emergency.</h2>
+        <p class="coupon-body">OnCue handles every birthday, anniversary, and holiday for you automatically — so you never feel this panic again. As a thank-you for trusting us today, here's $10 off your first year:</p>
+        <span class="coupon-code">SAVE10</span>
+        <p class="coupon-note">$10 off any OnCue Gifts annual plan — apply at checkout</p>
+        <p class="coupon-fine">Valid on Essential ($59), Classic ($79), and Premium ($119) annual plans. One use per customer. Cannot be combined with other offers.</p>
+      </div>
+    </div>
+
+    <a href="https://oncuegifts.com/?utm_source=emergency&utm_medium=confirmation#how" class="btn-primary">Never Scramble Again — Build My Plan</a>
+    <a href="https://oncuegifts.com/" class="home-link">← Back to OnCue Gifts</a>
+  </div>
+</body>
+</html>
