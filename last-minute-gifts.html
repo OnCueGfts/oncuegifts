@@ -577,12 +577,20 @@
       <!-- Order Form -->
       <div class="order-form-wrap">
         <div class="tally-embed-note">
-          <p>Complete the form below and we'll confirm your order within 30 minutes during business hours (9am–6pm EST).</p>
+          <p>Complete the form below — once you submit, you'll choose your gift tier and check out. Orders confirmed within 30 minutes during business hours (9am–6pm EST).</p>
         </div>
-        <!-- REPLACE THIS WITH YOUR TALLY EMBED CODE -->
-        <div class="tally-placeholder">
-          <p>Tally emergency order form embed goes here.<br>Replace this div with your &lt;iframe&gt; embed code from Tally.</p>
-        </div>
+        <!-- TALLY EMERGENCY ORDER FORM (7RPZLA) -->
+        <iframe
+          data-tally-src="https://tally.so/embed/7RPZLA?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+          loading="lazy"
+          width="100%"
+          height="500"
+          frameborder="0"
+          marginheight="0"
+          marginwidth="0"
+          title="Emergency Gift Order"
+          style="border:none;background:transparent;">
+        </iframe>
         <!-- END TALLY EMBED -->
       </div>
     </div>
@@ -676,7 +684,7 @@
       <li><a href="/privacy">Privacy Policy</a></li>
       <li><a href="/terms">Terms of Service</a></li>
     </ul>
-    <span class="footer-copy">2025 OnCue Gifts. All rights reserved.</span>
+    <span class="footer-copy">© 2026 OnCue Gifts. All rights reserved.</span>
   </footer>
 
   <!-- PLAN MODAL (identical flow to index.html, with coupon reminder added) -->
@@ -769,6 +777,22 @@
       <div class="modal-budget-note"><strong>Gift budgets available for every occasion:</strong> $35 / $50 / $75 / $100 — you choose per gift when you set up each recipient.</div>
     </div>
   </div>
+
+  <!-- Tally embed loader: activates data-tally-src iframes and enables dynamic height -->
+  <script src="https://tally.so/widgets/embed.js"></script>
+  <script>
+    /* Fallback: if the Tally script loads after the iframe, (re)initialize embeds */
+    (function initTally(){
+      if (typeof Tally !== 'undefined' && Tally.loadEmbeds) {
+        Tally.loadEmbeds();
+      } else {
+        // Retry once the script has had a moment to load
+        window.addEventListener('load', function(){
+          if (typeof Tally !== 'undefined' && Tally.loadEmbeds) Tally.loadEmbeds();
+        });
+      }
+    })();
+  </script>
 
   <script>
     /* ── Mobile menu ── */
