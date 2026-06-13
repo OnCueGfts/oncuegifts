@@ -620,7 +620,7 @@
       <div class="faq-list">
         <div class="faq-item">
           <div class="faq-q">How much does this really cost?</div>
-          <div class="faq-a">There are two simple costs. First, your annual membership fee — Essential at $79, Classic at $99, or Premium at $149 per year. This covers the service: gift curation, card writing, occasion management, and delivery coordination. Second, the cost of each gift — $35, $50, $75, or $100 — charged to your card when each gift is ordered. That's it. No markups, no hidden fees, no surprises.</div>
+          <div class="faq-a">There are two simple costs. First, your annual membership fee — Essential at $59, Classic at $79, or Premium at $119 per year. This covers the service: gift curation, card writing, occasion management, and delivery coordination. Second, the cost of each gift — $35, $50, $75, or $100 — charged to your card when each gift is ordered. That's it. No markups, no hidden fees, no surprises.</div>
         </div>
         <div class="faq-item">
           <div class="faq-q">Who actually selects the gifts?</div>
@@ -633,10 +633,6 @@
         <div class="faq-item">
           <div class="faq-q">How does the gift preview work?</div>
           <div class="faq-a">14 days before each occasion we select a thoughtful gift and send you a preview email. The gift sends automatically unless you request a change. Simply reply to the preview email if you would like a different option and we will take care of it. Once a gift has shipped it cannot be changed, so we encourage you to review each preview when it arrives.</div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-q">Can I add more people to my plan?</div>
-          <div class="faq-a">Yes — you can add additional recipients to your plan at $39 per person per year. Each additional person gets their own gift occasions, budget selection, and fully managed gifting experience. Additional people can be added after you set up your initial plan.</div>
         </div>
         <div class="faq-item">
           <div class="faq-q">What occasions are covered?</div>
@@ -678,22 +674,16 @@
       <button class="modal-close" onclick="closeModal()">✕</button>
       <span class="modal-eyebrow">Choose Your Plan</span>
       <h2 class="modal-title">Build your <em>gift plan.</em></h2>
-      <p class="modal-sub">Select how many gifts you want to send per person per year. You choose the budget for each gift separately.</p>
+      <p class="modal-sub">Select your plan, then tell us about your people. Takes about 3 minutes — secure checkout comes at the end.</p>
       <div class="modal-pricing-note"><strong>One low membership fee</strong> plus the cost of each gift when we send it. No markups. No surprises.</div>
-      <div class="modal-toggle-wrap">
-        <div class="modal-toggle">
-          <button class="toggle-btn active" onclick="setToggle('annual',this)">Annual - Save 17%</button>
-          <button class="toggle-btn" onclick="setToggle('monthly',this)">Monthly</button>
-        </div>
-      </div>
       <div class="modal-cards">
         <div class="modal-card">
           <div class="plan-name">Essential</div>
           <div class="plan-tagline">Perfect for one or two important occasions</div>
           <div class="plan-price-wrap">
-            <span class="plan-price-amount" id="essential-price">$79</span>
+            <span class="plan-price-amount" id="essential-price">$59</span>
             <span class="plan-price-period" id="essential-period">/year</span>
-            <div class="plan-price-monthly" id="essential-sub">Just $6.58/month billed annually</div>
+            <div class="plan-price-monthly" id="essential-sub">Just $4.92/month billed annually</div>
           </div>
           <div class="plan-gifts">
             <span style="font-size:11px;color:rgba(255,255,255,0.4);display:block;margin-bottom:2px;letter-spacing:0.1em;text-transform:uppercase;">Up to</span>
@@ -705,22 +695,21 @@
             <li>Real person selects every gift</li>
             <li>Personalized card written for you</li>
             <li>Gift preview with change option</li>
-            <li>Add more people at $39/person/yr</li>
           </ul>
           <div class="terms-row">
             <input type="checkbox" id="terms-essential" checked required>
             <label for="terms-essential">I agree to the <a href="/terms" target="_blank">Terms of Service</a> and understand I will be charged for gifts as they are sent.</label>
           </div>
-          <a href="https://buy.stripe.com/8x2fZhaDc8Pr7J20cj4AU03" class="plan-cta plan-cta-outline" id="essential-link" onclick="return checkTerms('essential')">Get Started</a>
+          <a href="https://tally.so/r/QKkJQX?plan=essential_annual" class="plan-cta plan-cta-outline" id="essential-link" onclick="return checkTerms('essential')">Build My Plan</a>
         </div>
         <div class="modal-card featured">
           <div class="modal-badge">Most Popular</div>
           <div class="plan-name">Classic</div>
           <div class="plan-tagline">The complete gifting experience</div>
           <div class="plan-price-wrap">
-            <span class="plan-price-amount" id="classic-price">$99</span>
+            <span class="plan-price-amount" id="classic-price">$79</span>
             <span class="plan-price-period" id="classic-period">/year</span>
-            <div class="plan-price-monthly" id="classic-sub">Just $8.25/month billed annually</div>
+            <div class="plan-price-monthly" id="classic-sub">Just $6.58/month billed annually</div>
           </div>
           <div class="plan-gifts">
             <span style="font-size:11px;color:rgba(255,255,255,0.4);display:block;margin-bottom:2px;letter-spacing:0.1em;text-transform:uppercase;">Up to</span>
@@ -732,21 +721,20 @@
             <li>Real person selects every gift</li>
             <li>Personalized card written for you</li>
             <li>Gift preview with change option</li>
-            <li>Add more people at $39/person/yr</li>
           </ul>
           <div class="terms-row">
             <input type="checkbox" id="terms-classic" checked required>
             <label for="terms-classic">I agree to the <a href="/terms" target="_blank">Terms of Service</a> and understand I will be charged for gifts as they are sent.</label>
           </div>
-          <a href="https://buy.stripe.com/8x2bJ126GaXz7J26AH4AU05" class="plan-cta plan-cta-gold" id="classic-link" onclick="return checkTerms('classic')">Get Started</a>
+          <a href="https://tally.so/r/QKkJQX?plan=classic_annual" class="plan-cta plan-cta-gold" id="classic-link" onclick="return checkTerms('classic')">Build My Plan</a>
         </div>
         <div class="modal-card">
           <div class="plan-name">Premium</div>
           <div class="plan-tagline">For those who never want to miss a thing</div>
           <div class="plan-price-wrap">
-            <span class="plan-price-amount" id="premium-price">$149</span>
+            <span class="plan-price-amount" id="premium-price">$119</span>
             <span class="plan-price-period" id="premium-period">/year</span>
-            <div class="plan-price-monthly" id="premium-sub">Just $12.42/month billed annually</div>
+            <div class="plan-price-monthly" id="premium-sub">Just $9.92/month billed annually</div>
           </div>
           <div class="plan-gifts">
             <span style="font-size:11px;color:rgba(255,255,255,0.4);display:block;margin-bottom:2px;letter-spacing:0.1em;text-transform:uppercase;">Up to</span>
@@ -758,13 +746,12 @@
             <li>Real person selects every gift</li>
             <li>Personalized card written for you</li>
             <li>Gift preview with change option</li>
-            <li>Add more people at $39/person/yr</li>
           </ul>
           <div class="terms-row">
             <input type="checkbox" id="terms-premium" checked required>
             <label for="terms-premium">I agree to the <a href="/terms" target="_blank">Terms of Service</a> and understand I will be charged for gifts as they are sent.</label>
           </div>
-          <a href="https://buy.stripe.com/4gMbJ14eO5Df1kE8IP4AU01" class="plan-cta plan-cta-outline" id="premium-link" onclick="return checkTerms('premium')">Get Started</a>
+          <a href="https://tally.so/r/QKkJQX?plan=premium_annual" class="plan-cta plan-cta-outline" id="premium-link" onclick="return checkTerms('premium')">Build My Plan</a>
         </div>
       </div>
       <div class="modal-budget-note"><strong>Gift budgets available for every occasion:</strong> $35 / $50 / $75 / $100 — you choose per gift when you set up each recipient.</div>
@@ -784,7 +771,7 @@
         <!-- Card 1: Essential Starter -->
         <div class="ex-card">
           <div class="ex-header">
-            <span class="ex-plan-tag">Essential · $79/yr</span>
+            <span class="ex-plan-tag">Essential · $59/yr</span>
             <p class="ex-persona">The Starter</p>
             <p class="ex-desc">Covers what matters most</p>
           </div>
@@ -795,8 +782,8 @@
           </div>
           <div class="ex-totals">
             <div class="ex-total-row"><span class="ex-total-label">Gift spend</span><span class="ex-total-val">$100</span></div>
-            <div class="ex-total-row"><span class="ex-total-label">Membership</span><span class="ex-total-val">$79</span></div>
-            <div class="ex-total-row highlight"><span class="ex-total-label">Total/year</span><span class="ex-total-val">$179</span></div>
+            <div class="ex-total-row"><span class="ex-total-label">Membership</span><span class="ex-total-val">$59</span></div>
+            <div class="ex-total-row highlight"><span class="ex-total-label">Total/year</span><span class="ex-total-val">$159</span></div>
           </div>
           <div class="ex-footer">
             <p class="ex-zero">0 hours shopping</p>
@@ -808,7 +795,7 @@
         <div class="ex-card featured">
           <div class="ex-badge">Most Popular</div>
           <div class="ex-header">
-            <span class="ex-plan-tag">Classic · $99/yr</span>
+            <span class="ex-plan-tag">Classic · $79/yr</span>
             <p class="ex-persona">The Busy Professional</p>
             <p class="ex-desc">Never misses what matters</p>
           </div>
@@ -822,8 +809,8 @@
           </div>
           <div class="ex-totals">
             <div class="ex-total-row"><span class="ex-total-label">Gift spend</span><span class="ex-total-val">$270</span></div>
-            <div class="ex-total-row"><span class="ex-total-label">Membership</span><span class="ex-total-val">$99</span></div>
-            <div class="ex-total-row highlight"><span class="ex-total-label">Total/year</span><span class="ex-total-val">$369</span></div>
+            <div class="ex-total-row"><span class="ex-total-label">Membership</span><span class="ex-total-val">$79</span></div>
+            <div class="ex-total-row highlight"><span class="ex-total-label">Total/year</span><span class="ex-total-val">$349</span></div>
           </div>
           <div class="ex-footer">
             <p class="ex-zero">0 hours shopping</p>
@@ -834,7 +821,7 @@
         <!-- Card 3: Classic - Family Man -->
         <div class="ex-card">
           <div class="ex-header">
-            <span class="ex-plan-tag">Classic · $99/yr</span>
+            <span class="ex-plan-tag">Classic · $79/yr</span>
             <p class="ex-persona">The Family Man</p>
             <p class="ex-desc">Shows up for everyone</p>
           </div>
@@ -848,8 +835,8 @@
           </div>
           <div class="ex-totals">
             <div class="ex-total-row"><span class="ex-total-label">Gift spend</span><span class="ex-total-val">$310</span></div>
-            <div class="ex-total-row"><span class="ex-total-label">Membership</span><span class="ex-total-val">$99</span></div>
-            <div class="ex-total-row highlight"><span class="ex-total-label">Total/year</span><span class="ex-total-val">$409</span></div>
+            <div class="ex-total-row"><span class="ex-total-label">Membership</span><span class="ex-total-val">$79</span></div>
+            <div class="ex-total-row highlight"><span class="ex-total-label">Total/year</span><span class="ex-total-val">$389</span></div>
           </div>
           <div class="ex-footer">
             <p class="ex-zero">0 hours shopping</p>
@@ -860,7 +847,7 @@
         <!-- Card 4: Premium - The Connector -->
         <div class="ex-card">
           <div class="ex-header">
-            <span class="ex-plan-tag">Premium · $149/yr</span>
+            <span class="ex-plan-tag">Premium · $119/yr</span>
             <p class="ex-persona">The Connector</p>
             <p class="ex-desc">Never lets a moment slip by</p>
           </div>
@@ -876,8 +863,8 @@
           </div>
           <div class="ex-totals">
             <div class="ex-total-row"><span class="ex-total-label">Gift spend</span><span class="ex-total-val">$420</span></div>
-            <div class="ex-total-row"><span class="ex-total-label">Membership</span><span class="ex-total-val">$149</span></div>
-            <div class="ex-total-row highlight"><span class="ex-total-label">Total/year</span><span class="ex-total-val">$569</span></div>
+            <div class="ex-total-row"><span class="ex-total-label">Membership</span><span class="ex-total-val">$119</span></div>
+            <div class="ex-total-row highlight"><span class="ex-total-label">Total/year</span><span class="ex-total-val">$539</span></div>
           </div>
           <div class="ex-footer">
             <p class="ex-zero">0 hours shopping</p>
@@ -887,7 +874,7 @@
 
       </div><!-- end ex-grid -->
 
-      <p style="font-size:12px;color:rgba(255,255,255,0.25);font-style:italic;text-align:center;margin-bottom:40px;line-height:1.7;">* Example members only. Gift budgets of $35, $50, $75, or $100 are chosen per occasion — mix and match as you like.<br>Additional recipients can be added to any plan at $39/person/year.</p>
+      <p style="font-size:12px;color:rgba(255,255,255,0.25);font-style:italic;text-align:center;margin-bottom:40px;line-height:1.7;">* Example members only. Gift budgets of $35, $50, $75, or $100 are chosen per occasion — mix and match as you like.</p>
 
       <div style="text-align:center;">
         <button onclick="closeExamples();openModal();" class="btn-primary">Build My Gift Plan</button>
@@ -943,30 +930,6 @@
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') { closeModal(); closeExamples(); }
     });
-
-    /* ── Pricing toggle ── */
-    const prices = {
-      annual: {
-        essential: { price: '$79',  period: '/year',  sub: 'Just $6.58/month billed annually',  link: 'https://buy.stripe.com/8x2fZhaDc8Pr7J20cj4AU03' },
-        classic:   { price: '$99',  period: '/year',  sub: 'Just $8.25/month billed annually',  link: 'https://buy.stripe.com/8x2bJ126GaXz7J26AH4AU05' },
-        premium:   { price: '$149', period: '/year',  sub: 'Just $12.42/month billed annually', link: 'https://buy.stripe.com/4gMbJ14eO5Df1kE8IP4AU01' }
-      },
-      monthly: {
-        essential: { price: '$8',  period: '/month', sub: 'Billed monthly — cancel anytime', link: 'https://buy.stripe.com/fZu9AT26G9Tvd3m5wD4AU04' },
-        classic:   { price: '$10', period: '/month', sub: 'Billed monthly — cancel anytime', link: 'https://buy.stripe.com/6oU28r8v4c1DaVee394AU02' },
-        premium:   { price: '$15', period: '/month', sub: 'Billed monthly — cancel anytime', link: 'https://buy.stripe.com/00w4gz9z8aXz8N66AH4AU00' }
-      }
-    };
-    function setToggle(type, btn) {
-      document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      ['essential','classic','premium'].forEach(plan => {
-        document.getElementById(plan+'-price').textContent = prices[type][plan].price;
-        document.getElementById(plan+'-period').textContent = prices[type][plan].period;
-        document.getElementById(plan+'-sub').textContent = prices[type][plan].sub;
-        document.getElementById(plan+'-link').href = prices[type][plan].link;
-      });
-    }
 
     /* ── Scroll animations ── */
     const observer = new IntersectionObserver((entries) => {
