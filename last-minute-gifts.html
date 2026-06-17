@@ -367,7 +367,7 @@
     <h1>You forgot.<br>We've got you <em>covered.</em></h1>
     <p class="hero-sub">Tell us who, what, and when — we'll source the perfect gift, order it today, and have it delivered tomorrow. Then we'll make sure this never happens again.</p>
     <div class="urgency-banner" style="opacity:1;animation:none;position:relative;width:100%;max-width:600px;margin-bottom:32px;border-radius:2px;">
-      <p>🚨 Order by 2pm EST for next-day delivery <span>on most gifts</span></p>
+      <p>🚨 Order by 2pm EST for fastest delivery <span>next-day where available</span></p>
     </div>
     <div class="hero-actions">
       <a href="#order" class="btn-primary">Get a Gift Today</a>
@@ -391,13 +391,13 @@
         <span class="step-num">02</span>
         <div class="step-gold"></div>
         <h3>We Source &amp; Order</h3>
-        <p>Our team selects a curated gift from our emergency collection, places the order with expedited delivery, and writes a personal card that sounds like you.</p>
+        <p>Our team selects a curated gift from our emergency collection, places the order with expedited delivery, and includes a personalized digital card for the occasion.</p>
       </div>
       <div class="step">
         <span class="step-num">03</span>
         <div class="step-gold"></div>
-        <h3>It Arrives Tomorrow</h3>
-        <p>The gift ships directly to your recipient, beautifully packaged. You get a confirmation the moment it's ordered. Crisis averted.</p>
+        <h3>It Arrives Fast</h3>
+        <p>The gift ships directly to your recipient, gift-wrapped where available. You get a confirmation the moment it's ordered. Crisis averted.</p>
       </div>
     </div>
   </section>
@@ -406,127 +406,31 @@
   <section class="gifts-section" id="gifts">
     <span class="section-eyebrow" style="color:var(--gold);">Curated Emergency Gifts</span>
     <h2 class="section-title" style="color:var(--white);text-align:center;margin-bottom:16px;">Great gifts, <em>ready to ship.</em></h2>
-    <p class="section-sub" style="color:rgba(255,255,255,0.4);text-align:center;max-width:520px;margin:0 auto 48px;">Every option below is available for next-day delivery. Pick your budget — we handle the rest.</p>
+    <p class="section-sub" style="color:rgba(255,255,255,0.4);text-align:center;max-width:520px;margin:0 auto 48px;">A few examples of what we send. Choose a category and we'll select the perfect gift for your recipient.</p>
 
-    <div class="budget-tabs">
-      <button class="budget-tab active" onclick="showBudget('50', this)">$50</button>
-      <button class="budget-tab" onclick="showBudget('75', this)">$75</button>
-      <button class="budget-tab" onclick="showBudget('100', this)">$100</button>
-    </div>
-
-    <!-- $50 Panel -->
-    <div class="gift-panel active" id="panel-50">
-      <div class="gift-grid">
-        <div class="gift-card">
-          <div class="gift-occasion">Birthday</div>
-          <div class="gift-name">Artisan Candle &amp; Bath Set</div>
-          <div class="gift-desc">A beautifully curated collection of premium soy candles and bath salts — thoughtful, elegant, and universally loved.</div>
-          <div class="gift-footer">
-            <div>
-              <div class="gift-price">$50</div>
-            </div>
-            <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
-          </div>
-        </div>
-        <div class="gift-card">
-          <div class="gift-occasion">Anniversary</div>
-          <div class="gift-name">Gourmet Chocolate Collection</div>
-          <div class="gift-desc">A premium assortment of artisan chocolates and confections — classic, indulgent, and always a welcome surprise.</div>
-          <div class="gift-footer">
-            <div>
-              <div class="gift-price">$50</div>
-            </div>
-            <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
-          </div>
-        </div>
-        <div class="gift-card">
-          <div class="gift-occasion">Any Occasion</div>
-          <div class="gift-name">Specialty Coffee &amp; Tea Box</div>
-          <div class="gift-desc">A curated selection of single-origin coffees and premium loose-leaf teas — the gift for anyone who starts their day intentionally.</div>
-          <div class="gift-footer">
-            <div>
-              <div class="gift-price">$50</div>
-            </div>
-            <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
-          </div>
+    <div class="gift-grid">
+      <div class="gift-card">
+        <div class="gift-occasion">Food &amp; Beverage</div>
+        <div class="gift-name">Gourmet Treats &amp; Coffee</div>
+        <div class="gift-desc">Think artisan chocolates &amp; confections, gourmet snack towers, specialty coffee &amp; tea selections, and premium sweets — crowd-pleasing and always welcome.</div>
+        <div class="gift-footer">
+          <div class="gift-delivery"><span class="delivery-dot"></span>Next-day where available</div>
         </div>
       </div>
-    </div>
-
-    <!-- $75 Panel -->
-    <div class="gift-panel" id="panel-75">
-      <div class="gift-grid">
-        <div class="gift-card">
-          <div class="gift-occasion">Birthday</div>
-          <div class="gift-name">Spa &amp; Wellness Gift Set</div>
-          <div class="gift-desc">A luxurious collection of skincare essentials, bath oils, and relaxation tools — the kind of gift that says you genuinely thought about it.</div>
-          <div class="gift-footer">
-            <div>
-              <div class="gift-price">$75</div>
-            </div>
-            <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
-          </div>
-        </div>
-        <div class="gift-card">
-          <div class="gift-occasion">Anniversary</div>
-          <div class="gift-name">Wine &amp; Cheese Pairing Box</div>
-          <div class="gift-desc">A curated selection of premium wines paired with artisan cheeses and accompaniments — a shared evening in a box.</div>
-          <div class="gift-footer">
-            <div>
-              <div class="gift-price">$75</div>
-            </div>
-            <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
-          </div>
-        </div>
-        <div class="gift-card">
-          <div class="gift-occasion">Any Occasion</div>
-          <div class="gift-name">Gourmet Sweets &amp; Snacks Tower</div>
-          <div class="gift-desc">A stacked collection of artisan chocolates, caramels, nuts, and gourmet treats — an impressive, crowd-pleasing gift that arrives ready to enjoy.</div>
-          <div class="gift-footer">
-            <div>
-              <div class="gift-price">$75</div>
-            </div>
-            <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
-          </div>
+      <div class="gift-card">
+        <div class="gift-occasion">Health &amp; Wellness</div>
+        <div class="gift-name">Spa, Self-Care &amp; Candles</div>
+        <div class="gift-desc">Think premium candles, spa &amp; bath sets, skincare essentials, and relaxation kits — thoughtful, elegant, and chosen to suit your recipient.</div>
+        <div class="gift-footer">
+          <div class="gift-delivery"><span class="delivery-dot"></span>Next-day where available</div>
         </div>
       </div>
-    </div>
-
-    <!-- $100 Panel -->
-    <div class="gift-panel" id="panel-100">
-      <div class="gift-grid">
-        <div class="gift-card">
-          <div class="gift-occasion">Birthday</div>
-          <div class="gift-name">Curated Experience Voucher</div>
-          <div class="gift-desc">A premium experience credit for cooking classes, wine tastings, spa days, or local dining — the gift of a memory, not just a moment.</div>
-          <div class="gift-footer">
-            <div>
-              <div class="gift-price">$100</div>
-            </div>
-            <div class="gift-delivery"><span class="delivery-dot"></span>Digital delivery same day</div>
-          </div>
-        </div>
-        <div class="gift-card">
-          <div class="gift-occasion">Anniversary</div>
-          <div class="gift-name">Gourmet Dinner at Home Kit</div>
-          <div class="gift-desc">A chef-curated meal kit with premium ingredients, wine pairing, and step-by-step instructions for a restaurant-quality evening at home.</div>
-          <div class="gift-footer">
-            <div>
-              <div class="gift-price">$100</div>
-            </div>
-            <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
-          </div>
-        </div>
-        <div class="gift-card">
-          <div class="gift-occasion">Any Occasion</div>
-          <div class="gift-name">Luxury Fragrance Gift Set</div>
-          <div class="gift-desc">A carefully selected fragrance from a premium house, paired with matching body lotion and a handwritten card — sophisticated, personal, and memorable.</div>
-          <div class="gift-footer">
-            <div>
-              <div class="gift-price">$100</div>
-            </div>
-            <div class="gift-delivery"><span class="delivery-dot"></span>Next-day available</div>
-          </div>
+      <div class="gift-card">
+        <div class="gift-occasion">Tech &amp; Gadgets</div>
+        <div class="gift-name">Smart &amp; Everyday Tech</div>
+        <div class="gift-desc">Think premium earbuds &amp; audio, smart home accessories, charging &amp; desk gadgets, and genuinely useful everyday tech.</div>
+        <div class="gift-footer">
+          <div class="gift-delivery"><span class="delivery-dot"></span>Next-day where available</div>
         </div>
       </div>
     </div>
@@ -543,7 +447,7 @@
       <div class="order-header">
         <span class="section-eyebrow" style="text-align:center;display:block;">Place Your Order</span>
         <h2 class="section-title" style="text-align:center;">Tell us who needs a gift.<br><em>We'll handle everything else.</em></h2>
-        <p class="section-sub" style="text-align:center;max-width:500px;margin:0 auto;">Fill in the details below. Orders placed before 2pm EST ship same day for next-day delivery on most gifts.</p>
+        <p class="section-sub" style="text-align:center;max-width:500px;margin:0 auto;">Fill in the details below. Orders placed before 2pm EST ship same day, with next-day delivery where available.</p>
       </div>
 
       <!-- Pricing Breakdown -->
@@ -551,17 +455,17 @@
         <div class="price-tier">
           <div class="price-tier-amount">$50</div>
           <div class="price-tier-label">Total cost</div>
-          <div class="price-tier-breakdown"><strong>Everything included</strong>Curated gift, personal card, expedited delivery</div>
+          <div class="price-tier-breakdown"><strong>Everything included</strong>Curated gift, digital card, expedited delivery</div>
         </div>
         <div class="price-tier">
           <div class="price-tier-amount">$75</div>
           <div class="price-tier-label">Total cost</div>
-          <div class="price-tier-breakdown"><strong>Everything included</strong>Curated gift, personal card, expedited delivery</div>
+          <div class="price-tier-breakdown"><strong>Everything included</strong>Curated gift, digital card, expedited delivery</div>
         </div>
         <div class="price-tier">
           <div class="price-tier-amount">$100</div>
           <div class="price-tier-label">Total cost</div>
-          <div class="price-tier-breakdown"><strong>Everything included</strong>Curated gift, personal card, expedited delivery</div>
+          <div class="price-tier-breakdown"><strong>Everything included</strong>Curated gift, digital card, expedited delivery</div>
         </div>
       </div>
 
@@ -797,14 +701,6 @@
         menu.classList.remove('open');
       }
     });
-
-    /* ── Budget tabs ── */
-    function showBudget(tier, btn) {
-      document.querySelectorAll('.gift-panel').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.budget-tab').forEach(b => b.classList.remove('active'));
-      document.getElementById('panel-' + tier).classList.add('active');
-      btn.classList.add('active');
-    }
 
     /* ── Plan modal ── */
     function checkTerms(plan) {
