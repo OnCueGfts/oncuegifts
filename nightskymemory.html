@@ -55,6 +55,16 @@
     background:rgba(8,12,30,.62);border:1px solid var(--line);padding:5px 10px;border-radius:99px}
   .live-dot i{width:6px;height:6px;border-radius:99px;background:#5BD08A;box-shadow:0 0 8px #5BD08A;animation:pulse 1.8s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .shooting-star{opacity:0;animation:shoot 9s ease-in infinite;animation-delay:3s}
+  .shooting-star line, .shooting-star circle{filter:drop-shadow(0 0 2px rgba(255,255,255,.7))}
+  @keyframes shoot{
+    0%{opacity:0;transform:translate(120px,40px)}
+    3%{opacity:1}
+    11%{opacity:1;transform:translate(330px,135px)}
+    15%{opacity:0;transform:translate(360px,145px)}
+    100%{opacity:0;transform:translate(360px,145px)}
+  }
+  @media(prefers-reduced-motion:reduce){.shooting-star{display:none}}
 
   .panel h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:27px;margin-bottom:4px}
   .panel .lead{color:var(--muted);font-size:13.5px;margin-bottom:20px}
@@ -137,13 +147,14 @@
       <div class="field"><label>Sky style</label>
         <div class="themes" id="themes">
           <div class="theme active" data-theme="midnight">Midnight</div>
-          <div class="theme" data-theme="ivory">Ivory</div>
+          <div class="theme" data-theme="sepia">Sepia</div>
           <div class="theme" data-theme="mono">Ink</div>
         </div>
       </div>
-      <div class="field"><label>Frame</label>
+      <div class="field"><label>Border</label>
         <div class="frames" id="frames">
           <div class="frameopt active" data-frame="classic">Classic</div>
+          <div class="frameopt" data-frame="vintage">Vintage</div>
           <div class="frameopt" data-frame="deco">Deco</div>
           <div class="frameopt" data-frame="minimal">Minimal</div>
         </div>
@@ -209,17 +220,18 @@ function project(ra,dec,lat,lon,date){const{alt,az}=altAz(ra,dec,lat,lon,date);i
 
 const THEMES={
   midnight:{bg0:"#1B2C5E",bg1:"#060B1E",ring:"#C9A24B",tick:"rgba(201,162,75,.6)",capBg:"#070C1E",capName:"#FBF7EC",capGold:"#E4C77E",capMuted:"#8E96AE",lineCol:"rgba(180,200,255,.30)"},
-  ivory:{bg0:"#F0E9D7",bg1:"#DFD5BE",ring:"#9A7B38",tick:"rgba(120,95,40,.55)",capBg:"#E9E0CC",capName:"#1B2440",capGold:"#8a6a28",capMuted:"#6b6450",dark:true,lineCol:"rgba(80,70,40,.32)"},
+  sepia:{bg0:"#3B2C1A",bg1:"#140D06",ring:"#C9A24B",tick:"rgba(201,162,75,.6)",capBg:"#140D06",capName:"#F6E9D2",capGold:"#E0B777",capMuted:"#A88E68",lineCol:"rgba(224,183,119,.26)",sepiaSky:true},
   mono:{bg0:"#222631",bg1:"#05060A",ring:"#AEB4C4",tick:"rgba(255,255,255,.42)",capBg:"#070809",capName:"#FFFFFF",capGold:"#C7CCDA",capMuted:"#8A90A0",lineCol:"rgba(255,255,255,.26)"}
 };
 let theme="midnight", frameStyle="classic", showMoon=true;
 
-function starColor(idx, dark){
-  const c=PALETTE[idx];
-  if(dark){ // ivory bg: darken star colors so they read on light paper
-    return "#2a3148";
+function starColor(idx, th){
+  if(th.sepiaSky){
+    const warm=["#fff4dc","#ffe9c4","#f7dcae","#ffd2a1","#fbe8c8","#fff7e8"];
+    return warm[idx%warm.length];
   }
-  return c;
+  if(th.dark) return "#2a3148";
+  return PALETTE[idx];
 }
 
 function render(){
@@ -232,15 +244,15 @@ function render(){
 
   /* ───── Milky Way band: render galactic plane as a soft luminous haze ───── */
   let milky="";
-  if(!th.dark){ // looks best on dark themes; skip on ivory paper
-    // sample the galactic equator and a few parallels for width; draw soft blobs where above horizon
-    for(let b=-12;b<=12;b+=3){
-      for(let l=0;l<360;l+=4){
+  if(!th.dark){
+    for(let b=-14;b<=14;b+=2.5){
+      for(let l=0;l<360;l+=3){
         const [ra,dec]=galToEq(l,b);
         const p=project(ra,dec,lat,lon,date); if(!p) continue;
-        const edgeFade=1-(Math.abs(b)/14);            // brighter near the plane
-        const blob=10-Math.abs(b)*0.35;
-        milky+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${blob.toFixed(1)}" fill="url(#milk)" opacity="${(0.05*edgeFade).toFixed(3)}"/>`;
+        const edgeFade=1-(Math.abs(b)/16);
+        const blob=12-Math.abs(b)*0.34;
+        const mfill = th.sepiaSky ? "url(#milkSep)" : "url(#milk)";
+        milky+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${blob.toFixed(1)}" fill="${mfill}" opacity="${(0.085*edgeFade).toFixed(3)}"/>`;
       }
     }
   }
@@ -252,7 +264,7 @@ function render(){
     const mag=s[2];
     const size = mag<1.5 ? 2.6 - mag*0.5 : Math.max(0.32, (6.6-mag)*0.34);
     const op = Math.min(1, Math.max(0.28,(7.0-mag)/6.5));
-    const col = starColor(s[3], th.dark);
+    const col = starColor(s[3], th);
     if(mag<2.2 && !th.dark){
       glows+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${(size*3.4).toFixed(1)}" fill="url(#glow)" opacity="${(op*0.45).toFixed(2)}"/>`;
     }
@@ -270,14 +282,18 @@ function render(){
       const waxing=ms.waxing;
       const dark=th.dark;
 
-      // ── craters: deterministic, varied, only render within disc ──
+      // ── craters: numerous, varied, with rim highlight + shadow for depth ──
       let craters="";
-      const cseed=[[ -5,-6,3.2],[4,-3,2.4],[-2,5,2.8],[6,4,1.8],[1,-7,1.5],[-7,2,1.6],[3,7,1.4],[8,-5,1.2],[-4,-1,1.0],[0,1,2.0],[7,1,1.1],[-6,7,1.3] ];
+      const cseed=[[-5,-6,3.4],[4,-3,2.4],[-2,5,2.9],[6,4,1.9],[1,-7,1.6],[-7,2,1.7],[3,7,1.5],[8,-5,1.3],[-4,-1,1.1],[0,1,2.1],[7,1,1.2],[-6,7,1.4],[-9,-2,1.5],[9,6,1.1],[2,-2,0.9],[-1,9,1.3],[5,-8,1.0],[-8,5,1.2],[3,3,0.8],[-3,-9,1.1],[10,-1,0.9],[-10,1,1.0],[6,9,1.2],[-5,-4,0.7]];
       for(const [dx,dy,cr] of cseed){
-        if(dx*dx+dy*dy > (mr-2)*(mr-2)) continue;
-        craters+=`<circle cx="${(mx+dx).toFixed(1)}" cy="${(my+dy).toFixed(1)}" r="${cr}" fill="url(#craterShade)" opacity="0.55"/>
-                  <circle cx="${(mx+dx-cr*0.3).toFixed(1)}" cy="${(my+dy-cr*0.3).toFixed(1)}" r="${(cr*0.7).toFixed(1)}" fill="#ffffff" opacity="0.10"/>`;
+        if(dx*dx+dy*dy > (mr-1.5)*(mr-1.5)) continue;
+        craters+=`<circle cx="${(mx+dx).toFixed(1)}" cy="${(my+dy).toFixed(1)}" r="${cr}" fill="url(#craterShade)" opacity="0.6"/>
+                  <circle cx="${(mx+dx-cr*0.35).toFixed(1)}" cy="${(my+dy-cr*0.35).toFixed(1)}" r="${(cr*0.6).toFixed(1)}" fill="#fff8ec" opacity="0.16"/>
+                  <circle cx="${(mx+dx+cr*0.3).toFixed(1)}" cy="${(my+dy+cr*0.3).toFixed(1)}" r="${(cr*0.52).toFixed(1)}" fill="#6b5e44" opacity="0.18"/>`;
       }
+      // subtle maria (dark seas) for realism
+      craters+=`<ellipse cx="${(mx-3).toFixed(1)}" cy="${(my-2).toFixed(1)}" rx="5" ry="4" fill="#9a8a6a" opacity="0.12"/>
+                <ellipse cx="${(mx+4).toFixed(1)}" cy="${(my+5).toFixed(1)}" rx="4" ry="3.4" fill="#9a8a6a" opacity="0.10"/>`;
 
       // ── soft terminator: a shadow ellipse with a blurred edge, clipped to the disc ──
       // position of the terminator: scale x of the shadow disc by phase
@@ -318,8 +334,7 @@ function render(){
           <!-- soft shadow sweeping across to make the phase -->
           <circle cx="${shadowCx.toFixed(1)}" cy="${my}" r="${shadowR.toFixed(1)}"
                   fill="${dark?'#0a1226':'#1a2238'}" opacity="${dark?0.93:0.8}" filter="url(#termBlur)"/>
-        </g>
-        <circle cx="${mx}" cy="${my}" r="${mr}" fill="none" stroke="${th.ring}" stroke-width="0.6" opacity="0.45"/>`;
+        </g>`;
     } else if(mp===null){
       moonNote="The moon was below the horizon on this night.";
     } else {
@@ -330,44 +345,99 @@ function render(){
   /* lines removed per design — clean star field + Milky Way reads more premium */
   let lines="";
 
-  /* engraved frame variants */
+  /* ───── premium frame styles ───── */
   let frame="";
   const ring=th.ring;
-  if(frameStyle!=="minimal"){
-    let ticks="";
-    const step = frameStyle==="deco"?5:15;
+  const goldFaint=th.sepiaSky?"rgba(224,183,119,":(th.dark?"rgba(174,180,196,":"rgba(201,162,75,");
+  // helper: tick ring
+  function tickRing(step,inR,len90,len30,lenSm){
+    let t="";
     for(let dg=0;dg<360;dg+=step){
-      const a=rad(dg),inner=R+3,outer=(dg%90===0)?R+12:(dg%30===0?R+8:R+5);
-      ticks+=`<line x1="${(cx+inner*Math.sin(a)).toFixed(1)}" y1="${(cy-inner*Math.cos(a)).toFixed(1)}" x2="${(cx+outer*Math.sin(a)).toFixed(1)}" y2="${(cy-outer*Math.cos(a)).toFixed(1)}" stroke="${th.tick}" stroke-width="${dg%90===0?1.2:0.6}"/>`;
+      const a=rad(dg),inner=inR,outer=(dg%90===0)?inR+len90:(dg%30===0?inR+len30:inR+lenSm);
+      t+=`<line x1="${(cx+inner*Math.sin(a)).toFixed(1)}" y1="${(cy-inner*Math.cos(a)).toFixed(1)}" x2="${(cx+outer*Math.sin(a)).toFixed(1)}" y2="${(cy-outer*Math.cos(a)).toFixed(1)}" stroke="${th.tick}" stroke-width="${dg%90===0?1.2:0.55}"/>`;
     }
-    frame=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${ring}" stroke-width="1.5"/>
-      <circle cx="${cx}" cy="${cy}" r="${R+15}" fill="none" stroke="${ring}" stroke-width="0.8" opacity=".6"/>${ticks}`;
-    if(frameStyle==="deco"){
-      // cardinal markers
-      const card=[[0,'N'],[90,'E'],[180,'S'],[270,'W']];
-      for(const [dg,L] of card){const a=rad(dg);const rr=R+26;frame+=`<text x="${(cx+rr*Math.sin(a)).toFixed(1)}" y="${(cy-rr*Math.cos(a)+4).toFixed(1)}" text-anchor="middle" font-family="EB Garamond,serif" font-size="13" fill="${ring}">${L}</text>`;}
-      frame+=`<circle cx="${cx}" cy="${cy}" r="${R+21}" fill="none" stroke="${ring}" stroke-width="0.5" opacity=".4"/>`;
+    return t;
+  }
+  // corner ornaments (celestial flourishes) at the 4 diagonals
+  function cornerOrnaments(){
+    let o=""; const positions=[[58,58],[VW-58,58],[58,520],[VW-58,520]];
+    for(let i=0;i<positions.length;i++){
+      const [ox,oy]=positions[i];
+      o+=`<g transform="translate(${ox},${oy})" opacity="0.7">
+        <circle r="2" fill="${ring}"/>
+        <path d="M-9 0 L-3 0 M9 0 L3 0 M0 -9 L0 -3 M0 9 L0 3" stroke="${ring}" stroke-width="0.7"/>
+        <path d="M-6 -6 L-2.5 -2.5 M6 6 L2.5 2.5 M-6 6 L-2.5 2.5 M6 -6 L2.5 -2.5" stroke="${ring}" stroke-width="0.5" opacity="0.6"/>
+      </g>`;
     }
-  } else {
+    return o;
+  }
+  // degree labels every 30°
+  function degreeLabels(rr){
+    let t="";
+    for(let dg=0;dg<360;dg+=30){
+      const a=rad(dg);
+      t+=`<text x="${(cx+rr*Math.sin(a)).toFixed(1)}" y="${(cy-rr*Math.cos(a)+3).toFixed(1)}" text-anchor="middle" font-family="Inter,sans-serif" font-size="6.5" fill="${goldFaint}0.55)" letter-spacing="0.5">${dg}°</text>`;
+    }
+    return t;
+  }
+
+  if(frameStyle==="classic"){
+    frame=`
+      <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${ring}" stroke-width="1.5"/>
+      <circle cx="${cx}" cy="${cy}" r="${R+6}" fill="none" stroke="${goldFaint}0.35)" stroke-width="0.5"/>
+      <circle cx="${cx}" cy="${cy}" r="${R+16}" fill="none" stroke="${ring}" stroke-width="0.8" opacity=".55"/>
+      ${tickRing(15,R+3,11,7,4)}`;
+  } else if(frameStyle==="vintage"){
+    // ornate vintage star-atlas: multiple concentric hairlines + degree labels + cardinal letters
+    const card=[[0,'N'],[90,'E'],[180,'S'],[270,'W']];
+    let cardSvg="";
+    for(const [dg,L] of card){const a=rad(dg);const rr=R+30;cardSvg+=`<text x="${(cx+rr*Math.sin(a)).toFixed(1)}" y="${(cy-rr*Math.cos(a)+5).toFixed(1)}" text-anchor="middle" font-family="EB Garamond,serif" font-style="italic" font-size="14" fill="${ring}">${L}</text>`;}
+    frame=`
+      <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${ring}" stroke-width="1.4"/>
+      <circle cx="${cx}" cy="${cy}" r="${R+5}" fill="none" stroke="${goldFaint}0.3)" stroke-width="0.5"/>
+      <circle cx="${cx}" cy="${cy}" r="${R+18}" fill="none" stroke="${ring}" stroke-width="0.6" opacity=".5"/>
+      <circle cx="${cx}" cy="${cy}" r="${R+22}" fill="none" stroke="${goldFaint}0.4)" stroke-width="0.5"/>
+      ${tickRing(5,R+5,13,9,5)}
+      ${degreeLabels(R+30)}
+      ${cardSvg}`;
+  } else if(frameStyle==="deco"){
+    // art-deco geometric: bold double ring, rays at cardinals, corner ornaments
+    let rays="";
+    for(let dg=0;dg<360;dg+=45){const a=rad(dg);const i=R+6,o=R+20;rays+=`<line x1="${(cx+i*Math.sin(a)).toFixed(1)}" y1="${(cy-i*Math.cos(a)).toFixed(1)}" x2="${(cx+o*Math.sin(a)).toFixed(1)}" y2="${(cy-o*Math.cos(a)).toFixed(1)}" stroke="${ring}" stroke-width="${dg%90===0?1.6:0.8}"/>`;}
+    frame=`
+      <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${ring}" stroke-width="2"/>
+      <circle cx="${cx}" cy="${cy}" r="${R+9}" fill="none" stroke="${ring}" stroke-width="0.7" opacity=".55"/>
+      ${rays}
+      ${cornerOrnaments()}`;
+  } else { // minimal
     frame=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${ring}" stroke-width="1.1" opacity=".85"/>`;
   }
 
-  /* caption block (engraved into the lower frame) */
+  /* caption block — refined architecture with moon-phase glyph */
   const names=document.getElementById('names').value||"Your names";
   const msg=document.getElementById('msg').value||"";
   const dn=dStr?new Date(dStr+"T00:00").toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):"—";
   const coords=`${Math.abs(lat).toFixed(2)}°${lat>=0?'N':'S'} · ${Math.abs(lon).toFixed(2)}°${lon>=0?'E':'W'}`;
-  const capY=cy+R+44;
+  const capY=cy+R+46;
+  // small moon-phase glyph for the divider center
+  const mst=moonState(date);
+  const gph=mst.illum, goff=(1-2*gph)*5*(mst.waxing?1:-1);
+  const phaseGlyph=`<g transform="translate(${cx},${capY-30})">
+      <circle r="5" fill="${th.capGold}" opacity="0.9"/>
+      <circle cx="${goff.toFixed(1)}" r="5" fill="${th.capBg}" opacity="0.92"/>
+    </g>`;
   const caption=`
-    <line x1="${cx-70}" y1="${capY-26}" x2="${cx+70}" y2="${capY-26}" stroke="${th.capGold}" stroke-width="0.6" opacity=".7"/>
-    <text x="${cx}" y="${capY}" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="500" font-size="30" fill="${th.capName}" letter-spacing="1">${escapeXml(names)}</text>
-    <text x="${cx}" y="${capY+22}" text-anchor="middle" font-family="EB Garamond,serif" font-style="italic" font-size="14" fill="${th.capGold}" letter-spacing="0.5">${escapeXml(msg)}</text>
-    <text x="${cx}" y="${capY+44}" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="${th.capMuted}" letter-spacing="2.5">${escapeXml(place.toUpperCase())} · ${dn.toUpperCase()}</text>
-    <text x="${cx}" y="${capY+60}" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="${th.capMuted}" letter-spacing="2">${coords}</text>
-    ${moonNote?`<text x="${cx}" y="${capY+78}" text-anchor="middle" font-family="EB Garamond,serif" font-style="italic" font-size="10.5" fill="${th.capGold}" opacity="0.85">${escapeXml(moonNote)}</text>`:''}`;
+    <line x1="${cx-78}" y1="${capY-30}" x2="${cx-12}" y2="${capY-30}" stroke="${th.capGold}" stroke-width="0.6" opacity=".65"/>
+    <line x1="${cx+12}" y1="${capY-30}" x2="${cx+78}" y2="${capY-30}" stroke="${th.capGold}" stroke-width="0.6" opacity=".65"/>
+    ${phaseGlyph}
+    <text x="${cx}" y="${capY}" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="500" font-size="31" fill="${th.capName}" letter-spacing="1.5">${escapeXml(names)}</text>
+    <text x="${cx}" y="${capY+23}" text-anchor="middle" font-family="EB Garamond,serif" font-style="italic" font-size="14.5" fill="${th.capGold}" letter-spacing="0.4">${escapeXml(msg)}</text>
+    <text x="${cx}" y="${capY+46}" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="${th.capMuted}" letter-spacing="3">${escapeXml(place.toUpperCase())}</text>
+    <text x="${cx}" y="${capY+62}" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="${th.capMuted}" letter-spacing="2.5">${dn.toUpperCase()} · ${coords}</text>
+    ${moonNote?`<text x="${cx}" y="${capY+80}" text-anchor="middle" font-family="EB Garamond,serif" font-style="italic" font-size="10.5" fill="${th.capGold}" opacity="0.85">${escapeXml(moonNote)}</text>`:''}`;
 
   /* watermark tile */
-  const wm=th.dark?'rgba(60,45,15,0.13)':'rgba(228,199,126,0.12)';
+  const wm=th.dark?'rgba(60,45,15,0.18)':(th.sepiaSky?'rgba(245,225,180,0.16)':'rgba(228,199,126,0.17)');
 
   document.getElementById('sky').innerHTML=`
   <defs>
@@ -378,8 +448,16 @@ function render(){
     <radialGradient id="glow" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </radialGradient>
+    <linearGradient id="shoot" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="60%" stop-color="#dfe8ff" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#dfe8ff" stop-opacity="0"/>
+    </linearGradient>
     <radialGradient id="milk" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#cdd6ff"/><stop offset="55%" stop-color="#aab6e8" stop-opacity=".5"/><stop offset="100%" stop-color="#aab6e8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="milkSep" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f5e3c0"/><stop offset="55%" stop-color="#d8b485" stop-opacity=".5"/><stop offset="100%" stop-color="#d8b485" stop-opacity="0"/>
     </radialGradient>
     <radialGradient id="moonglow" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#fff6e0"/><stop offset="100%" stop-color="#fff6e0" stop-opacity="0"/>
@@ -401,6 +479,10 @@ function render(){
   <g clip-path="url(#disk)">
     <rect width="${VW}" height="576" fill="url(#skyg)"/>
     ${milky}${glows}${dots}${moonSvg}
+    <g class="shooting-star">
+      <line x1="0" y1="0" x2="34" y2="11" stroke="url(#shoot)" stroke-width="1.6" stroke-linecap="round"/>
+      <circle cx="0" cy="0" r="1.5" fill="#ffffff"/>
+    </g>
     <rect width="${VW}" height="576" fill="url(#vig)"/>
     <rect width="${VW}" height="576" fill="url(#wm)"/>
   </g>
