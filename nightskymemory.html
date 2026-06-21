@@ -288,7 +288,7 @@
       </div>
       <div class="field"><label>Moon</label>
         <div class="frames" id="moontoggle">
-          <div class="frameopt active" data-moon="on">Show if visible</div>
+          <div class="frameopt active" data-moon="on">Show</div>
           <div class="frameopt" data-moon="off">Hide</div>
         </div>
       </div>
@@ -325,7 +325,7 @@
         <div>
           <div class="sec-eyebrow" style="text-align:left">Not a design. The real sky.</div>
           <h2>Every star, exactly where it stood that <em>night</em>.</h2>
-          <p>This isn't clip art or a pretty pattern. We calculate the precise position of every star, the phase of the moon, and the sweep of the Milky Way — for the exact date, time, and place you choose.</p>
+          <p>This isn't clip art or a pretty pattern. We calculate the precise position of every star, the true phase of the moon, and the sweep of the Milky Way — for the exact date, time, and place you choose.</p>
           <p>It's the sky the two of you stood under. Rendered the way it actually was. <span class="pulldot">That's what makes it hers.</span></p>
         </div>
         <div>
@@ -530,6 +530,16 @@ const MOON_CRATERS=[[-0.095, 0.12, 0.185], [0.71, -0.62, 0.201], [-0.393, -0.819
 const MOON_MARIA=[[-0.25, -0.15, 0.34], [0.3, 0.32, 0.26], [0.05, -0.4, 0.22], [-0.4, 0.3, 0.2], [0.42, -0.18, 0.18]];
 const VW=480, VH=624, R=198, cx=240, cy=272;
 function project(ra,dec,lat,lon,date){const{alt,az}=altAz(ra,dec,lat,lon,date);if(alt<=0)return null;const r=R*(1-alt/90);const a=rad(az);return[cx+r*Math.sin(a),cy-r*Math.cos(a)];}
+/* moon placement (B1): always in frame. Real azimuth sets the compass direction;
+   real altitude (-90..+90) is COMPRESSED into the inner 30%..85% of the radius so the
+   moon never clips past the rim. Deterministic for a given date/time/place. */
+function moonPlace(ra,dec,lat,lon,date){
+  const{alt,az}=altAz(ra,dec,lat,lon,date);
+  const t=(alt+90)/180;                 // 0 (straight down) .. 1 (straight up)
+  const rr=R*(0.85-0.55*t);             // high moon -> nearer center, low/below -> nearer rim
+  const a=rad(az);
+  return[cx+rr*Math.sin(a),cy-rr*Math.cos(a)];
+}
 
 const THEMES={
   midnight:{bg0:"#1B2C5E",bg1:"#060B1E",ring:"#C9A24B",tick:"rgba(201,162,75,.6)",capBg:"#070C1E",capName:"#FBF7EC",capGold:"#E4C77E",capMuted:"#8E96AE",lineCol:"rgba(180,200,255,.30)"},
@@ -599,14 +609,14 @@ function render(){
     dots+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${size.toFixed(2)}" fill="${col}" opacity="${op.toFixed(2)}"/>`;
   }
 
-  /* ───── moon: accurate position + phase, photorealistic lit surface ───── */
+  /* ───── moon: real phase, always in frame (position is artistic; phase is accurate) ───── */
   let moonSvg="", moonNote="", moonDefs="";
   if(showMoon){
     const ms=moonState(date);
-    const mp=project(ms.ra,ms.dec,lat,lon,date);
-    if(mp && ms.illum>0.04){
-      const [mx,my]=mp; const mr=18;
-      const k=ms.illum;
+    const [mx,my]=moonPlace(ms.ra,ms.dec,lat,lon,date);
+    {
+      const mr=18;
+      const k=Math.max(ms.illum,0.06); // sliver clamp: a new moon still shows a thin crescent
       const waxing=ms.waxing;
       const dark=th.dark;
       // light direction (unit): comes from the lit limb. waxing => lit on right.
@@ -670,10 +680,6 @@ function render(){
           <circle cx="${shadowCx.toFixed(1)}" cy="${my}" r="${(mr*1.04).toFixed(1)}"
                   fill="${dark?'#080e22':'#15110a'}" opacity="${dark?0.95:0.9}" filter="url(#termBlur)"/>
         </g>`;
-    } else if(mp===null){
-      moonNote="The moon was below the horizon on this night.";
-    } else {
-      moonNote="A new moon — the sky was at its darkest.";
     }
   }
 
