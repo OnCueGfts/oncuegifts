@@ -260,25 +260,66 @@ function render(){
   }
 
   /* ───── moon: accurate position + phase (only when above horizon, if enabled) ───── */
-  let moonSvg="", moonNote="";
+  let moonSvg="", moonNote="", moonDefs="";
   if(showMoon){
     const ms=moonState(date);
     const mp=project(ms.ra,ms.dec,lat,lon,date);
-    if(mp && ms.illum>0.04){ // visible and not a near-new (invisible) moon
-      const [mx,my]=mp; const mr=13;
-      // phase via two overlapping discs: lit disc + shadow disc offset by phase
-      const k=ms.illum;                       // 0..1 illuminated
-      const off=(1-2*k)*mr*(ms.waxing?1:-1);  // shadow offset
+    if(mp && ms.illum>0.04){
+      const [mx,my]=mp; const mr=16;
+      const k=ms.illum;                          // illuminated fraction 0..1
+      const waxing=ms.waxing;
+      const dark=th.dark;
+
+      // ── craters: deterministic, varied, only render within disc ──
+      let craters="";
+      const cseed=[[ -5,-6,3.2],[4,-3,2.4],[-2,5,2.8],[6,4,1.8],[1,-7,1.5],[-7,2,1.6],[3,7,1.4],[8,-5,1.2],[-4,-1,1.0],[0,1,2.0],[7,1,1.1],[-6,7,1.3] ];
+      for(const [dx,dy,cr] of cseed){
+        if(dx*dx+dy*dy > (mr-2)*(mr-2)) continue;
+        craters+=`<circle cx="${(mx+dx).toFixed(1)}" cy="${(my+dy).toFixed(1)}" r="${cr}" fill="url(#craterShade)" opacity="0.55"/>
+                  <circle cx="${(mx+dx-cr*0.3).toFixed(1)}" cy="${(my+dy-cr*0.3).toFixed(1)}" r="${(cr*0.7).toFixed(1)}" fill="#ffffff" opacity="0.10"/>`;
+      }
+
+      // ── soft terminator: a shadow ellipse with a blurred edge, clipped to the disc ──
+      // position of the terminator: scale x of the shadow disc by phase
+      const term = (2*k-1);                       // -1 (new) .. +1 (full)
+      const shadowCx = mx + (waxing? -1:1) * term * mr;  // shifts shadow off the lit limb
+      const shadowR = mr*1.02;
+
+      moonDefs=`
+        <radialGradient id="moonBody" cx="40%" cy="38%" r="68%">
+          <stop offset="0%" stop-color="${dark?'#fdfaf2':'#fffdf8'}"/>
+          <stop offset="62%" stop-color="${dark?'#ece3d0':'#f0e7d4'}"/>
+          <stop offset="100%" stop-color="${dark?'#cdbf9c':'#d8cbae'}"/>
+        </radialGradient>
+        <radialGradient id="craterShade" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#8a7c5e" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#8a7c5e" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="moonHalo2" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fff6df" stop-opacity="0.55"/>
+          <stop offset="45%" stop-color="#f4ead0" stop-opacity="0.22"/>
+          <stop offset="100%" stop-color="#f4ead0" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="earth" cx="50%" cy="50%" r="60%">
+          <stop offset="0%" stop-color="${dark?'#2a3550':'#b9c0cf'}" stop-opacity="${dark?0.5:0.4}"/>
+          <stop offset="100%" stop-color="${dark?'#101a30':'#aab2c4'}" stop-opacity="${dark?0.85:0.6}"/>
+        </radialGradient>
+        <filter id="termBlur" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="2.1"/></filter>
+        <clipPath id="moonDisc"><circle cx="${mx}" cy="${my}" r="${mr}"/></clipPath>`;
+
       moonSvg=`
-        <g filter="url(#moonblur)">
-          <circle cx="${mx}" cy="${my}" r="${mr+6}" fill="url(#moonglow)" opacity="0.5"/>
+        <circle cx="${mx}" cy="${my}" r="${mr+12}" fill="url(#moonHalo2)"/>
+        <g clip-path="url(#moonDisc)">
+          <!-- earthshine base on the dark side -->
+          <circle cx="${mx}" cy="${my}" r="${mr}" fill="url(#earth)"/>
+          <!-- lit surface -->
+          <circle cx="${mx}" cy="${my}" r="${mr}" fill="url(#moonBody)"/>
+          ${craters}
+          <!-- soft shadow sweeping across to make the phase -->
+          <circle cx="${shadowCx.toFixed(1)}" cy="${my}" r="${shadowR.toFixed(1)}"
+                  fill="${dark?'#0a1226':'#1a2238'}" opacity="${dark?0.93:0.8}" filter="url(#termBlur)"/>
         </g>
-        <defs><clipPath id="moonclip"><circle cx="${mx}" cy="${my}" r="${mr}"/></clipPath></defs>
-        <circle cx="${mx}" cy="${my}" r="${mr}" fill="url(#moonsurf)"/>
-        <g clip-path="url(#moonclip)">
-          <circle cx="${(mx+off).toFixed(1)}" cy="${my}" r="${mr}" fill="${th.dark?'#0a1024':'#cdbf9c'}" opacity="${th.dark?0.92:0.85}"/>
-        </g>
-        <circle cx="${mx}" cy="${my}" r="${mr}" fill="none" stroke="${th.ring}" stroke-width="0.5" opacity="0.5"/>`;
+        <circle cx="${mx}" cy="${my}" r="${mr}" fill="none" stroke="${th.ring}" stroke-width="0.6" opacity="0.45"/>`;
     } else if(mp===null){
       moonNote="The moon was below the horizon on this night.";
     } else {
@@ -330,6 +371,7 @@ function render(){
 
   document.getElementById('sky').innerHTML=`
   <defs>
+    ${moonDefs}
     <radialGradient id="skyg" cx="50%" cy="32%" r="62%">
       <stop offset="0%" stop-color="${th.bg0}"/><stop offset="78%" stop-color="${th.bg1}"/>
     </radialGradient>
