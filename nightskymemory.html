@@ -60,7 +60,7 @@
   .sub{max-width:520px;margin:0 auto;color:var(--paper-dim);font-size:clamp(15px,2.1vw,17px)}
 
   .studio{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:start;
-    background:linear-gradient(180deg,rgba(17,25,51,.66),rgba(10,14,32,.45));
+    background:var(--ink-2);
     border:1px solid var(--line);border-radius:20px;padding:26px;backdrop-filter:blur(6px)}
   @media(max-width:880px){.studio{grid-template-columns:1fr;gap:24px;padding:16px}}
 
@@ -69,7 +69,7 @@
   .chart-frame svg{display:block;width:100%;height:100%}
   .live-dot{display:inline-flex;align-items:center;gap:7px;position:absolute;bottom:13px;right:13px;z-index:3;
     font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-soft);
-    background:rgba(8,12,30,.62);border:1px solid var(--line);padding:5px 10px;border-radius:99px}
+    background:rgba(13,13,13,.72);border:1px solid var(--line);padding:5px 10px;border-radius:99px}
   .live-dot i{width:6px;height:6px;border-radius:99px;background:#5BD08A;box-shadow:0 0 8px #5BD08A;animation:pulse 1.8s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
   .shooting-star{opacity:0;animation:shoot 9s ease-in infinite;animation-delay:3s}
@@ -87,19 +87,19 @@
   .panel .lead{color:var(--muted);font-size:13.5px;margin-bottom:20px}
   .field{margin-bottom:15px}
   .field label{display:block;font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
-  .field input{width:100%;background:rgba(8,12,30,.55);border:1px solid var(--line);border-radius:10px;
+  .field input{width:100%;background:rgba(20,20,20,.6);border:1px solid var(--line);border-radius:10px;
     padding:13px 14px;color:var(--paper);font-size:15px;font-family:inherit;transition:border-color .2s,box-shadow .2s}
   .field input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,162,75,.14)}
-  .field input::placeholder{color:#5a6178}
+  .field input::placeholder{color:#6B6B6B}
   .row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
   .themes{display:flex;gap:8px}
   .theme{flex:1;cursor:pointer;border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center;
-    font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim);background:rgba(8,12,30,.4);transition:.18s}
+    font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim);background:rgba(20,20,20,.5);transition:.18s}
   .theme.active{border-color:var(--gold);color:var(--gold-soft);background:rgba(201,162,75,.1)}
   .theme:hover{border-color:var(--gold)}
   .frames{display:flex;gap:8px}
   .frameopt{flex:1;cursor:pointer;border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center;
-    font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--paper-dim);background:rgba(8,12,30,.4);transition:.18s}
+    font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--paper-dim);background:rgba(20,20,20,.5);transition:.18s}
   .frameopt.active{border-color:var(--gold);color:var(--gold-soft);background:rgba(201,162,75,.1)}
 
   .cta{margin-top:20px;width:100%;cursor:pointer;border:none;border-radius:11px;padding:15px;
@@ -129,13 +129,13 @@
   .divider-star b{color:var(--gold);font-size:13px}
 
   /* authenticity band */
-  .auth{background:linear-gradient(180deg,rgba(17,25,51,.5),rgba(10,14,32,.2));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .auth{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
   .auth-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;max-width:1000px;margin:0 auto}
   @media(max-width:820px){.auth-grid{grid-template-columns:1fr;gap:28px}}
   .auth h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(28px,4.5vw,40px);line-height:1.12;margin-bottom:18px}
-  .auth h2 em{font-style:italic;color:var(--gold-soft)}
-  .auth p{color:var(--paper-dim);font-size:16px;line-height:1.7;margin-bottom:16px}
-  .auth .pulldot{color:var(--gold-soft)}
+  .auth h2 em{font-style:italic;color:var(--gold-deep)}
+  .auth p{color:var(--muted-on-light);font-size:16px;line-height:1.7;margin-bottom:16px}
+  .auth .pulldot{color:var(--gold-deep)}
 
   /* steps */
   .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:48px}
@@ -150,7 +150,7 @@
   /* included / value stack */
   .incl-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:44px;max-width:780px;margin-left:auto;margin-right:auto}
   @media(max-width:680px){.incl-grid{grid-template-columns:1fr}}
-  .incl-card{background:rgba(17,25,51,.5);border:1px solid var(--line);border-radius:14px;padding:24px}
+  .incl-card{background:rgba(20,20,20,.5);border:1px solid var(--line);border-radius:14px;padding:24px}
   .band-ivory .incl-card,.band-white .incl-card{background:var(--white);border:1px solid var(--line-dark);box-shadow:0 8px 24px -16px rgba(0,0,0,.3)}
   .incl-card .ic{color:var(--gold-soft);font-size:13px;letter-spacing:.06em;margin-bottom:9px;display:flex;align-items:center;gap:9px}
   .band-ivory .incl-card .ic,.band-white .incl-card .ic{color:var(--gold-deep)}
@@ -161,7 +161,7 @@
 
   /* occasions */
   .occ{display:flex;flex-wrap:wrap;gap:11px;justify-content:center;margin-top:40px;max-width:720px;margin-left:auto;margin-right:auto}
-  .occ span{border:1px solid var(--line);border-radius:99px;padding:10px 20px;font-size:14px;color:var(--paper-dim);font-family:'EB Garamond',serif;font-style:italic;background:rgba(8,12,30,.3)}
+  .occ span{border:1px solid var(--line);border-radius:99px;padding:10px 20px;font-size:14px;color:var(--paper-dim);font-family:'EB Garamond',serif;font-style:italic;background:rgba(20,20,20,.4)}
   .band-ivory .occ span,.band-white .occ span{color:var(--ink-on-light);border:1px solid var(--line-dark);background:var(--white)}
 
   /* last-minute band */
@@ -174,7 +174,7 @@
   /* pricing tiers */
   .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px;align-items:stretch}
   @media(max-width:760px){.tiers{grid-template-columns:1fr;max-width:380px;margin-left:auto;margin-right:auto}}
-  .tier{background:rgba(17,25,51,.5);border:1px solid var(--line);border-radius:16px;padding:30px 24px;display:flex;flex-direction:column;text-align:center;position:relative}
+  .tier{background:rgba(20,20,20,.5);border:1px solid var(--line);border-radius:16px;padding:30px 24px;display:flex;flex-direction:column;text-align:center;position:relative}
   .band-ivory .tier,.band-white .tier{background:var(--white);border:1px solid var(--line-dark);box-shadow:0 10px 30px -18px rgba(0,0,0,.3)}
   .band-ivory .tier .tname,.band-white .tier .tname{color:var(--gold-deep)}
   .band-ivory .tier .tdesc,.band-white .tier .tdesc{color:var(--muted-on-light)}
@@ -273,9 +273,9 @@
 
       <div class="field"><label>Sky style</label>
         <div class="themes" id="themes">
-          <div class="theme active" data-theme="midnight">Midnight</div>
+          <div class="theme active" data-theme="mono">Ink</div>
+          <div class="theme" data-theme="midnight">Midnight</div>
           <div class="theme" data-theme="sepia">Sepia</div>
-          <div class="theme" data-theme="mono">Ink</div>
         </div>
       </div>
       <div class="field"><label>Border</label>
@@ -317,8 +317,8 @@
   </div>
   </div><!-- /wrap (hero+studio stay dark) -->
 
-  <!-- AUTHENTICITY (dark band) -->
-  <div class="band band-dark">
+  <!-- AUTHENTICITY (ivory band) -->
+  <div class="band band-ivory">
   <section class="auth">
     <div class="sec">
       <div class="auth-grid">
@@ -338,8 +338,8 @@
   </section>
   </div>
 
-  <!-- HOW IT WORKS (ivory band) -->
-  <div class="band band-ivory">
+  <!-- HOW IT WORKS (dark band) -->
+  <div class="band band-dark">
   <section class="sec">
     <div class="sec-eyebrow">Three minutes, start to finish</div>
     <h2 class="sec-title">Beautifully simple to <em>make</em>.</h2>
@@ -362,10 +362,10 @@
       </div>
     </div>
   </section>
-  </div><!-- /ivory band -->
+  </div><!-- /dark band -->
 
-  <!-- WHAT'S INCLUDED (dark band) -->
-  <div class="band band-dark">
+  <!-- WHAT'S INCLUDED (ivory band) -->
+  <div class="band band-ivory">
   <section class="sec sec-narrow" style="padding-top:80px">
     <div class="sec-eyebrow">What you give</div>
     <h2 class="sec-title">More than a picture. A <em>gift</em>.</h2>
@@ -394,8 +394,8 @@
   </section>
   </div>
 
-  <!-- OCCASIONS (ivory band) -->
-  <div class="band band-ivory">
+  <!-- OCCASIONS (dark band) -->
+  <div class="band band-dark">
   <section class="sec" style="padding-top:80px">
     <div class="sec-eyebrow">For every moment worth keeping</div>
     <h2 class="sec-title">One gift. Every <em>occasion</em>.</h2>
@@ -410,7 +410,7 @@
       <span>just because</span>
     </div>
   </section>
-  </div><!-- /occasions ivory band -->
+  </div><!-- /occasions dark band -->
 
   <!-- LAST MINUTE (dark gold band) -->
   <div class="band band-dark">
@@ -536,7 +536,7 @@ const THEMES={
   sepia:{bg0:"#3B2C1A",bg1:"#140D06",ring:"#C9A24B",tick:"rgba(201,162,75,.6)",capBg:"#140D06",capName:"#F6E9D2",capGold:"#E0B777",capMuted:"#A88E68",lineCol:"rgba(224,183,119,.26)",sepiaSky:true},
   mono:{bg0:"#222631",bg1:"#05060A",ring:"#AEB4C4",tick:"rgba(255,255,255,.42)",capBg:"#070809",capName:"#FFFFFF",capGold:"#C7CCDA",capMuted:"#8A90A0",lineCol:"rgba(255,255,255,.26)"}
 };
-let theme="midnight", frameStyle="classic", showMoon=true;
+let theme="mono", frameStyle="classic", showMoon=true;
 
 function starColor(idx, th){
   if(th.sepiaSky){
