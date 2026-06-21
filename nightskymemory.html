@@ -4,146 +4,101 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NightSkyMemory — Your Sky, That Night</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
 <style>
-  /* ───────── Design tokens ─────────
-     Subject: a keepsake of the exact sky from a meaningful moment.
-     Palette: observatory midnight, not pure black — warmer, like an old star atlas.
-     Type: Cormorant (display, emotional) + Inter (utility, inputs/data).
-     Signature: the live star chart that redraws as you type. */
   :root{
-    --ink:#0B1026;          /* deep midnight base */
-    --ink-2:#121A35;        /* raised panel */
-    --paper:#F4EFE4;        /* warm star-atlas ivory */
-    --paper-dim:#CFC7B6;
-    --gold:#C9A24B;         /* brass instrument accent */
-    --gold-soft:#E4C77E;
-    --star:#FBF7EC;
-    --line:rgba(201,162,75,0.22);
-    --muted:#8C93A8;
+    --ink:#0A0E20; --ink-2:#111933; --paper:#F4EFE4; --paper-dim:#C9C1B0;
+    --gold:#C9A24B; --gold-soft:#E4C77E; --gold-deep:#9A7B38;
+    --line:rgba(201,162,75,0.22); --muted:#888FA6;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{-webkit-text-size-adjust:100%}
   body{
     background:
-      radial-gradient(1200px 700px at 70% -10%, #1A2447 0%, rgba(26,36,71,0) 60%),
-      radial-gradient(900px 600px at 0% 110%, #16284A 0%, rgba(22,40,74,0) 55%),
+      radial-gradient(1100px 650px at 72% -12%, #18224A 0%, rgba(24,34,74,0) 58%),
+      radial-gradient(820px 560px at -5% 108%, #14264A 0%, rgba(20,38,74,0) 52%),
       var(--ink);
-    color:var(--paper);
-    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-    line-height:1.5;
-    min-height:100vh;
-    overflow-x:hidden;
+    color:var(--paper);font-family:'Inter',-apple-system,sans-serif;line-height:1.5;min-height:100vh;overflow-x:hidden;
   }
-  /* faint star dust on the whole page */
-  body::before{
-    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.45;
     background-image:
-      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.7), transparent),
-      radial-gradient(1px 1px at 80% 20%, rgba(255,255,255,.5), transparent),
-      radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,.6), transparent),
-      radial-gradient(1px 1px at 35% 85%, rgba(255,255,255,.4), transparent),
-      radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,.5), transparent);
-  }
-  .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:32px 24px 80px}
+      radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.7),transparent),
+      radial-gradient(1px 1px at 80% 20%,rgba(255,255,255,.5),transparent),
+      radial-gradient(1px 1px at 62% 72%,rgba(255,255,255,.55),transparent),
+      radial-gradient(1px 1px at 35% 88%,rgba(255,255,255,.4),transparent);}
+  .wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:30px 22px 70px}
 
-  /* ───────── Masthead ───────── */
-  header{display:flex;align-items:center;justify-content:space-between;margin-bottom:48px}
-  .brand{display:flex;align-items:center;gap:11px;font-family:'Cormorant Garamond',Georgia,serif}
-  .brand .mark{width:30px;height:30px;flex:0 0 auto}
-  .brand .name{font-size:21px;letter-spacing:.06em;font-weight:600}
+  header{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Cormorant Garamond',serif}
+  .brand .name{font-size:22px;letter-spacing:.05em;font-weight:600}
   .brand .name b{color:var(--gold-soft);font-weight:600}
-  .masthead-note{font-size:12px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase}
+  .masthead-note{font-size:11px;color:var(--muted);letter-spacing:.16em;text-transform:uppercase}
+  @media(max-width:560px){.masthead-note{display:none}}
 
-  /* ───────── Hero ───────── */
-  .hero{text-align:center;margin-bottom:44px}
-  .eyebrow{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
-  h1{
-    font-family:'Cormorant Garamond',Georgia,serif;
-    font-weight:500;
-    font-size:clamp(38px,7vw,72px);
-    line-height:1.02;
-    letter-spacing:-.01em;
-    margin-bottom:18px;
-  }
+  .hero{text-align:center;margin-bottom:40px}
+  .eyebrow{font-size:11.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+  h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(36px,6.6vw,68px);line-height:1.03;letter-spacing:-.01em;margin-bottom:16px}
   h1 em{font-style:italic;color:var(--gold-soft)}
-  .sub{max-width:540px;margin:0 auto;color:var(--paper-dim);font-size:clamp(15px,2.2vw,17px)}
+  .sub{max-width:520px;margin:0 auto;color:var(--paper-dim);font-size:clamp(15px,2.1vw,17px)}
 
-  /* ───────── Studio layout ───────── */
-  .studio{
-    display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:start;
-    background:linear-gradient(180deg, rgba(18,26,53,.7), rgba(11,16,38,.5));
-    border:1px solid var(--line);border-radius:20px;padding:28px;
-    backdrop-filter:blur(6px);
-  }
-  @media(max-width:860px){.studio{grid-template-columns:1fr;gap:26px;padding:18px}}
+  .studio{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:start;
+    background:linear-gradient(180deg,rgba(17,25,51,.66),rgba(10,14,32,.45));
+    border:1px solid var(--line);border-radius:20px;padding:26px;backdrop-filter:blur(6px)}
+  @media(max-width:880px){.studio{grid-template-columns:1fr;gap:24px;padding:16px}}
 
-  /* preview side */
-  .stage{position:relative}
-  .chart-frame{
-    position:relative;width:100%;aspect-ratio:1/1.18;border-radius:14px;overflow:hidden;
-    background:radial-gradient(120% 120% at 50% 18%, #16204A 0%, #0A0F26 70%);
-    border:1px solid rgba(201,162,75,.34);
-    box-shadow:0 30px 70px -30px rgba(0,0,0,.8), inset 0 0 60px rgba(0,0,0,.5);
-  }
+  .chart-frame{position:relative;width:100%;aspect-ratio:1/1.2;border-radius:12px;overflow:hidden;
+    box-shadow:0 34px 80px -34px rgba(0,0,0,.85), inset 0 0 0 1px rgba(201,162,75,.25)}
   .chart-frame svg{display:block;width:100%;height:100%}
-  .chart-caption{
-    position:absolute;left:0;right:0;bottom:0;padding:18px 20px 20px;text-align:center;
-    background:linear-gradient(0deg, rgba(8,12,30,.92), rgba(8,12,30,0));
-  }
-  .cap-names{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(20px,3.4vw,28px);letter-spacing:.04em;color:var(--star)}
-  .cap-msg{font-size:12.5px;color:var(--gold-soft);letter-spacing:.18em;text-transform:uppercase;margin-top:6px}
-  .cap-meta{font-size:11px;color:var(--muted);letter-spacing:.1em;margin-top:9px;font-variant-numeric:tabular-nums}
-  .live-dot{display:inline-flex;align-items:center;gap:7px;position:absolute;top:14px;left:14px;
-    font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-soft);
-    background:rgba(8,12,30,.6);border:1px solid var(--line);padding:5px 10px;border-radius:99px}
+  .live-dot{display:inline-flex;align-items:center;gap:7px;position:absolute;top:13px;left:13px;z-index:3;
+    font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-soft);
+    background:rgba(8,12,30,.62);border:1px solid var(--line);padding:5px 10px;border-radius:99px}
   .live-dot i{width:6px;height:6px;border-radius:99px;background:#5BD08A;box-shadow:0 0 8px #5BD08A;animation:pulse 1.8s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 
-  /* controls side */
-  .panel h2{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:26px;margin-bottom:4px}
-  .panel .lead{color:var(--muted);font-size:13.5px;margin-bottom:22px}
-  .field{margin-bottom:16px}
-  .field label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
-  .field input{
-    width:100%;background:rgba(8,12,30,.55);border:1px solid var(--line);border-radius:10px;
-    padding:13px 14px;color:var(--paper);font-size:15px;font-family:inherit;transition:border-color .2s,box-shadow .2s;
-  }
+  .panel h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:27px;margin-bottom:4px}
+  .panel .lead{color:var(--muted);font-size:13.5px;margin-bottom:20px}
+  .field{margin-bottom:15px}
+  .field label{display:block;font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
+  .field input{width:100%;background:rgba(8,12,30,.55);border:1px solid var(--line);border-radius:10px;
+    padding:13px 14px;color:var(--paper);font-size:15px;font-family:inherit;transition:border-color .2s,box-shadow .2s}
   .field input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,162,75,.14)}
   .field input::placeholder{color:#5a6178}
-  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .themes{display:flex;gap:8px;margin-top:4px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+  .themes{display:flex;gap:8px}
   .theme{flex:1;cursor:pointer;border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center;
-    font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim);background:rgba(8,12,30,.4);transition:.18s}
+    font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim);background:rgba(8,12,30,.4);transition:.18s}
   .theme.active{border-color:var(--gold);color:var(--gold-soft);background:rgba(201,162,75,.1)}
   .theme:hover{border-color:var(--gold)}
+  .frames{display:flex;gap:8px}
+  .frameopt{flex:1;cursor:pointer;border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center;
+    font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--paper-dim);background:rgba(8,12,30,.4);transition:.18s}
+  .frameopt.active{border-color:var(--gold);color:var(--gold-soft);background:rgba(201,162,75,.1)}
 
-  .cta{
-    margin-top:22px;width:100%;cursor:pointer;border:none;border-radius:11px;padding:16px;
+  .cta{margin-top:20px;width:100%;cursor:pointer;border:none;border-radius:11px;padding:15px;
     background:linear-gradient(180deg,var(--gold-soft),var(--gold));color:#1a1305;
-    font-family:inherit;font-weight:600;font-size:15px;letter-spacing:.04em;
-    transition:transform .12s, box-shadow .2s;box-shadow:0 14px 30px -12px rgba(201,162,75,.6);
-  }
-  .cta:hover{transform:translateY(-1px);box-shadow:0 18px 38px -12px rgba(201,162,75,.7)}
-  .cta small{display:block;font-weight:500;font-size:11.5px;letter-spacing:.1em;opacity:.7;margin-top:3px}
-  .reassure{margin-top:14px;font-size:11.5px;color:var(--muted);text-align:center;letter-spacing:.04em}
-  .reassure b{color:var(--gold-soft);font-weight:600}
+    font-family:inherit;font-weight:600;font-size:15px;letter-spacing:.03em;transition:transform .12s,box-shadow .2s;
+    box-shadow:0 14px 30px -12px rgba(201,162,75,.6)}
+  .cta:hover{transform:translateY(-1px)}
+  .cta small{display:block;font-weight:500;font-size:11px;letter-spacing:.08em;opacity:.72;margin-top:3px}
+  .price-row{display:flex;align-items:baseline;justify-content:center;gap:8px;margin-top:14px}
+  .price{font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--paper)}
+  .price-note{font-size:11.5px;color:var(--muted)}
+  .incl{margin-top:10px;font-size:11.5px;color:var(--paper-dim);text-align:center;line-height:1.7}
+  .incl b{color:var(--gold-soft);font-weight:600}
 
-  footer{text-align:center;margin-top:40px;font-size:11px;color:var(--muted);letter-spacing:.12em}
+  footer{text-align:center;margin-top:36px;font-size:11px;color:var(--muted);letter-spacing:.12em}
 </style>
 </head>
 <body>
 <div class="wrap">
-
   <header>
     <div class="brand">
-      <svg class="mark" viewBox="0 0 40 40" fill="none">
+      <svg width="30" height="30" viewBox="0 0 40 40" fill="none">
         <circle cx="20" cy="20" r="18.5" stroke="#C9A24B" stroke-width="1"/>
         <circle cx="20" cy="20" r="13" stroke="#C9A24B" stroke-width=".5" opacity=".5"/>
-        <path d="M20 7v26M7 20h26" stroke="#C9A24B" stroke-width=".4" opacity=".4"/>
         <circle cx="20" cy="20" r="1.6" fill="#E4C77E"/>
-        <circle cx="27" cy="14" r="1" fill="#FBF7EC"/>
-        <circle cx="14" cy="25" r="1.1" fill="#FBF7EC"/>
-        <circle cx="25" cy="27" r=".8" fill="#FBF7EC"/>
+        <circle cx="27" cy="14" r="1" fill="#FBF7EC"/><circle cx="14" cy="25" r="1.1" fill="#FBF7EC"/>
       </svg>
       <span class="name">Night<b>Sky</b>Memory</span>
     </div>
@@ -153,250 +108,193 @@
   <section class="hero">
     <div class="eyebrow">The sky remembers</div>
     <h1>The exact stars<br>above your <em>moment</em>.</h1>
-    <p class="sub">Enter the date and place that matters. Watch the real night sky from that moment appear — then make it yours. Delivered instantly.</p>
+    <p class="sub">Enter the date and place that matters. Watch the real night sky from that moment appear — then make it yours.</p>
   </section>
 
   <section class="studio">
-    <!-- LIVE PREVIEW (the signature) -->
     <div class="stage">
       <div class="chart-frame">
         <span class="live-dot"><i></i>Live preview</span>
-        <svg id="sky" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice"></svg>
-        <div class="chart-caption">
-          <div class="cap-names" id="capNames">Your names here</div>
-          <div class="cap-msg" id="capMsg">the night we met</div>
-          <div class="cap-meta" id="capMeta">— · —</div>
-        </div>
+        <svg id="sky" viewBox="0 0 480 576" preserveAspectRatio="xMidYMid meet"></svg>
       </div>
     </div>
 
-    <!-- CONTROLS -->
     <div class="panel">
       <h2>Build your sky</h2>
-      <p class="lead">Every change appears instantly. No guessing — what you see is what you'll receive.</p>
+      <p class="lead">Every change appears instantly. What you see is exactly what you'll receive.</p>
 
-      <div class="field">
-        <label for="place">Place</label>
-        <input id="place" type="text" placeholder="City, e.g. Newport, RI" value="Newport, RI">
-      </div>
-
+      <div class="field"><label for="place">Place</label>
+        <input id="place" type="text" placeholder="City, e.g. Newport, RI" value="Newport, RI"></div>
       <div class="row">
-        <div class="field">
-          <label for="date">Date</label>
-          <input id="date" type="date" value="2019-06-21">
-        </div>
-        <div class="field">
-          <label for="time">Time</label>
-          <input id="time" type="time" value="21:30">
-        </div>
+        <div class="field"><label for="date">Date</label><input id="date" type="date" value="2019-06-21"></div>
+        <div class="field"><label for="time">Time</label><input id="time" type="time" value="21:30"></div>
       </div>
+      <div class="field"><label for="names">Names / title</label>
+        <input id="names" type="text" placeholder="Alex & Sam" value="Alex & Sam"></div>
+      <div class="field"><label for="msg">A short line</label>
+        <input id="msg" type="text" placeholder="the night we met" value="the night we met" maxlength="42"></div>
 
-      <div class="field">
-        <label for="names">Names / title</label>
-        <input id="names" type="text" placeholder="Alex & Sam" value="Alex & Sam">
-      </div>
-
-      <div class="field">
-        <label for="msg">A short line</label>
-        <input id="msg" type="text" placeholder="the night we met" value="the night we met" maxlength="40">
-      </div>
-
-      <div class="field">
-        <label>Style</label>
+      <div class="field"><label>Sky style</label>
         <div class="themes" id="themes">
           <div class="theme active" data-theme="midnight">Midnight</div>
           <div class="theme" data-theme="ivory">Ivory</div>
           <div class="theme" data-theme="mono">Ink</div>
         </div>
       </div>
+      <div class="field"><label>Frame</label>
+        <div class="frames" id="frames">
+          <div class="frameopt active" data-frame="classic">Classic</div>
+          <div class="frameopt" data-frame="deco">Deco</div>
+          <div class="frameopt" data-frame="minimal">Minimal</div>
+        </div>
+      </div>
 
-      <button class="cta" id="cta">
-        See it full size &amp; download
-        <small>High-resolution file · delivered to your inbox in seconds</small>
-      </button>
-      <p class="reassure">Free to design. <b>Pay only when you love it.</b></p>
+      <button class="cta" id="cta">See it full size &amp; continue
+        <small>High-resolution file + personalized card · in your inbox in seconds</small></button>
+      <div class="price-row"><span class="price">$39.95</span><span class="price-note">one-time · instant download</span></div>
+      <p class="incl">Includes your <b>print-ready star map</b> + a <b>personalized digital card</b><br>delivered by email &amp; text to share with them.</p>
     </div>
   </section>
 
   <footer>NightSkyMemory · a Custom Output brand · prototype</footer>
 </div>
 
+<script src="stars-data.js"></script>
 <script>
-/* ════════ Star catalog (RA°, Dec°, magnitude) ════════ */
-const STARS = [[88.793, 7.407, 0.42], [78.634, -8.202, 0.18], [81.283, 6.35, 1.64], [86.939, -9.67, 2.06], [83.002, -0.299, 1.69], [84.053, -1.202, 1.74], [81.283, -1.943, 2.25], [101.287, -16.716, -1.46], [104.656, -28.972, 1.5], [68.98, 16.509, 0.85], [79.172, 45.998, 0.08], [116.329, 28.026, 1.58], [116.886, 28.026, 1.14], [165.932, 61.751, 1.79], [165.46, 56.382, 2.37], [178.458, 53.695, 2.44], [183.857, 57.033, 3.31], [193.507, 55.96, 1.77], [200.981, 54.926, 2.27], [206.885, 49.313, 1.86], [213.915, 19.182, -0.05], [279.234, 38.784, 0.03], [310.358, 45.28, 1.25], [297.696, 8.868, 0.76], [152.093, 11.967, 1.36], [177.265, 14.572, 2.14], [201.298, -11.161, 0.98], [247.352, -26.432, 1.06], [10.127, 56.537, 2.24], [14.177, 60.717, 2.28], [21.454, 60.235, 2.47], [2.097, 29.09, 2.07], [17.433, 35.621, 2.06], [51.081, 49.861, 1.79], [47.042, 40.956, 2.12], [37.954, 89.264, 1.98], [219.902, -60.835, 0.61], [210.956, -60.373, -0.27], [95.988, -52.696, -0.74], [186.65, -63.099, 0.77], [191.93, -59.689, 1.25], [183.786, -58.749, 1.59], [187.791, -57.113, 2.79], [230.194, -85.498, 4.05], [80.356, 42.565, 4.85], [321.185, -74.351, 4.34], [10.727, -50.645, 4.51], [9.553, -54.209, 4.8], [196.179, -50.321, 4.68], [291.395, -88.83, 5.11], [251.33, -28.755, 3.81], [344.597, -29.413, 3.69], [34.818, 62.549, 4.71], [290.566, 41.352, 4.57], [350.322, -21.864, 4.6], [298.586, 21.334, 5.22], [207.847, 36.823, 3.59], [82.043, -37.91, 3.66], [83.805, -71.82, 4.06], [228.846, -24.33, 4.24], [75.423, -41.944, 5.37], [233.293, 19.644, 3.84], [262.486, -60.588, 4.26], [356.228, 25.2, 4.61], [246.461, 61.713, 5.05], [82.457, -84.222, 4.13], [96.387, -52.023, 5.39], [315.492, -33.358, 4.81], [142.427, 74.619, 4.42], [95.357, -45.607, 4.62], [94.587, 15.225, 5.3], [143.784, -50.522, 5.5], [183.429, -73.636, 3.59], [39.474, 22.94, 5.08], [151.978, -78.565, 4.26], [358.604, 5.241, 5.44], [309.881, -87.933, 4.94], [245.416, 6.655, 4.03], [230.746, -69.921, 4.37], [163.341, 81.687, 5.25], [94.82, 0.106, 3.86], [328.546, 66.693, 4.1], [230.022, 19.615, 3.81], [274.504, 7.088, 5.06], [190.927, -89.897, 4.15], [7.012, 77.238, 5.26], [299.4, -34.647, 3.62], [316.083, 80.451, 3.67], [174.957, -77.542, 5.02], [275.7, -66.89, 4.45], [197.929, -42.29, 5.24], [152.33, -51.876, 4.58], [262.775, -53.793, 4.12], [358.254, 26.978, 4.38], [186.327, -68.219, 3.95], [121.711, 15.896, 3.96], [79.278, -77.221, 4.76], [82.419, 72.976, 5.22], [25.509, -47.159, 4.84], [77.125, -66.184, 5.37], [205.576, -4.919, 5.07], [290.699, -55.726, 3.69], [155.178, -13.756, 4.43], [262.467, 31.206, 5.47], [35.43, -17.528, 4.18], [310.202, -45.242, 3.88], [161.501, -14.061, 4.06], [89.93, 76.188, 4.39], [310.086, 9.059, 3.6], [359.742, 60.485, 5.44], [333.492, 62.765, 3.83], [174.831, -51.525, 4.3], [21.109, -21.785, 5.47], [95.473, 51.133, 4.41], [152.283, 82.317, 5.49], [200.077, 39.313, 3.81], [106.815, 84.368, 4.66], [195.19, 44.636, 3.61], [210.304, 0.513, 5.21], [56.676, 82.94, 3.66], [66.897, 17.106, 4.85], [84.673, -68.42, 5.28], [88.638, 17.013, 4.74], [150.921, 15.061, 4.55], [336.494, -53.233, 4.93], [85.927, -18.759, 4.84], [107.999, -33.088, 5.0], [26.116, -7.509, 5.5], [358.595, -76.813, 3.93], [95.472, 77.987, 5.26], [316.537, -23.485, 3.82], [300.148, 36.637, 4.72], [355.404, 27.716, 3.52], [294.157, -36.112, 4.83], [338.015, -65.828, 3.73], [38.533, 9.58, 4.04], [217.739, 39.17, 3.91], [228.326, -42.483, 4.48], [325.921, 62.299, 3.68], [152.487, -40.198, 3.51], [277.603, 24.68, 4.02], [266.843, 9.302, 4.36], [3.481, -76.456, 5.27], [325.414, 8.206, 5.17], [209.703, -63.343, 3.75], [110.973, 71.817, 5.09], [309.853, 71.806, 3.92], [89.831, -71.497, 5.06], [318.288, -16.852, 4.74], [55.639, 77.379, 5.23], [351.434, 55.939, 5.26], [8.923, 42.582, 4.16], [335.094, 54.402, 5.23], [291.87, -41.975, 5.07], [38.914, 66.99, 5.22], [80.076, 56.986, 4.42], [109.869, 53.162, 3.96], [8.519, -55.237, 4.16], [311.167, 84.04, 4.06], [230.933, -18.058, 5.46], [193.038, 79.063, 3.73], [349.344, -57.858, 5.43], [95.568, -70.488, 4.37], [262.276, -33.538, 4.71], [184.112, -20.665, 4.65], [91.7, 37.581, 3.5], [333.207, 6.921, 4.94], [267.102, 30.713, 4.23], [25.191, 29.563, 4.16], [113.01, 62.643, 4.94], [108.116, -34.329, 4.32], [144.864, -36.782, 3.75], [151.361, 79.265, 4.85], [325.01, 20.793, 4.1], [197.257, -89.927, 4.07], [154.76, 14.397, 4.81], [167.396, -10.411, 3.93], [170.347, 72.213, 5.09], [61.089, -74.737, 4.53], [227.859, -29.666, 5.14], [270.41, 31.103, 3.95], [71.687, -85.603, 3.99], [171.049, 62.953, 3.65], [149.199, 23.358, 3.89], [250.688, -1.012, 3.99], [236.181, -89.002, 5.0], [277.217, -70.814, 4.35], [63.319, 82.434, 4.54], [18.079, -45.144, 5.2], [164.326, 54.255, 4.84], [355.641, 17.181, 5.4], [320.913, 20.277, 4.94], [181.72, 59.502, 4.6], [322.995, 43.858, 4.45], [93.309, -45.497, 4.78], [275.693, 3.834, 4.75], [98.855, -76.053, 4.07], [97.817, -32.452, 4.58], [49.815, -48.373, 4.89], [254.311, -78.439, 4.32], [195.34, -15.161, 3.91], [151.252, 72.871, 4.67], [250.388, 64.212, 5.03], [136.937, -88.939, 4.2], [271.251, 63.621, 5.41], [150.848, 44.553, 4.59], [217.171, -50.303, 3.94], [156.901, -84.776, 4.17], [244.491, -17.223, 3.83], [168.26, -67.027, 4.74], [9.708, -19.076, 4.63], [9.757, 25.695, 3.77], [166.211, -80.949, 4.26], [76.198, -31.168, 5.02], [136.485, 45.362, 5.16], [90.818, -75.257, 3.54], [194.191, 89.983, 4.2], [234.052, 50.622, 4.8], [271.524, 80.93, 3.9], [7.337, -62.571, 3.75], [241.005, 11.515, 3.94], [251.807, 48.042, 3.84], [218.609, 44.627, 3.73], [294.948, 83.65, 3.72], [9.244, -33.848, 4.85], [344.942, -18.602, 4.93], [27.359, 34.311, 4.75], [36.684, 49.047, 5.2], [216.148, -68.21, 5.47], [281.749, -27.503, 4.36], [133.406, 1.073, 4.18], [305.847, 58.02, 3.71], [345.884, 24.405, 5.16], [254.631, -11.612, 4.97], [347.571, -41.385, 5.12], [193.742, -2.97, 4.37], [263.169, -41.689, 5.2], [299.063, -74.401, 5.26], [87.791, -6.352, 4.72], [136.436, -84.834, 5.2], [65.462, -51.818, 5.1], [122.522, 68.458, 4.9], [99.457, -88.173, 5.4], [30.821, 39.613, 4.48], [272.939, 34.31, 4.79], [176.696, 52.728, 3.69], [79.775, 34.522, 4.11], [209.36, -4.813, 4.56], [153.181, 44.268, 4.16], [253.028, -41.235, 4.0], [43.436, -55.335, 3.74], [192.911, 47.194, 3.87], [77.898, -2.844, 4.95], [351.579, 4.435, 4.07], [36.189, -55.059, 3.95], [64.599, -87.453, 4.57], [98.752, 85.373, 4.61], [251.07, -67.27, 5.24], [176.716, 67.09, 4.65], [168.983, -10.716, 3.87], [18.496, 79.391, 4.46], [295.962, -17.873, 3.65], [226.6, -80.35, 3.8], [116.58, -62.847, 5.43], [26.077, 6.459, 4.8], [20.88, 1.338, 4.08], [156.112, -77.426, 4.2], [152.827, 58.833, 4.27], [80.366, 22.938, 6.08], [207.757, -18.598, 6.15], [16.77, 64.524, 4.64], [51.932, -68.797, 4.68], [293.805, -57.469, 5.28], [230.009, -22.968, 5.21], [22.604, -79.272, 4.45], [244.944, -13.033, 4.69], [210.802, -8.427, 4.66], [285.977, 35.819, 4.54], [206.793, 4.535, 5.93], [262.6, -38.171, 6.16], [42.504, -14.738, 5.67], [54.714, -1.987, 4.09], [240.558, 47.623, 5.26], [315.172, -33.525, 5.53], [213.973, 14.381, 5.0], [302.388, 80.043, 5.04], [239.095, -79.08, 5.54], [232.966, 88.757, 5.81], [102.454, -20.558, 5.47], [8.123, -6.895, 4.37], [42.154, -79.388, 5.69], [46.562, -45.429, 4.86], [313.712, -75.495, 4.99], [197.798, 69.009, 5.8], [311.034, -39.884, 4.91], [129.158, 69.155, 6.11], [54.332, -58.281, 4.51], [84.001, -2.707, 5.3], [94.589, -89.263, 4.92], [132.931, 11.941, 6.1], [248.578, 2.788, 5.36], [243.432, -80.281, 5.98], [280.789, 67.412, 5.76], [141.256, -18.184, 4.23], [228.344, -78.795, 4.15], [75.155, -60.785, 4.75], [18.927, -89.958, 4.33], [36.527, -24.55, 4.06], [314.76, 20.532, 4.33], [90.813, -27.47, 4.8], [44.223, 62.809, 6.18], [167.756, -2.91, 4.19], [36.788, -28.326, 4.58], [298.388, -60.941, 4.05], [342.355, 5.086, 4.32], [195.542, -85.132, 5.16], [352.26, 65.399, 5.53], [94.001, -23.994, 4.37], [277.898, 5.867, 5.71], [118.679, -49.852, 5.79], [354.573, 63.473, 5.77], [294.6, 43.177, 4.5], [186.35, -25.999, 4.06], [10.057, -39.705, 4.57], [249.308, 82.173, 4.98], [337.328, 87.847, 6.1], [131.269, -50.317, 4.5], [70.814, -53.213, 5.37], [324.111, 61.278, 5.05], [235.072, 53.936, 4.19], [237.811, 73.76, 5.72], [270.051, -3.954, 4.39], [284.089, -30.147, 5.76], [349.797, -18.749, 4.88], [340.847, 40.464, 4.37], [45.734, -62.793, 5.99], [290.341, -63.689, 5.82], [352.91, 28.308, 4.77], [197.518, -66.423, 4.03], [349.52, 26.941, 5.16], [336.105, -11.914, 5.92], [297.416, -52.012, 4.55], [105.468, -46.703, 5.29], [93.371, -14.578, 4.29], [327.606, -26.319, 5.01], [210.006, 72.773, 4.93], [330.38, 0.297, 5.17], [188.462, -86.633, 4.97], [65.919, -89.292, 5.76], [62.045, -4.771, 5.6], [200.331, -31.323, 5.14], [199.959, 51.169, 4.23], [201.707, -45.271, 4.61], [278.014, 1.389, 5.24], [273.598, 74.248, 4.98], [220.51, 1.0, 5.13], [249.383, -8.578, 5.17], [172.093, 79.47, 5.54], [315.553, 79.593, 4.57], [201.425, 79.788, 5.85], [49.368, -68.108, 4.97], [26.117, -46.685, 4.16], [241.01, 51.108, 5.97], [55.601, 38.902, 5.45], [51.472, 68.91, 6.13], [79.052, 81.451, 4.88], [175.414, 88.177, 5.83], [58.128, -12.326, 5.13], [122.082, -54.766, 4.7], [259.974, -86.493, 5.22], [158.565, -86.745, 4.73], [224.614, 2.207, 4.14], [354.63, 51.905, 6.14], [37.721, -42.198, 4.09], [280.439, -41.32, 4.29], [152.012, 74.054, 5.8], [93.099, -63.114, 6.02], [205.414, 36.075, 4.2], [20.71, 33.877, 4.94], [26.069, 78.903, 5.4], [288.586, -74.926, 5.88], [23.984, 65.299, 5.0], [122.095, 9.552, 6.04], [96.43, -66.74, 5.16], [85.837, -70.299, 4.36], [18.137, -53.682, 4.69], [109.802, 46.71, 4.64], [180.032, -57.978, 4.76], [6.539, -44.919, 4.03], [263.909, 9.189, 4.42], [170.914, 78.236, 4.23], [294.811, -12.208, 5.09], [300.461, -19.245, 5.11], [247.587, 86.839, 4.75], [299.623, 37.211, 5.4], [145.691, -27.441, 4.12], [46.735, -77.27, 5.63], [92.014, -60.616, 4.19], [302.857, 66.697, 5.48], [101.496, -46.402, 4.64], [165.403, -61.644, 4.98], [94.768, 83.122, 6.14], [196.946, -46.0, 6.12], [111.437, -25.815, 4.0], [137.386, -4.564, 5.11], [72.353, 0.852, 4.01], [95.101, -73.844, 4.88], [15.0, -85.951, 4.67], [83.811, 15.405, 5.16], [270.195, 28.358, 5.58], [316.473, -19.887, 4.72], [354.502, -63.097, 5.59], [231.559, -82.118, 5.84], [321.099, 22.92, 5.61], [292.399, -64.925, 5.15], [181.574, 60.289, 5.77], [297.507, 15.131, 5.96], [245.842, 34.799, 4.51], [11.218, -66.043, 4.79], [37.77, 60.448, 5.23], [225.996, 22.721, 5.5], [176.146, -89.403, 5.75], [269.376, 0.535, 5.18], [237.348, -78.111, 5.62], [90.79, -76.599, 4.58], [262.561, -53.061, 5.63], [351.265, -1.089, 4.84], [172.444, 33.065, 5.69], [222.111, 25.697, 4.17], [53.073, -44.291, 5.64], [109.59, 12.197, 4.03], [21.838, -41.621, 5.48], [249.187, 31.627, 4.64], [185.953, -6.361, 5.03], [42.661, 70.859, 4.44], [352.125, 78.526, 4.04], [165.229, 57.582, 6.13], [161.802, -41.642, 4.46], [340.411, -52.072, 5.28], [51.027, 4.332, 6.1], [47.738, 57.639, 5.12], [319.27, 36.601, 4.51], [323.174, -2.495, 4.05], [1.293, -1.495, 4.99], [108.702, -64.673, 4.76], [113.788, 61.242, 4.0], [270.264, 61.04, 4.26], [333.504, 38.344, 5.98], [104.34, -23.0, 4.86], [359.565, 16.052, 4.79], [154.099, -40.472, 4.11], [36.616, 60.242, 4.63], [336.812, -45.122, 4.58], [183.947, -55.827, 4.82], [344.219, 69.168, 5.79], [227.122, 74.416, 6.07], [197.722, 39.523, 4.11], [263.647, -8.845, 5.66], [232.017, -38.483, 4.11], [333.64, -67.084, 5.04], [123.719, -36.401, 5.63], [351.467, -43.17, 5.44], [108.301, 10.318, 4.87], [60.24, -60.902, 4.46], [326.146, -0.526, 4.48], [326.253, 89.366, 4.99], [50.255, -55.367, 4.2], [123.104, -73.603, 4.53], [93.009, 12.531, 5.95], [269.877, -15.699, 4.91], [188.701, -22.164, 4.74], [22.341, -40.047, 6.13], [45.315, 0.611, 5.39], [310.63, -51.127, 4.6], [89.443, -18.044, 4.98], [343.42, 62.763, 5.92], [7.852, -84.196, 5.56], [322.451, -4.812, 5.29], [0.064, -19.526, 6.04], [297.212, 63.983, 6.14], [89.448, -70.372, 4.34], [188.052, 32.774, 6.07], [259.825, 26.523, 5.68], [164.637, 9.27, 4.09], [281.628, -48.136, 6.02], [232.382, -35.319, 4.28], [90.646, 24.532, 5.54], [40.368, -77.337, 5.15], [209.841, -20.145, 4.49], [216.382, -88.117, 4.66], [165.849, 82.609, 5.42], [318.159, -4.445, 4.52], [88.941, 82.911, 5.55], [110.663, -86.078, 5.1], [242.807, -14.397, 4.57], [240.248, 76.529, 4.5], [12.275, -29.151, 4.93], [245.724, -54.346, 5.75], [266.087, 0.878, 4.45], [349.149, -33.891, 5.8], [83.091, -50.14, 5.67], [106.176, 81.347, 5.09], [67.433, -49.802, 4.92], [239.506, 80.777, 4.32], [141.646, -51.669, 6.14], [51.088, -80.669, 4.13], [141.596, 71.67, 5.94], [263.781, 89.555, 6.05], [118.527, -56.608, 6.06], [268.671, -84.259, 5.46], [136.303, -22.701, 4.73], [60.934, -89.483, 4.62], [126.528, 81.993, 4.27], [347.138, -52.668, 4.78], [295.767, 57.961, 4.95], [17.733, -4.776, 4.82], [331.022, -55.255, 4.8], [322.918, -84.549, 4.9], [292.257, 48.0, 4.09], [12.548, -78.736, 6.02], [92.526, 44.512, 5.98], [122.065, -40.983, 6.11], [222.112, -42.809, 5.58], [113.934, -40.387, 4.01], [272.035, 74.963, 5.39], [339.57, -85.634, 4.51], [171.068, 82.22, 6.1], [139.145, -44.812, 4.95], [177.651, 77.058, 4.4], [288.925, 42.928, 5.81], [278.211, 19.306, 4.72], [115.038, -24.865, 5.72], [28.445, -54.484, 5.66], [89.031, -78.348, 4.07], [198.934, -31.363, 6.16], [318.051, 87.808, 4.58], [30.27, -72.644, 5.1], [255.518, -9.547, 4.52], [150.063, 21.655, 5.48], [269.272, 62.458, 5.46], [43.619, 61.357, 4.65], [204.078, -22.865, 5.62], [71.708, -45.463, 4.54], [55.196, 69.15, 5.27], [117.482, -18.707, 6.18], [182.637, -48.351, 5.78], [235.198, 88.372, 4.23], [170.915, 57.438, 5.85], [329.175, -82.735, 4.65], [42.918, -55.877, 6.14], [209.95, 77.431, 4.82], [311.806, -9.16, 4.57], [279.999, 80.226, 4.23], [214.613, 21.591, 4.48], [132.735, -64.553, 4.45], [91.769, 17.896, 5.43], [73.239, -87.952, 4.72], [244.195, -56.674, 4.69], [73.227, 53.151, 5.21], [22.778, -71.75, 4.87], [198.05, 25.053, 4.2], [58.928, 35.173, 4.9], [101.988, -34.633, 6.1], [112.45, 11.974, 4.79], [149.92, 65.564, 6.19], [130.961, -54.504, 5.6], [73.32, -88.942, 5.98], [152.552, 57.666, 4.89], [317.822, -7.037, 4.36], [5.34, 9.279, 5.41], [327.526, -73.974, 5.37], [133.504, 0.803, 4.32], [101.986, 3.809, 6.04], [39.165, -1.708, 5.77], [348.075, -54.478, 4.28], [339.507, 85.598, 5.06], [19.215, 76.71, 4.85], [325.52, 21.662, 5.81], [57.699, 51.449, 4.49], [145.614, 62.343, 5.82], [65.868, -50.735, 4.88], [186.441, -20.956, 4.27], [88.941, 40.479, 5.97], [14.796, 11.222, 5.67], [13.726, 60.877, 4.26], [215.827, 9.009, 5.38], [110.237, -14.387, 5.28], [153.266, 28.592, 4.98], [157.807, -85.792, 5.36], [176.221, -47.655, 5.68], [280.791, -7.508, 4.4], [170.359, -70.726, 4.28], [155.016, -73.492, 4.97], [183.658, -82.662, 5.4], [29.607, 42.026, 5.71], [184.133, -80.232, 5.11], [136.031, 81.156, 4.3], [308.545, 89.302, 5.61], [293.396, -55.133, 6.16], [177.073, 82.195, 6.02], [59.44, 51.909, 6.05], [23.586, -26.838, 5.66], [57.156, 71.377, 4.6], [293.626, -64.157, 5.1], [331.167, -52.502, 4.58], [182.163, -32.566, 4.08], [65.555, -60.979, 6.06], [244.685, 71.174, 4.37], [282.553, -69.286, 5.17], [229.075, -25.24, 5.92], [199.865, 14.408, 5.94], [37.659, 88.732, 5.39], [141.932, 53.581, 4.58], [356.579, 13.925, 4.79], [275.27, -10.389, 4.39], [267.694, -81.308, 5.8], [91.315, 25.063, 6.16], [210.913, 29.466, 4.69], [0.645, -83.917, 4.33], [221.779, -12.198, 5.13], [322.395, -66.236, 4.5], [235.119, -85.988, 4.01], [127.787, -70.855, 4.79], [80.733, 15.046, 5.3], [73.506, 22.307, 5.04], [48.51, 78.586, 4.54], [53.753, -72.755, 5.4], [313.663, 50.788, 4.88], [95.126, -87.931, 5.42], [202.439, -26.94, 5.42], [159.752, 78.688, 5.61], [89.459, 72.631, 4.1], [191.35, -16.922, 4.52], [21.017, 50.197, 4.03], [198.332, 79.366, 4.31], [71.827, 19.455, 5.12], [230.965, 56.409, 4.38], [111.378, -35.952, 4.11], [320.167, 50.935, 5.57], [2.286, 61.998, 5.64], [167.496, 43.516, 5.0], [81.341, -71.049, 4.51], [13.974, -29.607, 5.65], [250.239, 62.16, 5.57], [95.756, 9.682, 4.96], [283.842, 4.184, 4.58], [231.121, 83.725, 4.48], [316.816, -87.259, 4.57], [84.999, 43.898, 6.08], [268.614, -31.163, 5.94], [118.279, -46.95, 6.0], [227.051, 34.712, 5.46], [352.445, -5.491, 5.85], [251.143, 64.354, 4.96], [260.864, 12.661, 4.68], [76.308, 22.072, 4.17], [327.884, -63.973, 4.06], [38.404, 77.211, 4.76], [51.063, -84.828, 4.09], [249.345, 24.098, 5.53], [265.243, -78.162, 5.3], [130.826, 57.161, 5.8], [320.861, -78.129, 5.91], [329.187, 79.979, 4.24], [74.06, -69.845, 4.08], [305.178, 56.163, 5.4], [297.022, 23.677, 4.63], [35.956, -72.385, 5.67], [73.798, -32.555, 4.93], [7.531, -43.794, 4.62], [257.674, -23.756, 4.71], [347.04, 0.673, 5.87], [222.579, -84.423, 4.91], [157.122, 49.145, 4.76], [253.677, 6.818, 4.48], [310.406, -73.64, 5.8], [61.334, -89.766, 4.44], [274.385, 86.016, 4.01], [176.696, -1.533, 5.75], [66.427, -0.975, 4.76], [299.461, -43.096, 6.08], [102.143, -51.351, 5.54], [179.394, -70.214, 5.4], [29.118, 51.825, 5.53], [283.296, 23.028, 4.78], [144.457, -18.972, 5.96], [31.022, 69.921, 4.06], [74.202, -42.625, 5.98], [180.428, -21.725, 5.94], [84.087, -7.037, 5.17], [271.611, 45.538, 5.42], [125.455, -31.201, 4.34], [303.518, 29.178, 5.63], [61.038, -11.016, 5.7], [208.501, -67.31, 5.02], [318.645, -47.171, 4.42], [108.543, 36.57, 5.86], [55.654, -61.923, 4.54], [117.563, 3.992, 4.35], [118.107, -55.931, 6.15], [262.344, -71.675, 6.12], [36.59, -20.838, 6.16], [286.16, 41.993, 4.96], [70.629, 24.837, 4.24], [74.32, -20.099, 4.07], [143.648, 52.381, 5.53], [180.175, 23.828, 5.02], [51.053, 18.668, 4.89], [266.74, 73.441, 4.95], [206.632, 44.838, 4.93], [82.283, 40.0, 5.94], [278.657, 36.014, 5.88], [244.655, 25.477, 5.0], [112.685, 23.09, 4.22], [151.049, 50.828, 5.57], [226.661, -44.989, 4.93], [163.87, 21.882, 4.9], [243.088, 77.436, 4.4], [235.616, 50.072, 4.86], [176.342, 85.432, 4.08], [195.61, -61.048, 5.72], [338.612, 3.46, 4.22], [206.842, 7.386, 5.58], [184.389, 25.067, 5.82], [187.808, -16.137, 6.09], [75.632, 33.185, 4.86], [274.573, -67.969, 6.17], [127.97, -79.809, 4.6], [143.886, -87.604, 4.92], [151.397, 35.685, 4.77], [95.457, -49.603, 5.63], [338.375, 4.874, 4.48], [288.535, -19.447, 4.47], [46.548, 49.789, 5.78], [228.347, -5.551, 5.24], [81.355, 83.496, 4.78], [229.967, 57.373, 5.8], [168.516, -37.018, 5.21], [45.06, 60.074, 4.78], [306.241, -41.864, 4.83], [91.278, -13.301, 4.41], [0.97, 39.922, 4.62], [88.188, -35.672, 5.06], [154.258, 24.714, 5.45], [130.475, 77.171, 5.88], [20.543, 59.022, 5.99], [282.254, -64.728, 5.83], [227.938, -87.303, 4.03], [342.637, 28.072, 4.55], [36.544, -64.308, 4.51], [279.47, -27.64, 4.34], [325.471, 52.501, 4.37], [320.809, 19.506, 5.72], [240.645, 70.904, 5.73], [301.969, -54.473, 5.52], [191.086, 43.544, 4.96], [317.766, 9.911, 4.58], [84.303, -64.919, 5.08], [21.044, -5.923, 4.32], [176.894, -0.328, 5.19], [310.636, -88.811, 5.85], [168.466, 11.262, 5.46], [302.604, -22.508, 4.92]];
-const CONSTELLATIONS = {"Orion": [[88.793, 7.407], [85.19, -1.943], [83.002, -0.299], [84.053, -1.202], [81.283, -1.943], [78.634, -8.202]], "OrionBelt2": [[81.283, 6.35], [88.793, 7.407]], "OrionLeg": [[84.053, -1.202], [86.939, -9.67]], "BigDipper": [[165.932, 61.751], [165.46, 56.382], [178.458, 53.695], [183.857, 57.033], [193.507, 55.96], [200.981, 54.926], [206.885, 49.313]], "Cassiopeia": [[10.127, 56.537], [14.177, 60.717], [21.454, 60.235], [28.599, 63.67], [37.041, 60.717]], "Cygnus": [[310.358, 45.28], [305.557, 40.257], [296.243, 45.131], [311.553, 33.97]], "CygnusCross": [[290.0, 45.0], [305.557, 40.257]], "Lyra": [[279.234, 38.784], [284.736, 32.69], [281.084, 37.605]], "Leo": [[152.093, 11.967], [154.993, 19.842], [168.527, 20.524], [177.265, 14.572], [168.56, 15.43], [152.093, 11.967]], "Gemini": [[116.329, 28.026], [116.886, 28.026]], "Cross": [[186.65, -63.099], [187.791, -57.113]], "Cross2": [[183.786, -58.749], [191.93, -59.689]]};
+/* ───── astronomy (verified) ───── */
+function julianDate(d){let y=d.getUTCFullYear(),m=d.getUTCMonth()+1;const day=d.getUTCDate()+(d.getUTCHours()+d.getUTCMinutes()/60+d.getUTCSeconds()/3600)/24;if(m<=2){y-=1;m+=12;}const A=Math.floor(y/100),B=2-A+Math.floor(A/4);return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+day+B-1524.5;}
+function gmst(jd){const T=(jd-2451545)/36525;let g=280.46061837+360.98564736629*(jd-2451545)+0.000387933*T*T-T*T*T/38710000;return((g%360)+360)%360;}
+const rad=x=>x*Math.PI/180,deg=x=>x*180/Math.PI;
+function altAz(ra,dec,lat,lon,date){const jd=julianDate(date);const lst=((gmst(jd)+lon)%360+360)%360;const ha=rad(((lst-ra)%360+360)%360);const dr=rad(dec),lr=rad(lat);const alt=Math.asin(Math.sin(dr)*Math.sin(lr)+Math.cos(dr)*Math.cos(lr)*Math.cos(ha));let az=Math.atan2(-Math.sin(ha),Math.tan(dr)*Math.cos(lr)-Math.sin(lr)*Math.cos(ha));return{alt:deg(alt),az:(deg(az)%360+360)%360};}
 
-/* ════════ Astronomy: RA/Dec + date + observer → alt/az (verified) ════════ */
-function julianDate(d){
-  let y=d.getUTCFullYear(), m=d.getUTCMonth()+1;
-  const day=d.getUTCDate()+(d.getUTCHours()+d.getUTCMinutes()/60+d.getUTCSeconds()/3600)/24;
-  if(m<=2){y-=1;m+=12;}
-  const A=Math.floor(y/100), B=2-A+Math.floor(A/4);
-  return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+day+B-1524.5;
-}
-function gmst(jd){
-  const T=(jd-2451545.0)/36525.0;
-  let g=280.46061837+360.98564736629*(jd-2451545.0)+0.000387933*T*T-T*T*T/38710000.0;
-  return ((g%360)+360)%360;
-}
-const rad=x=>x*Math.PI/180, deg=x=>x*180/Math.PI;
-function altAz(ra,dec,lat,lon,date){
-  const jd=julianDate(date);
-  const lst=((gmst(jd)+lon)%360+360)%360;
-  const ha=rad(((lst-ra)%360+360)%360);
-  const dr=rad(dec), lr=rad(lat);
-  const alt=Math.asin(Math.sin(dr)*Math.sin(lr)+Math.cos(dr)*Math.cos(lr)*Math.cos(ha));
-  let az=Math.atan2(-Math.sin(ha), Math.tan(dr)*Math.cos(lr)-Math.sin(lr)*Math.cos(ha));
-  return {alt:deg(alt), az:(deg(az)%360+360)%360};
-}
+const PLACES={"newport, ri":[41.49,-71.31],"providence, ri":[41.82,-71.41],"new york, ny":[40.71,-74.01],"boston, ma":[42.36,-71.06],"los angeles, ca":[34.05,-118.24],"chicago, il":[41.88,-87.63],"miami, fl":[25.76,-80.19],"seattle, wa":[47.61,-122.33],"austin, tx":[30.27,-97.74],"denver, co":[39.74,-104.99],"san francisco, ca":[37.77,-122.42],"london":[51.51,-0.13],"paris":[48.86,2.35],"nashville, tn":[36.16,-86.78],"portsmouth, ri":[41.60,-71.25]};
+function geocode(s){const k=s.trim().toLowerCase();if(PLACES[k])return PLACES[k];let h=0;for(let i=0;i<k.length;i++)h=(h*31+k.charCodeAt(i))>>>0;return[20+(h%500)/10,-130+((h>>9)%2600)/10];}
 
-/* ════════ Tiny built-in geocoder (common places) + graceful fallback ════════
-   Production: swap for a geocoding API. For the prototype, a small table covers demos,
-   and anything unknown falls back to a deterministic pseudo-location so the preview never breaks. */
-const PLACES={
-  "newport, ri":[41.49,-71.31],"providence, ri":[41.82,-71.41],"new york, ny":[40.71,-74.01],
-  "boston, ma":[42.36,-71.06],"los angeles, ca":[34.05,-118.24],"chicago, il":[41.88,-87.63],
-  "miami, fl":[25.76,-80.19],"seattle, wa":[47.61,-122.33],"austin, tx":[30.27,-97.74],
-  "denver, co":[39.74,-104.99],"san francisco, ca":[37.77,-122.42],"london":[51.51,-0.13],
-  "paris":[48.86,2.35],"nashville, tn":[36.16,-86.78],"portsmouth, ri":[41.60,-71.25]
-};
-function geocode(s){
-  const k=s.trim().toLowerCase();
-  if(PLACES[k]) return PLACES[k];
-  // fallback: hash the string into a plausible northern-hemisphere lat/long (deterministic)
-  let h=0; for(let i=0;i<k.length;i++) h=(h*31+k.charCodeAt(i))>>>0;
-  const lat=20+(h%500)/10;           // 20–70°N
-  const lon=-130+((h>>9)%2600)/10;   // spread across US-ish longitudes
-  return [lat,lon];
-}
+/* ───── geometry ───── */
+const VW=480, R=212, cx=240, cy=232;
+function project(ra,dec,lat,lon,date){const{alt,az}=altAz(ra,dec,lat,lon,date);if(alt<=0)return null;const r=R*(1-alt/90);const a=rad(az);return[cx+r*Math.sin(a),cy-r*Math.cos(a)];}
 
-/* ════════ Themes ════════ */
 const THEMES={
-  midnight:{bg0:"#1A2A57",bg1:"#070C20",star:"#FBF7EC",line:"rgba(201,162,75,.5)",ring:"#C9A24B",tick:"rgba(201,162,75,.55)"},
-  ivory:{bg0:"#F1EAD8",bg1:"#E2D8C0",star:"#1B2440",line:"rgba(120,95,40,.45)",ring:"#9A7B3A",tick:"rgba(120,95,40,.5)",dark:true},
-  mono:{bg0:"#1C1F27",bg1:"#05060A",star:"#FFFFFF",line:"rgba(255,255,255,.32)",ring:"#9AA0B0",tick:"rgba(255,255,255,.4)"}
+  midnight:{bg0:"#1B2C5E",bg1:"#060B1E",ring:"#C9A24B",tick:"rgba(201,162,75,.6)",capBg:"#070C1E",capName:"#FBF7EC",capGold:"#E4C77E",capMuted:"#8E96AE",lineCol:"rgba(180,200,255,.30)"},
+  ivory:{bg0:"#F0E9D7",bg1:"#DFD5BE",ring:"#9A7B38",tick:"rgba(120,95,40,.55)",capBg:"#E9E0CC",capName:"#1B2440",capGold:"#8a6a28",capMuted:"#6b6450",dark:true,lineCol:"rgba(80,70,40,.32)"},
+  mono:{bg0:"#222631",bg1:"#05060A",ring:"#AEB4C4",tick:"rgba(255,255,255,.42)",capBg:"#070809",capName:"#FFFFFF",capGold:"#C7CCDA",capMuted:"#8A90A0",lineCol:"rgba(255,255,255,.26)"}
 };
-let theme="midnight";
+let theme="midnight", frameStyle="classic";
 
-const R=176, cx=200, cy=196;
-
-// project a single RA/Dec to x,y (or null if below horizon)
-function project(ra,dec,lat,lon,date){
-  const {alt,az}=altAz(ra,dec,lat,lon,date);
-  if(alt<=0) return null;
-  const r=R*(1-alt/90);
-  const a=rad(az);
-  return [cx+r*Math.sin(a), cy-r*Math.cos(a)];
+function starColor(idx, dark){
+  const c=PALETTE[idx];
+  if(dark){ // ivory bg: darken star colors so they read on light paper
+    return "#2a3148";
+  }
+  return c;
 }
 
-/* ════════ Render the sky — premium: glow, constellation lines, engraved frame, watermark ════════ */
 function render(){
   const place=document.getElementById('place').value||"—";
-  const dStr=document.getElementById('date').value;
-  const tStr=document.getElementById('time').value||"21:00";
+  const dStr=document.getElementById('date').value, tStr=document.getElementById('time').value||"21:00";
   const [lat,lon]=geocode(place);
-
   let date;
-  if(dStr){
-    const [Y,M,D]=dStr.split('-').map(Number);
-    const [hh,mm]=tStr.split(':').map(Number);
-    const offset=Math.round(lon/15);
-    date=new Date(Date.UTC(Y,M-1,D,hh-offset,mm||0,0));
-  } else date=new Date();
-
+  if(dStr){const[Y,M,D]=dStr.split('-').map(Number);const[hh,mm]=tStr.split(':').map(Number);const offset=Math.round(lon/15);date=new Date(Date.UTC(Y,M-1,D,hh-offset,mm||0,0));}else date=new Date();
   const th=THEMES[theme];
 
-  // — stars with glow for the brightest —
+  /* stars: real catalog, sized & colored by magnitude/temperature */
   let dots="", glows="";
-  for(const [ra,dec,mag] of STARS){
-    const p=project(ra,dec,lat,lon,date); if(!p) continue;
-    const [x,y]=p;
-    const size=Math.max(.45,(4.8-mag)*0.62);
-    const op=Math.min(1,Math.max(.32,(6.0-mag)/5));
-    if(mag<1.6){ // bright stars get a soft halo
-      glows+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(size*3.2).toFixed(1)}" fill="url(#glow)" opacity="${(op*0.5).toFixed(2)}"/>`;
+  for(let i=0;i<STARS.length;i++){
+    const s=STARS[i]; const p=project(s[0],s[1],lat,lon,date); if(!p) continue;
+    const mag=s[2];
+    const size = mag<1.5 ? 2.6 - mag*0.5 : Math.max(0.32, (6.6-mag)*0.34);
+    const op = Math.min(1, Math.max(0.28,(7.0-mag)/6.5));
+    const col = starColor(s[3], th.dark);
+    if(mag<2.2 && !th.dark){
+      glows+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${(size*3.4).toFixed(1)}" fill="url(#glow)" opacity="${(op*0.45).toFixed(2)}"/>`;
     }
-    dots+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${size.toFixed(2)}" fill="${th.star}" opacity="${op.toFixed(2)}"/>`;
+    dots+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${size.toFixed(2)}" fill="${col}" opacity="${op.toFixed(2)}"/>`;
   }
 
-  // — constellation lines (only draw segments where both endpoints are above horizon) —
+  /* constellation lines from real dataset */
   let lines="";
-  for(const key in CONSTELLATIONS){
-    const pts=CONSTELLATIONS[key];
-    for(let i=0;i<pts.length-1;i++){
-      const a=project(pts[i][0],pts[i][1],lat,lon,date);
-      const b=project(pts[i+1][0],pts[i+1][1],lat,lon,date);
-      if(a&&b){
-        // skip absurdly long wrap-around segments
-        const d=Math.hypot(a[0]-b[0],a[1]-b[1]);
-        if(d<R*1.1) lines+=`<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="${th.line}" stroke-width="0.7"/>`;
-      }
+  for(const pl of CONLINES){
+    let d="";
+    for(let i=0;i<pl.length;i++){
+      const p=project(pl[i][0],pl[i][1],lat,lon,date);
+      if(!p){d="";continue;} // break the path when a vertex dips below horizon
+      // guard against huge wrap segments
+      d += (d===""?`M`:`L`)+p[0].toFixed(1)+" "+p[1].toFixed(1)+" ";
     }
+    if(d) lines+=`<path d="${d}" fill="none" stroke="${th.lineCol}" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>`;
   }
 
-  // — engraved frame: double ring + tick marks every 15° —
-  let ticks="";
-  for(let d=0; d<360; d+=15){
-    const a=rad(d), inner=R+3, outer=(d%90===0)?R+11:R+7;
-    ticks+=`<line x1="${(cx+inner*Math.sin(a)).toFixed(1)}" y1="${(cy-inner*Math.cos(a)).toFixed(1)}" x2="${(cx+outer*Math.sin(a)).toFixed(1)}" y2="${(cy-outer*Math.cos(a)).toFixed(1)}" stroke="${th.tick}" stroke-width="${d%90===0?1.1:0.6}"/>`;
+  /* engraved frame variants */
+  let frame="";
+  const ring=th.ring;
+  if(frameStyle!=="minimal"){
+    let ticks="";
+    const step = frameStyle==="deco"?5:15;
+    for(let dg=0;dg<360;dg+=step){
+      const a=rad(dg),inner=R+3,outer=(dg%90===0)?R+12:(dg%30===0?R+8:R+5);
+      ticks+=`<line x1="${(cx+inner*Math.sin(a)).toFixed(1)}" y1="${(cy-inner*Math.cos(a)).toFixed(1)}" x2="${(cx+outer*Math.sin(a)).toFixed(1)}" y2="${(cy-outer*Math.cos(a)).toFixed(1)}" stroke="${th.tick}" stroke-width="${dg%90===0?1.2:0.6}"/>`;
+    }
+    frame=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${ring}" stroke-width="1.5"/>
+      <circle cx="${cx}" cy="${cy}" r="${R+15}" fill="none" stroke="${ring}" stroke-width="0.8" opacity=".6"/>${ticks}`;
+    if(frameStyle==="deco"){
+      // cardinal markers
+      const card=[[0,'N'],[90,'E'],[180,'S'],[270,'W']];
+      for(const [dg,L] of card){const a=rad(dg);const rr=R+26;frame+=`<text x="${(cx+rr*Math.sin(a)).toFixed(1)}" y="${(cy-rr*Math.cos(a)+4).toFixed(1)}" text-anchor="middle" font-family="EB Garamond,serif" font-size="13" fill="${ring}">${L}</text>`;}
+      frame+=`<circle cx="${cx}" cy="${cy}" r="${R+21}" fill="none" stroke="${ring}" stroke-width="0.5" opacity=".4"/>`;
+    }
+  } else {
+    frame=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${ring}" stroke-width="1.1" opacity=".85"/>`;
   }
-  const frame=`
-    <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${th.ring}" stroke-width="1.4" opacity=".9"/>
-    <circle cx="${cx}" cy="${cy}" r="${R+14}" fill="none" stroke="${th.ring}" stroke-width="0.8" opacity=".55"/>
-    ${ticks}`;
 
-  // — watermark: tiled diagonal wordmark, light enough to still see the sky —
-  const wm = theme==='ivory' ? 'rgba(60,45,15,0.14)' : 'rgba(230,210,150,0.13)';
+  /* caption block (engraved into the lower frame) */
+  const names=document.getElementById('names').value||"Your names";
+  const msg=document.getElementById('msg').value||"";
+  const dn=dStr?new Date(dStr+"T00:00").toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):"—";
+  const coords=`${Math.abs(lat).toFixed(2)}°${lat>=0?'N':'S'} · ${Math.abs(lon).toFixed(2)}°${lon>=0?'E':'W'}`;
+  const capY=cy+R+44;
+  const caption=`
+    <line x1="${cx-70}" y1="${capY-26}" x2="${cx+70}" y2="${capY-26}" stroke="${th.capGold}" stroke-width="0.6" opacity=".7"/>
+    <text x="${cx}" y="${capY}" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="500" font-size="30" fill="${th.capName}" letter-spacing="1">${escapeXml(names)}</text>
+    <text x="${cx}" y="${capY+22}" text-anchor="middle" font-family="EB Garamond,serif" font-style="italic" font-size="14" fill="${th.capGold}" letter-spacing="0.5">${escapeXml(msg)}</text>
+    <text x="${cx}" y="${capY+44}" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="${th.capMuted}" letter-spacing="2.5">${escapeXml(place.toUpperCase())} · ${dn.toUpperCase()}</text>
+    <text x="${cx}" y="${capY+60}" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="${th.capMuted}" letter-spacing="2">${coords}</text>`;
 
-  const defs=`<defs>
-    <radialGradient id="skyg" cx="50%" cy="16%" r="92%">
-      <stop offset="0%" stop-color="${th.bg0}"/><stop offset="74%" stop-color="${th.bg1}"/>
+  /* watermark tile */
+  const wm=th.dark?'rgba(60,45,15,0.13)':'rgba(228,199,126,0.12)';
+
+  document.getElementById('sky').innerHTML=`
+  <defs>
+    <radialGradient id="skyg" cx="50%" cy="32%" r="62%">
+      <stop offset="0%" stop-color="${th.bg0}"/><stop offset="78%" stop-color="${th.bg1}"/>
     </radialGradient>
     <radialGradient id="glow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="${th.star}"/><stop offset="100%" stop-color="${th.star}" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="vig" cx="50%" cy="46%" r="56%">
-      <stop offset="68%" stop-color="rgba(0,0,0,0)"/><stop offset="100%" stop-color="rgba(0,0,0,${th.dark?'.18':'.5'})"/>
+    <radialGradient id="vig" cx="50%" cy="50%" r="55%">
+      <stop offset="66%" stop-color="rgba(0,0,0,0)"/><stop offset="100%" stop-color="rgba(0,0,0,${th.dark?'.14':'.42'})"/>
     </radialGradient>
-    <pattern id="wm" width="150" height="150" patternUnits="userSpaceOnUse" patternTransform="rotate(-30)">
-      <text x="0" y="40" font-family="Inter,sans-serif" font-size="11" letter-spacing="2" fill="${wm}">NIGHTSKYMEMORY · PREVIEW</text>
-      <text x="40" y="110" font-family="Inter,sans-serif" font-size="11" letter-spacing="2" fill="${wm}">PREVIEW · NIGHTSKYMEMORY</text>
+    <pattern id="wm" width="160" height="160" patternUnits="userSpaceOnUse" patternTransform="rotate(-28)">
+      <text x="0" y="44" font-family="Inter,sans-serif" font-size="11" letter-spacing="2" fill="${wm}">NIGHTSKYMEMORY · PREVIEW</text>
+      <text x="46" y="118" font-family="Inter,sans-serif" font-size="11" letter-spacing="2" fill="${wm}">PREVIEW · NIGHTSKYMEMORY</text>
     </pattern>
-    <clipPath id="diskClip"><circle cx="${cx}" cy="${cy}" r="${R}"/></clipPath>
-  </defs>`;
-
-  document.getElementById('sky').innerHTML =
-    defs +
-    `<rect width="400" height="400" fill="${th.bg1}"/>` +
-    `<g clip-path="url(#diskClip)">` +
-      `<rect width="400" height="400" fill="url(#skyg)"/>` +
-      glows + lines + dots +
-      `<rect width="400" height="400" fill="url(#vig)"/>` +
-      `<rect width="400" height="400" fill="url(#wm)"/>` +   // watermark only over the sky disk
-    `</g>` +
-    frame;
-
-  // caption
-  document.getElementById('capNames').textContent=document.getElementById('names').value||"Your names";
-  document.getElementById('capMsg').textContent=document.getElementById('msg').value||"";
-  const dn=dStr?new Date(dStr+"T00:00").toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):"—";
-  const coords=`${Math.abs(lat).toFixed(2)}°${lat>=0?'N':'S'}, ${Math.abs(lon).toFixed(2)}°${lon>=0?'E':'W'}`;
-  document.getElementById('capMeta').textContent=`${place}  ·  ${dn}  ·  ${coords}`;
+    <clipPath id="disk"><circle cx="${cx}" cy="${cy}" r="${R}"/></clipPath>
+  </defs>
+  <rect width="${VW}" height="576" fill="${th.bg1}"/>
+  <g clip-path="url(#disk)">
+    <rect width="${VW}" height="576" fill="url(#skyg)"/>
+    ${glows}${lines}${dots}
+    <rect width="${VW}" height="576" fill="url(#vig)"/>
+    <rect width="${VW}" height="576" fill="url(#wm)"/>
+  </g>
+  ${frame}
+  ${caption}`;
 }
+function escapeXml(s){return (s||"").replace(/[<>&'"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;',"'":'&apos;','"':'&quot;'}[c]));}
 
-/* ════════ Wire up live updates ════════ */
-['place','date','time','names','msg'].forEach(id=>{
-  document.getElementById(id).addEventListener('input',render);
-});
-document.getElementById('themes').addEventListener('click',e=>{
-  const t=e.target.closest('.theme'); if(!t)return;
-  document.querySelectorAll('.theme').forEach(x=>x.classList.remove('active'));
-  t.classList.add('active'); theme=t.dataset.theme; render();
-});
-document.getElementById('cta').addEventListener('click',()=>{
-  document.getElementById('cta').querySelector('small').textContent="↑ This is where checkout opens (next build step)";
-});
-
+['place','date','time','names','msg'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+document.getElementById('themes').addEventListener('click',e=>{const t=e.target.closest('.theme');if(!t)return;document.querySelectorAll('.theme').forEach(x=>x.classList.remove('active'));t.classList.add('active');theme=t.dataset.theme;render();});
+document.getElementById('frames').addEventListener('click',e=>{const t=e.target.closest('.frameopt');if(!t)return;document.querySelectorAll('.frameopt').forEach(x=>x.classList.remove('active'));t.classList.add('active');frameStyle=t.dataset.frame;render();});
+document.getElementById('cta').addEventListener('click',()=>{document.getElementById('cta').querySelector('small').textContent="↑ checkout opens here (next build step)";});
 render();
 </script>
 </body>
