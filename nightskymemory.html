@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NightSkyMemory — Your Sky, That Night</title>
+<style>
+  /* ───────── Design tokens ─────────
+     Subject: a keepsake of the exact sky from a meaningful moment.
+     Palette: observatory midnight, not pure black — warmer, like an old star atlas.
+     Type: Cormorant (display, emotional) + Inter (utility, inputs/data).
+     Signature: the live star chart that redraws as you type. */
+  :root{
+    --ink:#0B1026;          /* deep midnight base */
+    --ink-2:#121A35;        /* raised panel */
+    --paper:#F4EFE4;        /* warm star-atlas ivory */
+    --paper-dim:#CFC7B6;
+    --gold:#C9A24B;         /* brass instrument accent */
+    --gold-soft:#E4C77E;
+    --star:#FBF7EC;
+    --line:rgba(201,162,75,0.22);
+    --muted:#8C93A8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:
+      radial-gradient(1200px 700px at 70% -10%, #1A2447 0%, rgba(26,36,71,0) 60%),
+      radial-gradient(900px 600px at 0% 110%, #16284A 0%, rgba(22,40,74,0) 55%),
+      var(--ink);
+    color:var(--paper);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.5;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  /* faint star dust on the whole page */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.7), transparent),
+      radial-gradient(1px 1px at 80% 20%, rgba(255,255,255,.5), transparent),
+      radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,.6), transparent),
+      radial-gradient(1px 1px at 35% 85%, rgba(255,255,255,.4), transparent),
+      radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,.5), transparent);
+  }
+  .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:32px 24px 80px}
+
+  /* ───────── Masthead ───────── */
+  header{display:flex;align-items:center;justify-content:space-between;margin-bottom:48px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Cormorant Garamond',Georgia,serif}
+  .brand .mark{width:30px;height:30px;flex:0 0 auto}
+  .brand .name{font-size:21px;letter-spacing:.06em;font-weight:600}
+  .brand .name b{color:var(--gold-soft);font-weight:600}
+  .masthead-note{font-size:12px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase}
+
+  /* ───────── Hero ───────── */
+  .hero{text-align:center;margin-bottom:44px}
+  .eyebrow{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+  h1{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-weight:500;
+    font-size:clamp(38px,7vw,72px);
+    line-height:1.02;
+    letter-spacing:-.01em;
+    margin-bottom:18px;
+  }
+  h1 em{font-style:italic;color:var(--gold-soft)}
+  .sub{max-width:540px;margin:0 auto;color:var(--paper-dim);font-size:clamp(15px,2.2vw,17px)}
+
+  /* ───────── Studio layout ───────── */
+  .studio{
+    display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:start;
+    background:linear-gradient(180deg, rgba(18,26,53,.7), rgba(11,16,38,.5));
+    border:1px solid var(--line);border-radius:20px;padding:28px;
+    backdrop-filter:blur(6px);
+  }
+  @media(max-width:860px){.studio{grid-template-columns:1fr;gap:26px;padding:18px}}
+
+  /* preview side */
+  .stage{position:relative}
+  .chart-frame{
+    position:relative;width:100%;aspect-ratio:1/1.18;border-radius:14px;overflow:hidden;
+    background:radial-gradient(120% 120% at 50% 18%, #16204A 0%, #0A0F26 70%);
+    border:1px solid rgba(201,162,75,.34);
+    box-shadow:0 30px 70px -30px rgba(0,0,0,.8), inset 0 0 60px rgba(0,0,0,.5);
+  }
+  .chart-frame svg{display:block;width:100%;height:100%}
+  .chart-caption{
+    position:absolute;left:0;right:0;bottom:0;padding:18px 20px 20px;text-align:center;
+    background:linear-gradient(0deg, rgba(8,12,30,.92), rgba(8,12,30,0));
+  }
+  .cap-names{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(20px,3.4vw,28px);letter-spacing:.04em;color:var(--star)}
+  .cap-msg{font-size:12.5px;color:var(--gold-soft);letter-spacing:.18em;text-transform:uppercase;margin-top:6px}
+  .cap-meta{font-size:11px;color:var(--muted);letter-spacing:.1em;margin-top:9px;font-variant-numeric:tabular-nums}
+  .live-dot{display:inline-flex;align-items:center;gap:7px;position:absolute;top:14px;left:14px;
+    font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-soft);
+    background:rgba(8,12,30,.6);border:1px solid var(--line);padding:5px 10px;border-radius:99px}
+  .live-dot i{width:6px;height:6px;border-radius:99px;background:#5BD08A;box-shadow:0 0 8px #5BD08A;animation:pulse 1.8s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+  /* controls side */
+  .panel h2{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:26px;margin-bottom:4px}
+  .panel .lead{color:var(--muted);font-size:13.5px;margin-bottom:22px}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
+  .field input{
+    width:100%;background:rgba(8,12,30,.55);border:1px solid var(--line);border-radius:10px;
+    padding:13px 14px;color:var(--paper);font-size:15px;font-family:inherit;transition:border-color .2s,box-shadow .2s;
+  }
+  .field input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,162,75,.14)}
+  .field input::placeholder{color:#5a6178}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .themes{display:flex;gap:8px;margin-top:4px}
+  .theme{flex:1;cursor:pointer;border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center;
+    font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim);background:rgba(8,12,30,.4);transition:.18s}
+  .theme.active{border-color:var(--gold);color:var(--gold-soft);background:rgba(201,162,75,.1)}
+  .theme:hover{border-color:var(--gold)}
+
+  .cta{
+    margin-top:22px;width:100%;cursor:pointer;border:none;border-radius:11px;padding:16px;
+    background:linear-gradient(180deg,var(--gold-soft),var(--gold));color:#1a1305;
+    font-family:inherit;font-weight:600;font-size:15px;letter-spacing:.04em;
+    transition:transform .12s, box-shadow .2s;box-shadow:0 14px 30px -12px rgba(201,162,75,.6);
+  }
+  .cta:hover{transform:translateY(-1px);box-shadow:0 18px 38px -12px rgba(201,162,75,.7)}
+  .cta small{display:block;font-weight:500;font-size:11.5px;letter-spacing:.1em;opacity:.7;margin-top:3px}
+  .reassure{margin-top:14px;font-size:11.5px;color:var(--muted);text-align:center;letter-spacing:.04em}
+  .reassure b{color:var(--gold-soft);font-weight:600}
+
+  footer{text-align:center;margin-top:40px;font-size:11px;color:var(--muted);letter-spacing:.12em}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="18.5" stroke="#C9A24B" stroke-width="1"/>
+        <circle cx="20" cy="20" r="13" stroke="#C9A24B" stroke-width=".5" opacity=".5"/>
+        <path d="M20 7v26M7 20h26" stroke="#C9A24B" stroke-width=".4" opacity=".4"/>
+        <circle cx="20" cy="20" r="1.6" fill="#E4C77E"/>
+        <circle cx="27" cy="14" r="1" fill="#FBF7EC"/>
+        <circle cx="14" cy="25" r="1.1" fill="#FBF7EC"/>
+        <circle cx="25" cy="27" r=".8" fill="#FBF7EC"/>
+      </svg>
+      <span class="name">Night<b>Sky</b>Memory</span>
+    </div>
+    <span class="masthead-note">Instant · Digital · Yours</span>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">The sky remembers</div>
+    <h1>The exact stars<br>above your <em>moment</em>.</h1>
+    <p class="sub">Enter the date and place that matters. Watch the real night sky from that moment appear — then make it yours. Delivered instantly.</p>
+  </section>
+
+  <section class="studio">
+    <!-- LIVE PREVIEW (the signature) -->
+    <div class="stage">
+      <div class="chart-frame">
+        <span class="live-dot"><i></i>Live preview</span>
+        <svg id="sky" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice"></svg>
+        <div class="chart-caption">
+          <div class="cap-names" id="capNames">Your names here</div>
+          <div class="cap-msg" id="capMsg">the night we met</div>
+          <div class="cap-meta" id="capMeta">— · —</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="panel">
+      <h2>Build your sky</h2>
+      <p class="lead">Every change appears instantly. No guessing — what you see is what you'll receive.</p>
+
+      <div class="field">
+        <label for="place">Place</label>
+        <input id="place" type="text" placeholder="City, e.g. Newport, RI" value="Newport, RI">
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="date">Date</label>
+          <input id="date" type="date" value="2019-06-21">
+        </div>
+        <div class="field">
+          <label for="time">Time</label>
+          <input id="time" type="time" value="21:30">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="names">Names / title</label>
+        <input id="names" type="text" placeholder="Alex & Sam" value="Alex & Sam">
+      </div>
+
+      <div class="field">
+        <label for="msg">A short line</label>
+        <input id="msg" type="text" placeholder="the night we met" value="the night we met" maxlength="40">
+      </div>
+
+      <div class="field">
+        <label>Style</label>
+        <div class="themes" id="themes">
+          <div class="theme active" data-theme="midnight">Midnight</div>
+          <div class="theme" data-theme="ivory">Ivory</div>
+          <div class="theme" data-theme="mono">Ink</div>
+        </div>
+      </div>
+
+      <button class="cta" id="cta">
+        See it full size &amp; download
+        <small>High-resolution file · delivered to your inbox in seconds</small>
+      </button>
+      <p class="reassure">Free to design. <b>Pay only when you love it.</b></p>
+    </div>
+  </section>
+
+  <footer>NightSkyMemory · a Custom Output brand · prototype</footer>
+</div>
+
+<script>
+/* ════════ Star catalog (RA°, Dec°, magnitude) ════════ */
+const STARS = [[88.793, 7.407, 0.42], [78.634, -8.202, 0.18], [81.283, 6.35, 1.64], [86.939, -9.67, 2.06], [83.002, -0.299, 1.69], [84.053, -1.202, 1.74], [81.283, -1.943, 2.25], [101.287, -16.716, -1.46], [104.656, -28.972, 1.5], [68.98, 16.509, 0.85], [79.172, 45.998, 0.08], [116.329, 28.026, 1.58], [116.886, 28.026, 1.14], [165.932, 61.751, 1.79], [165.46, 56.382, 2.37], [178.458, 53.695, 2.44], [183.857, 57.033, 3.31], [193.507, 55.96, 1.77], [200.981, 54.926, 2.27], [206.885, 49.313, 1.86], [213.915, 19.182, -0.05], [279.234, 38.784, 0.03], [310.358, 45.28, 1.25], [297.696, 8.868, 0.76], [152.093, 11.967, 1.36], [177.265, 14.572, 2.14], [201.298, -11.161, 0.98], [247.352, -26.432, 1.06], [10.127, 56.537, 2.24], [14.177, 60.717, 2.28], [21.454, 60.235, 2.47], [2.097, 29.09, 2.07], [17.433, 35.621, 2.06], [51.081, 49.861, 1.79], [47.042, 40.956, 2.12], [37.954, 89.264, 1.98], [219.902, -60.835, 0.61], [210.956, -60.373, -0.27], [95.988, -52.696, -0.74], [186.65, -63.099, 0.77], [191.93, -59.689, 1.25], [183.786, -58.749, 1.59], [187.791, -57.113, 2.79], [230.194, -85.498, 4.05], [80.356, 42.565, 4.85], [321.185, -74.351, 4.34], [10.727, -50.645, 4.51], [9.553, -54.209, 4.8], [196.179, -50.321, 4.68], [291.395, -88.83, 5.11], [251.33, -28.755, 3.81], [344.597, -29.413, 3.69], [34.818, 62.549, 4.71], [290.566, 41.352, 4.57], [350.322, -21.864, 4.6], [298.586, 21.334, 5.22], [207.847, 36.823, 3.59], [82.043, -37.91, 3.66], [83.805, -71.82, 4.06], [228.846, -24.33, 4.24], [75.423, -41.944, 5.37], [233.293, 19.644, 3.84], [262.486, -60.588, 4.26], [356.228, 25.2, 4.61], [246.461, 61.713, 5.05], [82.457, -84.222, 4.13], [96.387, -52.023, 5.39], [315.492, -33.358, 4.81], [142.427, 74.619, 4.42], [95.357, -45.607, 4.62], [94.587, 15.225, 5.3], [143.784, -50.522, 5.5], [183.429, -73.636, 3.59], [39.474, 22.94, 5.08], [151.978, -78.565, 4.26], [358.604, 5.241, 5.44], [309.881, -87.933, 4.94], [245.416, 6.655, 4.03], [230.746, -69.921, 4.37], [163.341, 81.687, 5.25], [94.82, 0.106, 3.86], [328.546, 66.693, 4.1], [230.022, 19.615, 3.81], [274.504, 7.088, 5.06], [190.927, -89.897, 4.15], [7.012, 77.238, 5.26], [299.4, -34.647, 3.62], [316.083, 80.451, 3.67], [174.957, -77.542, 5.02], [275.7, -66.89, 4.45], [197.929, -42.29, 5.24], [152.33, -51.876, 4.58], [262.775, -53.793, 4.12], [358.254, 26.978, 4.38], [186.327, -68.219, 3.95], [121.711, 15.896, 3.96], [79.278, -77.221, 4.76], [82.419, 72.976, 5.22], [25.509, -47.159, 4.84], [77.125, -66.184, 5.37], [205.576, -4.919, 5.07], [290.699, -55.726, 3.69], [155.178, -13.756, 4.43], [262.467, 31.206, 5.47], [35.43, -17.528, 4.18], [310.202, -45.242, 3.88], [161.501, -14.061, 4.06], [89.93, 76.188, 4.39], [310.086, 9.059, 3.6], [359.742, 60.485, 5.44], [333.492, 62.765, 3.83], [174.831, -51.525, 4.3], [21.109, -21.785, 5.47], [95.473, 51.133, 4.41], [152.283, 82.317, 5.49], [200.077, 39.313, 3.81], [106.815, 84.368, 4.66], [195.19, 44.636, 3.61], [210.304, 0.513, 5.21], [56.676, 82.94, 3.66], [66.897, 17.106, 4.85], [84.673, -68.42, 5.28], [88.638, 17.013, 4.74], [150.921, 15.061, 4.55], [336.494, -53.233, 4.93], [85.927, -18.759, 4.84], [107.999, -33.088, 5.0], [26.116, -7.509, 5.5], [358.595, -76.813, 3.93], [95.472, 77.987, 5.26], [316.537, -23.485, 3.82], [300.148, 36.637, 4.72], [355.404, 27.716, 3.52], [294.157, -36.112, 4.83], [338.015, -65.828, 3.73], [38.533, 9.58, 4.04], [217.739, 39.17, 3.91], [228.326, -42.483, 4.48], [325.921, 62.299, 3.68], [152.487, -40.198, 3.51], [277.603, 24.68, 4.02], [266.843, 9.302, 4.36], [3.481, -76.456, 5.27], [325.414, 8.206, 5.17], [209.703, -63.343, 3.75], [110.973, 71.817, 5.09], [309.853, 71.806, 3.92], [89.831, -71.497, 5.06], [318.288, -16.852, 4.74], [55.639, 77.379, 5.23], [351.434, 55.939, 5.26], [8.923, 42.582, 4.16], [335.094, 54.402, 5.23], [291.87, -41.975, 5.07], [38.914, 66.99, 5.22], [80.076, 56.986, 4.42], [109.869, 53.162, 3.96], [8.519, -55.237, 4.16], [311.167, 84.04, 4.06], [230.933, -18.058, 5.46], [193.038, 79.063, 3.73], [349.344, -57.858, 5.43], [95.568, -70.488, 4.37], [262.276, -33.538, 4.71], [184.112, -20.665, 4.65], [91.7, 37.581, 3.5], [333.207, 6.921, 4.94], [267.102, 30.713, 4.23], [25.191, 29.563, 4.16], [113.01, 62.643, 4.94], [108.116, -34.329, 4.32], [144.864, -36.782, 3.75], [151.361, 79.265, 4.85], [325.01, 20.793, 4.1], [197.257, -89.927, 4.07], [154.76, 14.397, 4.81], [167.396, -10.411, 3.93], [170.347, 72.213, 5.09], [61.089, -74.737, 4.53], [227.859, -29.666, 5.14], [270.41, 31.103, 3.95], [71.687, -85.603, 3.99], [171.049, 62.953, 3.65], [149.199, 23.358, 3.89], [250.688, -1.012, 3.99], [236.181, -89.002, 5.0], [277.217, -70.814, 4.35], [63.319, 82.434, 4.54], [18.079, -45.144, 5.2], [164.326, 54.255, 4.84], [355.641, 17.181, 5.4], [320.913, 20.277, 4.94], [181.72, 59.502, 4.6], [322.995, 43.858, 4.45], [93.309, -45.497, 4.78], [275.693, 3.834, 4.75], [98.855, -76.053, 4.07], [97.817, -32.452, 4.58], [49.815, -48.373, 4.89], [254.311, -78.439, 4.32], [195.34, -15.161, 3.91], [151.252, 72.871, 4.67], [250.388, 64.212, 5.03], [136.937, -88.939, 4.2], [271.251, 63.621, 5.41], [150.848, 44.553, 4.59], [217.171, -50.303, 3.94], [156.901, -84.776, 4.17], [244.491, -17.223, 3.83], [168.26, -67.027, 4.74], [9.708, -19.076, 4.63], [9.757, 25.695, 3.77], [166.211, -80.949, 4.26], [76.198, -31.168, 5.02], [136.485, 45.362, 5.16], [90.818, -75.257, 3.54], [194.191, 89.983, 4.2], [234.052, 50.622, 4.8], [271.524, 80.93, 3.9], [7.337, -62.571, 3.75], [241.005, 11.515, 3.94], [251.807, 48.042, 3.84], [218.609, 44.627, 3.73], [294.948, 83.65, 3.72], [9.244, -33.848, 4.85], [344.942, -18.602, 4.93], [27.359, 34.311, 4.75], [36.684, 49.047, 5.2], [216.148, -68.21, 5.47], [281.749, -27.503, 4.36], [133.406, 1.073, 4.18], [305.847, 58.02, 3.71], [345.884, 24.405, 5.16], [254.631, -11.612, 4.97], [347.571, -41.385, 5.12], [193.742, -2.97, 4.37], [263.169, -41.689, 5.2], [299.063, -74.401, 5.26], [87.791, -6.352, 4.72], [136.436, -84.834, 5.2], [65.462, -51.818, 5.1], [122.522, 68.458, 4.9], [99.457, -88.173, 5.4], [30.821, 39.613, 4.48], [272.939, 34.31, 4.79], [176.696, 52.728, 3.69], [79.775, 34.522, 4.11], [209.36, -4.813, 4.56], [153.181, 44.268, 4.16], [253.028, -41.235, 4.0], [43.436, -55.335, 3.74], [192.911, 47.194, 3.87], [77.898, -2.844, 4.95], [351.579, 4.435, 4.07], [36.189, -55.059, 3.95], [64.599, -87.453, 4.57], [98.752, 85.373, 4.61], [251.07, -67.27, 5.24], [176.716, 67.09, 4.65], [168.983, -10.716, 3.87], [18.496, 79.391, 4.46], [295.962, -17.873, 3.65], [226.6, -80.35, 3.8]];
+
+/* ════════ Astronomy: RA/Dec + date + observer → alt/az (verified) ════════ */
+function julianDate(d){
+  let y=d.getUTCFullYear(), m=d.getUTCMonth()+1;
+  const day=d.getUTCDate()+(d.getUTCHours()+d.getUTCMinutes()/60+d.getUTCSeconds()/3600)/24;
+  if(m<=2){y-=1;m+=12;}
+  const A=Math.floor(y/100), B=2-A+Math.floor(A/4);
+  return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+day+B-1524.5;
+}
+function gmst(jd){
+  const T=(jd-2451545.0)/36525.0;
+  let g=280.46061837+360.98564736629*(jd-2451545.0)+0.000387933*T*T-T*T*T/38710000.0;
+  return ((g%360)+360)%360;
+}
+const rad=x=>x*Math.PI/180, deg=x=>x*180/Math.PI;
+function altAz(ra,dec,lat,lon,date){
+  const jd=julianDate(date);
+  const lst=((gmst(jd)+lon)%360+360)%360;
+  const ha=rad(((lst-ra)%360+360)%360);
+  const dr=rad(dec), lr=rad(lat);
+  const alt=Math.asin(Math.sin(dr)*Math.sin(lr)+Math.cos(dr)*Math.cos(lr)*Math.cos(ha));
+  let az=Math.atan2(-Math.sin(ha), Math.tan(dr)*Math.cos(lr)-Math.sin(lr)*Math.cos(ha));
+  return {alt:deg(alt), az:(deg(az)%360+360)%360};
+}
+
+/* ════════ Tiny built-in geocoder (common places) + graceful fallback ════════
+   Production: swap for a geocoding API. For the prototype, a small table covers demos,
+   and anything unknown falls back to a deterministic pseudo-location so the preview never breaks. */
+const PLACES={
+  "newport, ri":[41.49,-71.31],"providence, ri":[41.82,-71.41],"new york, ny":[40.71,-74.01],
+  "boston, ma":[42.36,-71.06],"los angeles, ca":[34.05,-118.24],"chicago, il":[41.88,-87.63],
+  "miami, fl":[25.76,-80.19],"seattle, wa":[47.61,-122.33],"austin, tx":[30.27,-97.74],
+  "denver, co":[39.74,-104.99],"san francisco, ca":[37.77,-122.42],"london":[51.51,-0.13],
+  "paris":[48.86,2.35],"nashville, tn":[36.16,-86.78],"portsmouth, ri":[41.60,-71.25]
+};
+function geocode(s){
+  const k=s.trim().toLowerCase();
+  if(PLACES[k]) return PLACES[k];
+  // fallback: hash the string into a plausible northern-hemisphere lat/long (deterministic)
+  let h=0; for(let i=0;i<k.length;i++) h=(h*31+k.charCodeAt(i))>>>0;
+  const lat=20+(h%500)/10;           // 20–70°N
+  const lon=-130+((h>>9)%2600)/10;   // spread across US-ish longitudes
+  return [lat,lon];
+}
+
+/* ════════ Themes ════════ */
+const THEMES={
+  midnight:{bg0:"#16204A",bg1:"#0A0F26",star:"#FBF7EC",ring:"rgba(201,162,75,.0)"},
+  ivory:{bg0:"#EDE6D6",bg1:"#DCD2BC",star:"#1a2138",ring:"rgba(20,30,60,.0)",dark:true},
+  mono:{bg0:"#14161C",bg1:"#06070A",star:"#ffffff",ring:"rgba(255,255,255,.0)"}
+};
+let theme="midnight";
+
+/* ════════ Render the sky (stereographic projection of the visible hemisphere) ════════ */
+function render(){
+  const place=document.getElementById('place').value||"—";
+  const dStr=document.getElementById('date').value;
+  const tStr=document.getElementById('time').value||"21:00";
+  const [lat,lon]=geocode(place);
+
+  // build a UTC date from local-ish inputs (prototype treats input as local clock at that lon's offset≈lon/15)
+  let date;
+  if(dStr){
+    const [Y,M,D]=dStr.split('-').map(Number);
+    const [hh,mm]=tStr.split(':').map(Number);
+    const offset=Math.round(lon/15); // rough timezone from longitude
+    date=new Date(Date.UTC(Y,M-1,D,hh-offset,mm||0,0));
+  } else date=new Date();
+
+  const th=THEMES[theme];
+  const R=185, cx=200, cy=200;
+  let dots="";
+  for(const [ra,dec,mag] of STARS){
+    const {alt,az}=altAz(ra,dec,lat,lon,date);
+    if(alt<=0) continue;                       // below horizon
+    const r=R*(1-alt/90);                       // zenith center → horizon edge
+    const a=rad(az);
+    const x=cx+r*Math.sin(a), y=cy-r*Math.cos(a);
+    const size=Math.max(.5, (4.6-mag)*0.7);     // brighter = bigger
+    const op=Math.min(1, Math.max(.35,(5.5-mag)/4));
+    dots+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${size.toFixed(2)}" fill="${th.star}" opacity="${op.toFixed(2)}"/>`;
+  }
+
+  const grad=`<defs>
+    <radialGradient id="skyg" cx="50%" cy="18%" r="90%">
+      <stop offset="0%" stop-color="${th.bg0}"/><stop offset="72%" stop-color="${th.bg1}"/>
+    </radialGradient>
+    <radialGradient id="vig" cx="50%" cy="50%" r="55%">
+      <stop offset="70%" stop-color="rgba(0,0,0,0)"/><stop offset="100%" stop-color="rgba(0,0,0,.45)"/>
+    </radialGradient>
+  </defs>`;
+  const horizon=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="rgba(201,162,75,.30)" stroke-width="1"/>
+    <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="rgba(201,162,75,.12)" stroke-width="6"/>`;
+  document.getElementById('sky').innerHTML=
+    grad+`<rect width="400" height="400" fill="url(#skyg)"/>`+
+    `<circle cx="${cx}" cy="${cy}" r="${R}" fill="${th.bg1}"/>`+
+    dots+horizon+`<rect width="400" height="400" fill="url(#vig)"/>`;
+
+  // caption
+  document.getElementById('capNames').textContent=document.getElementById('names').value||"Your names";
+  document.getElementById('capMsg').textContent=document.getElementById('msg').value||"";
+  const dn=dStr?new Date(dStr+"T00:00").toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):"—";
+  document.getElementById('capMeta').textContent=`${place}  ·  ${dn}`;
+
+  // ivory theme: flip caption text color for contrast handled by frame; keep simple here
+}
+
+/* ════════ Wire up live updates ════════ */
+['place','date','time','names','msg'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',render);
+});
+document.getElementById('themes').addEventListener('click',e=>{
+  const t=e.target.closest('.theme'); if(!t)return;
+  document.querySelectorAll('.theme').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active'); theme=t.dataset.theme; render();
+});
+document.getElementById('cta').addEventListener('click',()=>{
+  document.getElementById('cta').querySelector('small').textContent="↑ This is where checkout opens (next build step)";
+});
+
+render();
+</script>
+</body>
+</html>
