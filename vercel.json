@@ -6,6 +6,7 @@
     { "source": "/thank-you", "destination": "/thank-you.html" },
     { "source": "/last-minute-gifts", "destination": "/last-minute-gifts.html" },
     { "source": "/checkout", "destination": "/checkout.html" },
+    { "source": "/nightskymemory", "destination": "/nightskymemory.html" },
     { "source": "/order-confirmed", "destination": "/order-confirmed.html" },
     { "source": "/emergency-checkout", "destination": "/emergency-checkout.html" }
   ]
