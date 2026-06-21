@@ -148,6 +148,12 @@
           <div class="frameopt" data-frame="minimal">Minimal</div>
         </div>
       </div>
+      <div class="field"><label>Moon</label>
+        <div class="frames" id="moontoggle">
+          <div class="frameopt active" data-moon="on">Show if visible</div>
+          <div class="frameopt" data-moon="off">Hide</div>
+        </div>
+      </div>
 
       <button class="cta" id="cta">See it full size &amp; continue
         <small>High-resolution file + personalized card · in your inbox in seconds</small></button>
@@ -167,6 +173,33 @@ function gmst(jd){const T=(jd-2451545)/36525;let g=280.46061837+360.98564736629*
 const rad=x=>x*Math.PI/180,deg=x=>x*180/Math.PI;
 function altAz(ra,dec,lat,lon,date){const jd=julianDate(date);const lst=((gmst(jd)+lon)%360+360)%360;const ha=rad(((lst-ra)%360+360)%360);const dr=rad(dec),lr=rad(lat);const alt=Math.asin(Math.sin(dr)*Math.sin(lr)+Math.cos(dr)*Math.cos(lr)*Math.cos(ha));let az=Math.atan2(-Math.sin(ha),Math.tan(dr)*Math.cos(lr)-Math.sin(lr)*Math.cos(ha));return{alt:deg(alt),az:(deg(az)%360+360)%360};}
 
+/* ───── moon: low-precision position + illuminated fraction ───── */
+function moonState(date){
+  const d=julianDate(date)-2451545.0;
+  const L=(218.316+13.176396*d)%360, M=(134.963+13.064993*d)%360, F=(93.272+13.229350*d)%360;
+  const lon=L+6.289*Math.sin(rad(M)), lat=5.128*Math.sin(rad(F));
+  const Msun=(357.529+0.98560028*d)%360, Lsun=(280.459+0.98564736*d)%360;
+  const sunLon=Lsun+1.915*Math.sin(rad(Msun));
+  const elong=((lon-sunLon)%360+360)%360;
+  const illum=(1-Math.cos(rad(elong)))/2;
+  const eps=rad(23.439), lr=rad(lon), br=rad(lat);
+  let ra=deg(Math.atan2(Math.sin(lr)*Math.cos(eps)-Math.tan(br)*Math.sin(eps),Math.cos(lr)))%360; if(ra<0)ra+=360;
+  const dec=deg(Math.asin(Math.sin(br)*Math.cos(eps)+Math.cos(br)*Math.sin(eps)*Math.sin(lr)));
+  return {ra,dec,illum,waxing:elong<180};
+}
+
+/* ───── galactic plane → equatorial (for Milky Way band) ───── */
+function galToEq(l,b){
+  const lr=rad(l),br=rad(b);
+  const ra_ngp=rad(192.8595), dec_ngp=rad(27.1283), l_ncp=rad(122.9320);
+  const sinb=Math.sin(br),cosb=Math.cos(br);
+  const dec=Math.asin(Math.sin(dec_ngp)*sinb+Math.cos(dec_ngp)*cosb*Math.cos(l_ncp-lr));
+  const y=cosb*Math.sin(l_ncp-lr);
+  const x=Math.cos(dec_ngp)*sinb-Math.sin(dec_ngp)*cosb*Math.cos(l_ncp-lr);
+  let ra=ra_ngp+Math.atan2(y,x);
+  return [(deg(ra)%360+360)%360, deg(dec)];
+}
+
 const PLACES={"newport, ri":[41.49,-71.31],"providence, ri":[41.82,-71.41],"new york, ny":[40.71,-74.01],"boston, ma":[42.36,-71.06],"los angeles, ca":[34.05,-118.24],"chicago, il":[41.88,-87.63],"miami, fl":[25.76,-80.19],"seattle, wa":[47.61,-122.33],"austin, tx":[30.27,-97.74],"denver, co":[39.74,-104.99],"san francisco, ca":[37.77,-122.42],"london":[51.51,-0.13],"paris":[48.86,2.35],"nashville, tn":[36.16,-86.78],"portsmouth, ri":[41.60,-71.25]};
 function geocode(s){const k=s.trim().toLowerCase();if(PLACES[k])return PLACES[k];let h=0;for(let i=0;i<k.length;i++)h=(h*31+k.charCodeAt(i))>>>0;return[20+(h%500)/10,-130+((h>>9)%2600)/10];}
 
@@ -179,7 +212,7 @@ const THEMES={
   ivory:{bg0:"#F0E9D7",bg1:"#DFD5BE",ring:"#9A7B38",tick:"rgba(120,95,40,.55)",capBg:"#E9E0CC",capName:"#1B2440",capGold:"#8a6a28",capMuted:"#6b6450",dark:true,lineCol:"rgba(80,70,40,.32)"},
   mono:{bg0:"#222631",bg1:"#05060A",ring:"#AEB4C4",tick:"rgba(255,255,255,.42)",capBg:"#070809",capName:"#FFFFFF",capGold:"#C7CCDA",capMuted:"#8A90A0",lineCol:"rgba(255,255,255,.26)"}
 };
-let theme="midnight", frameStyle="classic";
+let theme="midnight", frameStyle="classic", showMoon=true;
 
 function starColor(idx, dark){
   const c=PALETTE[idx];
@@ -197,6 +230,21 @@ function render(){
   if(dStr){const[Y,M,D]=dStr.split('-').map(Number);const[hh,mm]=tStr.split(':').map(Number);const offset=Math.round(lon/15);date=new Date(Date.UTC(Y,M-1,D,hh-offset,mm||0,0));}else date=new Date();
   const th=THEMES[theme];
 
+  /* ───── Milky Way band: render galactic plane as a soft luminous haze ───── */
+  let milky="";
+  if(!th.dark){ // looks best on dark themes; skip on ivory paper
+    // sample the galactic equator and a few parallels for width; draw soft blobs where above horizon
+    for(let b=-12;b<=12;b+=3){
+      for(let l=0;l<360;l+=4){
+        const [ra,dec]=galToEq(l,b);
+        const p=project(ra,dec,lat,lon,date); if(!p) continue;
+        const edgeFade=1-(Math.abs(b)/14);            // brighter near the plane
+        const blob=10-Math.abs(b)*0.35;
+        milky+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${blob.toFixed(1)}" fill="url(#milk)" opacity="${(0.05*edgeFade).toFixed(3)}"/>`;
+      }
+    }
+  }
+
   /* stars: real catalog, sized & colored by magnitude/temperature */
   let dots="", glows="";
   for(let i=0;i<STARS.length;i++){
@@ -211,18 +259,35 @@ function render(){
     dots+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${size.toFixed(2)}" fill="${col}" opacity="${op.toFixed(2)}"/>`;
   }
 
-  /* constellation lines from real dataset */
-  let lines="";
-  for(const pl of CONLINES){
-    let d="";
-    for(let i=0;i<pl.length;i++){
-      const p=project(pl[i][0],pl[i][1],lat,lon,date);
-      if(!p){d="";continue;} // break the path when a vertex dips below horizon
-      // guard against huge wrap segments
-      d += (d===""?`M`:`L`)+p[0].toFixed(1)+" "+p[1].toFixed(1)+" ";
+  /* ───── moon: accurate position + phase (only when above horizon, if enabled) ───── */
+  let moonSvg="", moonNote="";
+  if(showMoon){
+    const ms=moonState(date);
+    const mp=project(ms.ra,ms.dec,lat,lon,date);
+    if(mp && ms.illum>0.04){ // visible and not a near-new (invisible) moon
+      const [mx,my]=mp; const mr=13;
+      // phase via two overlapping discs: lit disc + shadow disc offset by phase
+      const k=ms.illum;                       // 0..1 illuminated
+      const off=(1-2*k)*mr*(ms.waxing?1:-1);  // shadow offset
+      moonSvg=`
+        <g filter="url(#moonblur)">
+          <circle cx="${mx}" cy="${my}" r="${mr+6}" fill="url(#moonglow)" opacity="0.5"/>
+        </g>
+        <defs><clipPath id="moonclip"><circle cx="${mx}" cy="${my}" r="${mr}"/></clipPath></defs>
+        <circle cx="${mx}" cy="${my}" r="${mr}" fill="url(#moonsurf)"/>
+        <g clip-path="url(#moonclip)">
+          <circle cx="${(mx+off).toFixed(1)}" cy="${my}" r="${mr}" fill="${th.dark?'#0a1024':'#cdbf9c'}" opacity="${th.dark?0.92:0.85}"/>
+        </g>
+        <circle cx="${mx}" cy="${my}" r="${mr}" fill="none" stroke="${th.ring}" stroke-width="0.5" opacity="0.5"/>`;
+    } else if(mp===null){
+      moonNote="The moon was below the horizon on this night.";
+    } else {
+      moonNote="A new moon — the sky was at its darkest.";
     }
-    if(d) lines+=`<path d="${d}" fill="none" stroke="${th.lineCol}" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>`;
   }
+
+  /* lines removed per design — clean star field + Milky Way reads more premium */
+  let lines="";
 
   /* engraved frame variants */
   let frame="";
@@ -257,7 +322,8 @@ function render(){
     <text x="${cx}" y="${capY}" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="500" font-size="30" fill="${th.capName}" letter-spacing="1">${escapeXml(names)}</text>
     <text x="${cx}" y="${capY+22}" text-anchor="middle" font-family="EB Garamond,serif" font-style="italic" font-size="14" fill="${th.capGold}" letter-spacing="0.5">${escapeXml(msg)}</text>
     <text x="${cx}" y="${capY+44}" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="${th.capMuted}" letter-spacing="2.5">${escapeXml(place.toUpperCase())} · ${dn.toUpperCase()}</text>
-    <text x="${cx}" y="${capY+60}" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="${th.capMuted}" letter-spacing="2">${coords}</text>`;
+    <text x="${cx}" y="${capY+60}" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="${th.capMuted}" letter-spacing="2">${coords}</text>
+    ${moonNote?`<text x="${cx}" y="${capY+78}" text-anchor="middle" font-family="EB Garamond,serif" font-style="italic" font-size="10.5" fill="${th.capGold}" opacity="0.85">${escapeXml(moonNote)}</text>`:''}`;
 
   /* watermark tile */
   const wm=th.dark?'rgba(60,45,15,0.13)':'rgba(228,199,126,0.12)';
@@ -270,6 +336,16 @@ function render(){
     <radialGradient id="glow" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </radialGradient>
+    <radialGradient id="milk" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#cdd6ff"/><stop offset="55%" stop-color="#aab6e8" stop-opacity=".5"/><stop offset="100%" stop-color="#aab6e8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="moonglow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff6e0"/><stop offset="100%" stop-color="#fff6e0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="moonsurf" cx="38%" cy="36%" r="68%">
+      <stop offset="0%" stop-color="#fffaf0"/><stop offset="70%" stop-color="#efe6d2"/><stop offset="100%" stop-color="#d9cdb2"/>
+    </radialGradient>
+    <filter id="moonblur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter>
     <radialGradient id="vig" cx="50%" cy="50%" r="55%">
       <stop offset="66%" stop-color="rgba(0,0,0,0)"/><stop offset="100%" stop-color="rgba(0,0,0,${th.dark?'.14':'.42'})"/>
     </radialGradient>
@@ -282,7 +358,7 @@ function render(){
   <rect width="${VW}" height="576" fill="${th.bg1}"/>
   <g clip-path="url(#disk)">
     <rect width="${VW}" height="576" fill="url(#skyg)"/>
-    ${glows}${lines}${dots}
+    ${milky}${glows}${dots}${moonSvg}
     <rect width="${VW}" height="576" fill="url(#vig)"/>
     <rect width="${VW}" height="576" fill="url(#wm)"/>
   </g>
@@ -293,7 +369,8 @@ function escapeXml(s){return (s||"").replace(/[<>&'"]/g,c=>({'<':'&lt;','>':'&gt
 
 ['place','date','time','names','msg'].forEach(id=>document.getElementById(id).addEventListener('input',render));
 document.getElementById('themes').addEventListener('click',e=>{const t=e.target.closest('.theme');if(!t)return;document.querySelectorAll('.theme').forEach(x=>x.classList.remove('active'));t.classList.add('active');theme=t.dataset.theme;render();});
-document.getElementById('frames').addEventListener('click',e=>{const t=e.target.closest('.frameopt');if(!t)return;document.querySelectorAll('.frameopt').forEach(x=>x.classList.remove('active'));t.classList.add('active');frameStyle=t.dataset.frame;render();});
+document.getElementById('frames').addEventListener('click',e=>{const t=e.target.closest('.frameopt');if(!t)return;document.querySelectorAll('#frames .frameopt').forEach(x=>x.classList.remove('active'));t.classList.add('active');frameStyle=t.dataset.frame;render();});
+document.getElementById('moontoggle').addEventListener('click',e=>{const t=e.target.closest('.frameopt');if(!t)return;document.querySelectorAll('#moontoggle .frameopt').forEach(x=>x.classList.remove('active'));t.classList.add('active');showMoon=(t.dataset.moon==='on');render();});
 document.getElementById('cta').addEventListener('click',()=>{document.getElementById('cta').querySelector('small').textContent="↑ checkout opens here (next build step)";});
 render();
 </script>
