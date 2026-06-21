@@ -215,6 +215,8 @@ const PLACES={"newport, ri":[41.49,-71.31],"providence, ri":[41.82,-71.41],"new 
 function geocode(s){const k=s.trim().toLowerCase();if(PLACES[k])return PLACES[k];let h=0;for(let i=0;i<k.length;i++)h=(h*31+k.charCodeAt(i))>>>0;return[20+(h%500)/10,-130+((h>>9)%2600)/10];}
 
 /* ───── geometry ───── */
+const MOON_CRATERS=[[-0.095, 0.12, 0.185], [0.71, -0.62, 0.201], [-0.393, -0.819, 0.044], [-0.208, -0.094, 0.067], [0.199, 0.556, 0.112], [0.685, 0.038, 0.094], [0.325, -0.085, 0.09], [0.103, 0.863, 0.058], [-0.369, -0.541, 0.073], [0.126, -0.784, 0.061], [-0.227, 0.916, 0.036], [-0.249, 0.418, 0.117], [0.259, 0.557, 0.087], [-0.18, 0.846, 0.055], [0.594, -0.645, 0.072], [-0.619, 0.464, 0.061], [-0.232, -0.21, 0.056], [0.154, -0.916, 0.054], [-0.483, 0.545, 0.134], [-0.228, -0.851, 0.076], [-0.514, 0.203, 0.122], [-0.746, 0.175, 0.074], [-0.634, -0.692, 0.085], [-0.501, -0.62, 0.08], [-0.224, -0.035, 0.051], [0.409, -0.486, 0.17], [-0.649, 0.441, 0.043], [-0.041, 0.307, 0.047], [-0.109, -0.879, 0.056], [0.062, 0.946, 0.049], [0.314, 0.382, 0.066], [0.847, -0.05, 0.127], [0.272, -0.036, 0.086], [0.092, 0.474, 0.072], [0.83, -0.296, 0.225], [0.742, -0.166, 0.049], [0.146, 0.25, 0.139], [-0.486, -0.168, 0.109], [0.47, 0.162, 0.186], [0.083, 0.037, 0.038], [0.56, 0.32, 0.167], [0.356, -0.595, 0.071], [-0.315, 0.861, 0.224], [-0.346, 0.332, 0.078], [0.607, 0.509, 0.087], [-0.231, 0.166, 0.1], [-0.731, -0.299, 0.046], [-0.662, -0.099, 0.114], [0.662, -0.235, 0.204], [0.433, 0.684, 0.173], [0.657, -0.444, 0.046], [-0.438, -0.292, 0.045], [-0.19, -0.62, 0.083], [0.258, -0.107, 0.141], [0.369, -0.601, 0.167], [0.428, 0.51, 0.036], [-0.455, -0.309, 0.06], [0.445, -0.74, 0.162], [0.1, 0.305, 0.114], [0.303, -0.59, 0.045], [0.955, 0.074, 0.102], [0.009, -0.926, 0.118], [0.536, -0.025, 0.036], [0.735, -0.142, 0.035], [-0.33, 0.576, 0.062], [0.036, 0.356, 0.229], [-0.015, 0.898, 0.059], [-0.121, 0.118, 0.064], [0.687, 0.12, 0.102], [0.219, -0.391, 0.077]];
+const MOON_MARIA=[[-0.25, -0.15, 0.34], [0.3, 0.32, 0.26], [0.05, -0.4, 0.22], [-0.4, 0.3, 0.2], [0.42, -0.18, 0.18]];
 const VW=480, R=212, cx=240, cy=232;
 function project(ra,dec,lat,lon,date){const{alt,az}=altAz(ra,dec,lat,lon,date);if(alt<=0)return null;const r=R*(1-alt/90);const a=rad(az);return[cx+r*Math.sin(a),cy-r*Math.cos(a)];}
 
@@ -271,69 +273,76 @@ function render(){
     dots+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${size.toFixed(2)}" fill="${col}" opacity="${op.toFixed(2)}"/>`;
   }
 
-  /* ───── moon: accurate position + phase (only when above horizon, if enabled) ───── */
+  /* ───── moon: accurate position + phase, photorealistic lit surface ───── */
   let moonSvg="", moonNote="", moonDefs="";
   if(showMoon){
     const ms=moonState(date);
     const mp=project(ms.ra,ms.dec,lat,lon,date);
     if(mp && ms.illum>0.04){
-      const [mx,my]=mp; const mr=16;
-      const k=ms.illum;                          // illuminated fraction 0..1
+      const [mx,my]=mp; const mr=18;
+      const k=ms.illum;
       const waxing=ms.waxing;
       const dark=th.dark;
+      // light direction (unit): comes from the lit limb. waxing => lit on right.
+      const lightX = waxing? 0.82 : -0.82, lightY=-0.32;
 
-      // ── craters: numerous, varied, with rim highlight + shadow for depth ──
+      // craters as lit dimples: shadow arc on the anti-light side, bright rim on light side
       let craters="";
-      const cseed=[[-5,-6,3.4],[4,-3,2.4],[-2,5,2.9],[6,4,1.9],[1,-7,1.6],[-7,2,1.7],[3,7,1.5],[8,-5,1.3],[-4,-1,1.1],[0,1,2.1],[7,1,1.2],[-6,7,1.4],[-9,-2,1.5],[9,6,1.1],[2,-2,0.9],[-1,9,1.3],[5,-8,1.0],[-8,5,1.2],[3,3,0.8],[-3,-9,1.1],[10,-1,0.9],[-10,1,1.0],[6,9,1.2],[-5,-4,0.7]];
-      for(const [dx,dy,cr] of cseed){
-        if(dx*dx+dy*dy > (mr-1.5)*(mr-1.5)) continue;
-        craters+=`<circle cx="${(mx+dx).toFixed(1)}" cy="${(my+dy).toFixed(1)}" r="${cr}" fill="url(#craterShade)" opacity="0.6"/>
-                  <circle cx="${(mx+dx-cr*0.35).toFixed(1)}" cy="${(my+dy-cr*0.35).toFixed(1)}" r="${(cr*0.6).toFixed(1)}" fill="#fff8ec" opacity="0.16"/>
-                  <circle cx="${(mx+dx+cr*0.3).toFixed(1)}" cy="${(my+dy+cr*0.3).toFixed(1)}" r="${(cr*0.52).toFixed(1)}" fill="#6b5e44" opacity="0.18"/>`;
+      for(const [ux,uy,ur] of MOON_CRATERS){
+        const cxp=mx+ux*mr*0.92, cyp=my+uy*mr*0.92, crp=ur*mr;
+        if(crp<0.6) continue;
+        // floor shadow (offset toward anti-light), rim highlight (offset toward light)
+        craters+=`
+          <circle cx="${cxp.toFixed(1)}" cy="${cyp.toFixed(1)}" r="${crp.toFixed(2)}" fill="#5b4f3a" opacity="0.30"/>
+          <circle cx="${(cxp - lightX*crp*0.4).toFixed(1)}" cy="${(cyp - lightY*crp*0.4).toFixed(1)}" r="${(crp*0.92).toFixed(2)}" fill="#7a6c50" opacity="0.28"/>
+          <circle cx="${(cxp + lightX*crp*0.5).toFixed(1)}" cy="${(cyp + lightY*crp*0.5).toFixed(1)}" r="${(crp*0.62).toFixed(2)}" fill="#fff7e6" opacity="0.34"/>
+          <circle cx="${(cxp - lightX*crp*0.5).toFixed(1)}" cy="${(cyp - lightY*crp*0.5).toFixed(1)}" r="${(crp*0.5).toFixed(2)}" fill="#4a4030" opacity="0.30"/>`;
       }
-      // subtle maria (dark seas) for realism
-      craters+=`<ellipse cx="${(mx-3).toFixed(1)}" cy="${(my-2).toFixed(1)}" rx="5" ry="4" fill="#9a8a6a" opacity="0.12"/>
-                <ellipse cx="${(mx+4).toFixed(1)}" cy="${(my+5).toFixed(1)}" rx="4" ry="3.4" fill="#9a8a6a" opacity="0.10"/>`;
+      // maria (dark seas)
+      let maria="";
+      for(const [ux,uy,ur] of MOON_MARIA){
+        maria+=`<ellipse cx="${(mx+ux*mr*0.9).toFixed(1)}" cy="${(my+uy*mr*0.9).toFixed(1)}" rx="${(ur*mr).toFixed(1)}" ry="${(ur*mr*0.82).toFixed(1)}" fill="#8c7c5c" opacity="0.16"/>`;
+      }
 
-      // ── soft terminator: a shadow ellipse with a blurred edge, clipped to the disc ──
-      // position of the terminator: scale x of the shadow disc by phase
-      const term = (2*k-1);                       // -1 (new) .. +1 (full)
-      const shadowCx = mx + (waxing? -1:1) * term * mr;  // shifts shadow off the lit limb
-      const shadowR = mr*1.02;
+      const term=(2*k-1);
+      const shadowCx=mx+(waxing?-1:1)*term*mr;
 
       moonDefs=`
-        <radialGradient id="moonBody" cx="40%" cy="38%" r="68%">
-          <stop offset="0%" stop-color="${dark?'#fdfaf2':'#fffdf8'}"/>
-          <stop offset="62%" stop-color="${dark?'#ece3d0':'#f0e7d4'}"/>
-          <stop offset="100%" stop-color="${dark?'#cdbf9c':'#d8cbae'}"/>
-        </radialGradient>
-        <radialGradient id="craterShade" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#8a7c5e" stop-opacity="0.5"/>
-          <stop offset="100%" stop-color="#8a7c5e" stop-opacity="0"/>
+        <radialGradient id="moonBody" cx="${waxing?'62%':'38%'}" cy="40%" r="72%">
+          <stop offset="0%" stop-color="#fffdf6"/>
+          <stop offset="55%" stop-color="#efe6d2"/>
+          <stop offset="100%" stop-color="#c9bb9b"/>
         </radialGradient>
         <radialGradient id="moonHalo2" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#fff6df" stop-opacity="0.55"/>
-          <stop offset="45%" stop-color="#f4ead0" stop-opacity="0.22"/>
+          <stop offset="0%" stop-color="#fff6df" stop-opacity="0.5"/>
+          <stop offset="45%" stop-color="#f4ead0" stop-opacity="0.2"/>
           <stop offset="100%" stop-color="#f4ead0" stop-opacity="0"/>
         </radialGradient>
         <radialGradient id="earth" cx="50%" cy="50%" r="60%">
-          <stop offset="0%" stop-color="${dark?'#2a3550':'#b9c0cf'}" stop-opacity="${dark?0.5:0.4}"/>
-          <stop offset="100%" stop-color="${dark?'#101a30':'#aab2c4'}" stop-opacity="${dark?0.85:0.6}"/>
+          <stop offset="0%" stop-color="${dark?'#26314c':'#aab2c4'}" stop-opacity="${dark?0.45:0.35}"/>
+          <stop offset="100%" stop-color="${dark?'#0e1830':'#9aa2b4'}" stop-opacity="${dark?0.85:0.55}"/>
         </radialGradient>
-        <filter id="termBlur" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="2.1"/></filter>
+        <filter id="moonTex" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="7" result="n"/>
+          <feDiffuseLighting in="n" surfaceScale="1.1" diffuseConstant="1.0" lighting-color="#fff7e8" result="light">
+            <feDistantLight azimuth="${waxing?235:305}" elevation="58"/>
+          </feDiffuseLighting>
+          <feColorMatrix in="light" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.7 0.7 0.7 0 0" result="bump"/>
+          <feComposite in="bump" in2="SourceGraphic" operator="in"/>
+        </filter>
+        <filter id="termBlur" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="2.4"/></filter>
         <clipPath id="moonDisc"><circle cx="${mx}" cy="${my}" r="${mr}"/></clipPath>`;
 
       moonSvg=`
-        <circle cx="${mx}" cy="${my}" r="${mr+12}" fill="url(#moonHalo2)"/>
+        <circle cx="${mx}" cy="${my}" r="${mr+13}" fill="url(#moonHalo2)"/>
         <g clip-path="url(#moonDisc)">
-          <!-- earthshine base on the dark side -->
           <circle cx="${mx}" cy="${my}" r="${mr}" fill="url(#earth)"/>
-          <!-- lit surface -->
           <circle cx="${mx}" cy="${my}" r="${mr}" fill="url(#moonBody)"/>
+          ${maria}
+          <g opacity="0.5"><circle cx="${mx}" cy="${my}" r="${mr}" fill="#c9bb9b" filter="url(#moonTex)"/></g>
           ${craters}
-          <!-- soft shadow sweeping across to make the phase -->
-          <circle cx="${shadowCx.toFixed(1)}" cy="${my}" r="${shadowR.toFixed(1)}"
-                  fill="${dark?'#0a1226':'#1a2238'}" opacity="${dark?0.93:0.8}" filter="url(#termBlur)"/>
+          <circle cx="${shadowCx.toFixed(1)}" cy="${my}" r="${(mr*1.04).toFixed(1)}"
+                  fill="${dark?'#080e22':'#15110a'}" opacity="${dark?0.95:0.9}" filter="url(#termBlur)"/>
         </g>`;
     } else if(mp===null){
       moonNote="The moon was below the horizon on this night.";
@@ -419,17 +428,7 @@ function render(){
   const dn=dStr?new Date(dStr+"T00:00").toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):"—";
   const coords=`${Math.abs(lat).toFixed(2)}°${lat>=0?'N':'S'} · ${Math.abs(lon).toFixed(2)}°${lon>=0?'E':'W'}`;
   const capY=cy+R+46;
-  // small moon-phase glyph for the divider center
-  const mst=moonState(date);
-  const gph=mst.illum, goff=(1-2*gph)*5*(mst.waxing?1:-1);
-  const phaseGlyph=`<g transform="translate(${cx},${capY-30})">
-      <circle r="5" fill="${th.capGold}" opacity="0.9"/>
-      <circle cx="${goff.toFixed(1)}" r="5" fill="${th.capBg}" opacity="0.92"/>
-    </g>`;
   const caption=`
-    <line x1="${cx-78}" y1="${capY-30}" x2="${cx-12}" y2="${capY-30}" stroke="${th.capGold}" stroke-width="0.6" opacity=".65"/>
-    <line x1="${cx+12}" y1="${capY-30}" x2="${cx+78}" y2="${capY-30}" stroke="${th.capGold}" stroke-width="0.6" opacity=".65"/>
-    ${phaseGlyph}
     <text x="${cx}" y="${capY}" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="500" font-size="31" fill="${th.capName}" letter-spacing="1.5">${escapeXml(names)}</text>
     <text x="${cx}" y="${capY+23}" text-anchor="middle" font-family="EB Garamond,serif" font-style="italic" font-size="14.5" fill="${th.capGold}" letter-spacing="0.4">${escapeXml(msg)}</text>
     <text x="${cx}" y="${capY+46}" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="${th.capMuted}" letter-spacing="3">${escapeXml(place.toUpperCase())}</text>
