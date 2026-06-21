@@ -9,25 +9,42 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#0A0E20; --ink-2:#111933; --paper:#F4EFE4; --paper-dim:#C9C1B0;
-    --gold:#C9A24B; --gold-soft:#E4C77E; --gold-deep:#9A7B38;
-    --line:rgba(201,162,75,0.22); --muted:#888FA6;
+    --ink:#0D0D0D;
+    --ink-2:#1A1A1A;
+    --gold:#C9A84C;
+    --gold-soft:#E0C677;
+    --gold-deep:#9A7B38;
+    --ivory:#F5F0E8;
+    --white:#FFFFFF;
+    --warm-gray:#6B6B6B;
+    --paper:#F5F0E8;
+    --paper-dim:#CFC8BA;
+    --muted:#9A968C;
+    --line:rgba(201,168,76,0.24);
+    --line-dark:rgba(13,13,13,0.12);
+    --ink-on-light:#1A1A1A;
+    --muted-on-light:#6B6B6B;
   }
   *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
   body{
-    background:
-      radial-gradient(1100px 650px at 72% -12%, #18224A 0%, rgba(24,34,74,0) 58%),
-      radial-gradient(820px 560px at -5% 108%, #14264A 0%, rgba(20,38,74,0) 52%),
-      var(--ink);
+    background:var(--ink);
     color:var(--paper);font-family:'Inter',-apple-system,sans-serif;line-height:1.5;min-height:100vh;overflow-x:hidden;
   }
-  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.45;
+  .hero-bg{position:relative}
+  .hero-bg::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.5;
     background-image:
       radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.7),transparent),
       radial-gradient(1px 1px at 80% 20%,rgba(255,255,255,.5),transparent),
       radial-gradient(1px 1px at 62% 72%,rgba(255,255,255,.55),transparent),
       radial-gradient(1px 1px at 35% 88%,rgba(255,255,255,.4),transparent);}
-  .wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:30px 22px 70px}
+  .wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:30px 22px 40px}
+  /* full-width section bands */
+  .band{width:100%}
+  .band-dark{background:var(--ink);color:var(--paper)}
+  .band-ivory{background:var(--ivory);color:var(--ink-on-light)}
+  .band-white{background:var(--white);color:var(--ink-on-light)}
+  .band-inner{max-width:1100px;margin:0 auto;padding:0 22px}
 
   header{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}
   .brand{display:flex;align-items:center;gap:11px;font-family:'Cormorant Garamond',serif}
@@ -50,7 +67,7 @@
   .chart-frame{position:relative;width:100%;aspect-ratio:1/1.2;border-radius:12px;overflow:hidden;
     box-shadow:0 34px 80px -34px rgba(0,0,0,.85), inset 0 0 0 1px rgba(201,162,75,.25)}
   .chart-frame svg{display:block;width:100%;height:100%}
-  .live-dot{display:inline-flex;align-items:center;gap:7px;position:absolute;top:13px;left:13px;z-index:3;
+  .live-dot{display:inline-flex;align-items:center;gap:7px;position:absolute;bottom:13px;right:13px;z-index:3;
     font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-soft);
     background:rgba(8,12,30,.62);border:1px solid var(--line);padding:5px 10px;border-radius:99px}
   .live-dot i{width:6px;height:6px;border-radius:99px;background:#5BD08A;box-shadow:0 0 8px #5BD08A;animation:pulse 1.8s infinite}
@@ -100,12 +117,15 @@
   /* ───── sales page sections ───── */
   .sec{max-width:1000px;margin:0 auto;padding:80px 22px}
   .sec-narrow{max-width:760px}
-  .sec-eyebrow{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:18px}
+  .sec-eyebrow{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:18px;font-weight:600}
   .sec h2.sec-title{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(30px,5vw,46px);line-height:1.08;text-align:center;letter-spacing:-.01em;margin-bottom:20px}
-  .sec h2.sec-title em{font-style:italic;color:var(--gold-soft)}
-  .sec .sec-lead{max-width:600px;margin:0 auto;text-align:center;color:var(--paper-dim);font-size:clamp(16px,2.2vw,18px);line-height:1.65}
+  .sec h2.sec-title em{font-style:italic;color:var(--gold)}
+  .sec .sec-lead{max-width:600px;margin:0 auto;text-align:center;font-size:clamp(16px,2.2vw,18px);line-height:1.65}
+  .band-dark .sec-lead{color:var(--paper-dim)}
+  .band-ivory .sec-lead,.band-white .sec-lead{color:var(--muted-on-light)}
+  .band-ivory .sec h2.sec-title,.band-white .sec h2.sec-title{color:var(--ink-on-light)}
   .divider-star{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto 40px;max-width:200px}
-  .divider-star span{height:1px;flex:1;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+  .divider-star span{height:1px;flex:1;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.4}
   .divider-star b{color:var(--gold);font-size:13px}
 
   /* authenticity band */
@@ -124,18 +144,25 @@
   .step .num{font-family:'Cormorant Garamond',serif;font-size:40px;color:var(--gold);line-height:1;margin-bottom:14px;opacity:.85}
   .step h3{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:21px;margin-bottom:8px}
   .step p{color:var(--muted);font-size:14.5px;line-height:1.6}
+  .band-ivory .step p,.band-white .step p{color:var(--muted-on-light)}
+  .band-ivory .step h3,.band-white .step h3{color:var(--ink-on-light)}
 
   /* included / value stack */
   .incl-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:44px;max-width:780px;margin-left:auto;margin-right:auto}
   @media(max-width:680px){.incl-grid{grid-template-columns:1fr}}
   .incl-card{background:rgba(17,25,51,.5);border:1px solid var(--line);border-radius:14px;padding:24px}
+  .band-ivory .incl-card,.band-white .incl-card{background:var(--white);border:1px solid var(--line-dark);box-shadow:0 8px 24px -16px rgba(0,0,0,.3)}
   .incl-card .ic{color:var(--gold-soft);font-size:13px;letter-spacing:.06em;margin-bottom:9px;display:flex;align-items:center;gap:9px}
+  .band-ivory .incl-card .ic,.band-white .incl-card .ic{color:var(--gold-deep)}
   .incl-card h3{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:20px;margin-bottom:7px}
+  .band-ivory .incl-card h3,.band-white .incl-card h3{color:var(--ink-on-light)}
   .incl-card p{color:var(--muted);font-size:14px;line-height:1.6}
+  .band-ivory .incl-card p,.band-white .incl-card p{color:var(--muted-on-light)}
 
   /* occasions */
   .occ{display:flex;flex-wrap:wrap;gap:11px;justify-content:center;margin-top:40px;max-width:720px;margin-left:auto;margin-right:auto}
   .occ span{border:1px solid var(--line);border-radius:99px;padding:10px 20px;font-size:14px;color:var(--paper-dim);font-family:'EB Garamond',serif;font-style:italic;background:rgba(8,12,30,.3)}
+  .band-ivory .occ span,.band-white .occ span{color:var(--ink-on-light);border:1px solid var(--line-dark);background:var(--white)}
 
   /* last-minute band */
   .lastmin{background:linear-gradient(180deg,rgba(201,162,75,.08),rgba(201,162,75,.02));border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center}
@@ -148,6 +175,10 @@
   .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px;align-items:stretch}
   @media(max-width:760px){.tiers{grid-template-columns:1fr;max-width:380px;margin-left:auto;margin-right:auto}}
   .tier{background:rgba(17,25,51,.5);border:1px solid var(--line);border-radius:16px;padding:30px 24px;display:flex;flex-direction:column;text-align:center;position:relative}
+  .band-ivory .tier,.band-white .tier{background:var(--white);border:1px solid var(--line-dark);box-shadow:0 10px 30px -18px rgba(0,0,0,.3)}
+  .band-ivory .tier .tname,.band-white .tier .tname{color:var(--gold-deep)}
+  .band-ivory .tier .tdesc,.band-white .tier .tdesc{color:var(--muted-on-light)}
+  .band-ivory .tier li,.band-white .tier li{color:var(--ink-on-light)}
   .tier.featured{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 20px 50px -24px rgba(201,162,75,.5)}
   .tier .badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:linear-gradient(180deg,var(--gold-soft),var(--gold));color:#1a1305;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:5px 14px;border-radius:99px}
   .tier .tname{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
@@ -171,6 +202,21 @@
   .finale .reassure-line{margin-top:18px;font-size:13px;color:var(--muted);letter-spacing:.04em}
 
   footer{text-align:center;margin-top:36px;font-size:11px;color:var(--muted);letter-spacing:.12em}
+
+  /* lead capture modal */
+  .lead-modal{position:fixed;inset:0;z-index:100;background:rgba(8,8,8,.78);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;padding:20px}
+  .lead-modal.open{display:flex}
+  .lead-box{background:var(--white);color:var(--ink-on-light);border-radius:18px;max-width:440px;width:100%;padding:38px 34px;position:relative;box-shadow:0 40px 90px -30px rgba(0,0,0,.6);text-align:center}
+  .lead-close{position:absolute;top:14px;right:18px;background:none;border:none;font-size:26px;color:var(--warm-gray);cursor:pointer;line-height:1}
+  .lead-title{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:28px;color:var(--ink-on-light);margin-bottom:10px;line-height:1.1}
+  .lead-sub{color:var(--muted-on-light);font-size:14.5px;line-height:1.55;margin-bottom:24px}
+  .lead-field{text-align:left;margin-bottom:14px}
+  .lead-field label{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px;font-weight:600}
+  .lead-field input{width:100%;background:var(--ivory);border:1px solid var(--line-dark);border-radius:10px;padding:13px 14px;color:var(--ink-on-light);font-size:15px;font-family:inherit}
+  .lead-field input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.16)}
+  .lead-cta{width:100%;margin-top:8px;border:none;border-radius:11px;padding:15px;background:linear-gradient(180deg,var(--gold-soft),var(--gold));color:#1a1305;font-family:inherit;font-weight:600;font-size:15px;cursor:pointer;transition:transform .12s}
+  .lead-cta:hover{transform:translateY(-1px)}
+  .lead-fine{margin-top:14px;font-size:11.5px;color:var(--muted-on-light)}
 </style>
 </head>
 <body>
@@ -206,13 +252,21 @@
       <h2>Build your sky</h2>
       <p class="lead">Every change appears instantly. What you see is exactly what you'll receive.</p>
 
-      <div class="field"><label for="place">Place</label>
-        <input id="place" type="text" placeholder="City, e.g. Newport, RI" value="Newport, RI"></div>
+      <div class="field"><label for="title">Title above the map</label>
+        <input id="title" type="text" placeholder="The Sky From the Night Everything Changed" value="The Sky From the Night Everything Changed" maxlength="48"></div>
+      <div class="field"><label for="place">City</label>
+        <input id="place" type="text" placeholder="City, e.g. Newport" value="Newport"></div>
+      <div class="row">
+        <div class="field"><label for="region">State / region</label>
+          <input id="region" type="text" placeholder="RI" value="RI"></div>
+        <div class="field"><label for="country">Country</label>
+          <input id="country" type="text" placeholder="USA" value="USA"></div>
+      </div>
       <div class="row">
         <div class="field"><label for="date">Date</label><input id="date" type="date" value="2019-06-21"></div>
         <div class="field"><label for="time">Time</label><input id="time" type="time" value="21:30"></div>
       </div>
-      <div class="field"><label for="names">Names / title</label>
+      <div class="field"><label for="names">Names</label>
         <input id="names" type="text" placeholder="Alex & Sam" value="Alex & Sam"></div>
       <div class="field"><label for="msg">A short line</label>
         <input id="msg" type="text" placeholder="the night we met" value="the night we met" maxlength="42"></div>
@@ -239,14 +293,32 @@
         </div>
       </div>
 
-      <button class="cta" id="cta">See it full size &amp; continue
-        <small>High-resolution file + personalized card · in your inbox in seconds</small></button>
-      <div class="price-row"><span class="price">$39.95</span><span class="price-note">one-time · instant download</span></div>
-      <p class="incl">Includes your <b>print-ready star map</b> + a <b>personalized digital card</b><br>delivered by email &amp; text to share with them.</p>
+      <button class="cta" id="cta">Continue to your gift
+        <small>See it full size · choose digital or print on the next step</small></button>
+      <p class="incl">Includes your <b>personalized star map</b> + a <b>digital card</b><br>delivered by email &amp; text to share with them.</p>
     </div>
   </section>
+  </div><!-- /wrap -->
 
-  <!-- AUTHENTICITY -->
+  <!-- EMAIL CAPTURE MODAL -->
+  <div id="leadModal" class="lead-modal">
+    <div class="lead-box">
+      <button class="lead-close" id="leadClose">&times;</button>
+      <div class="sec-eyebrow">Almost there</div>
+      <h3 class="lead-title">Where should we send your star map?</h3>
+      <p class="lead-sub">Enter your details and we'll take you to choose your gift. We'll save your design so you never lose it.</p>
+      <div class="lead-field"><label for="leadName">Your name</label>
+        <input id="leadName" type="text" placeholder="Your name"></div>
+      <div class="lead-field"><label for="leadEmail">Email</label>
+        <input id="leadEmail" type="email" placeholder="you@email.com"></div>
+      <button class="lead-cta" id="leadSubmit">Continue to gift options →</button>
+      <p class="lead-fine">Free to design. You only pay when you love it.</p>
+    </div>
+  </div>
+  </div><!-- /wrap (hero+studio stay dark) -->
+
+  <!-- AUTHENTICITY (dark band) -->
+  <div class="band band-dark">
   <section class="auth">
     <div class="sec">
       <div class="auth-grid">
@@ -264,8 +336,10 @@
       </div>
     </div>
   </section>
+  </div>
 
-  <!-- HOW IT WORKS -->
+  <!-- HOW IT WORKS (ivory band) -->
+  <div class="band band-ivory">
   <section class="sec">
     <div class="sec-eyebrow">Three minutes, start to finish</div>
     <h2 class="sec-title">Beautifully simple to <em>make</em>.</h2>
@@ -288,16 +362,18 @@
       </div>
     </div>
   </section>
+  </div><!-- /ivory band -->
 
-  <!-- WHAT'S INCLUDED -->
-  <section class="sec sec-narrow" style="padding-top:20px">
+  <!-- WHAT'S INCLUDED (dark band) -->
+  <div class="band band-dark">
+  <section class="sec sec-narrow" style="padding-top:80px">
     <div class="sec-eyebrow">What you give</div>
     <h2 class="sec-title">More than a picture. A <em>gift</em>.</h2>
     <div class="incl-grid">
       <div class="incl-card">
         <div class="ic">✦ The star map</div>
         <h3>Your sky, beautifully rendered</h3>
-        <p>A high-resolution star map of your exact moment — perfect on a phone, a screen, or printed at home. Yours to keep forever.</p>
+        <p>A personalized star map of your exact moment — beautiful on a phone, a screen, or as a print. Yours to keep forever.</p>
       </div>
       <div class="incl-card">
         <div class="ic">✦ The personalized card</div>
@@ -316,9 +392,11 @@
       </div>
     </div>
   </section>
+  </div>
 
-  <!-- OCCASIONS -->
-  <section class="sec" style="padding-top:20px">
+  <!-- OCCASIONS (ivory band) -->
+  <div class="band band-ivory">
+  <section class="sec" style="padding-top:80px">
     <div class="sec-eyebrow">For every moment worth keeping</div>
     <h2 class="sec-title">One gift. Every <em>occasion</em>.</h2>
     <div class="occ">
@@ -332,8 +410,10 @@
       <span>just because</span>
     </div>
   </section>
+  </div><!-- /occasions ivory band -->
 
-  <!-- LAST MINUTE -->
+  <!-- LAST MINUTE (dark gold band) -->
+  <div class="band band-dark">
   <section class="lastmin">
     <div class="sec">
       <div class="clock">⊙ Forgot? You're still the hero</div>
@@ -341,30 +421,30 @@
       <p>No store run. No two-day shipping. No panic. Build her sky right now, and a heartfelt, personalized gift is in her inbox before she's even up.</p>
     </div>
   </section>
+  </div>
 
-  <!-- PRICING -->
+  <!-- OPTIONS (ivory band, no prices — email gate captures lead first) -->
+  <div class="band band-ivory">
   <section class="sec">
     <div class="sec-eyebrow">Choose how you give it</div>
-    <h2 class="sec-title">Start at <em>$29.95</em>.</h2>
+    <h2 class="sec-title">Three ways to <em>give</em> it.</h2>
     <p class="sec-lead">Every option includes your personalized star map and digital card. Add a print when you want something she can hold.</p>
     <div class="tiers">
       <div class="tier featured">
         <span class="badge">Most popular</span>
         <div class="tname">Digital</div>
-        <div class="tprice">$29<small>.95</small></div>
         <div class="tdesc">The instant gift. Delivered in minutes.</div>
         <ul>
-          <li>High-resolution star map file</li>
+          <li>Personalized star map</li>
           <li>Phone &amp; lock-screen version</li>
           <li>Personalized digital card</li>
           <li>Delivered by email &amp; text</li>
           <li>Ready in 3 minutes</li>
         </ul>
-        <button class="tcta">Create yours</button>
+        <button class="tcta">Choose digital</button>
       </div>
       <div class="tier">
         <div class="tname">Print · Small</div>
-        <div class="tprice">$59<small>.95</small></div>
         <div class="tdesc">A keepsake she can hang.</div>
         <ul>
           <li>Everything in Digital</li>
@@ -376,7 +456,6 @@
       </div>
       <div class="tier">
         <div class="tname">Print · Large</div>
-        <div class="tprice">$99<small>.95</small></div>
         <div class="tdesc">The statement piece.</div>
         <ul>
           <li>Everything in Digital</li>
@@ -436,13 +515,20 @@ function galToEq(l,b){
   return [(deg(ra)%360+360)%360, deg(dec)];
 }
 
-const PLACES={"newport, ri":[41.49,-71.31],"providence, ri":[41.82,-71.41],"new york, ny":[40.71,-74.01],"boston, ma":[42.36,-71.06],"los angeles, ca":[34.05,-118.24],"chicago, il":[41.88,-87.63],"miami, fl":[25.76,-80.19],"seattle, wa":[47.61,-122.33],"austin, tx":[30.27,-97.74],"denver, co":[39.74,-104.99],"san francisco, ca":[37.77,-122.42],"london":[51.51,-0.13],"paris":[48.86,2.35],"nashville, tn":[36.16,-86.78],"portsmouth, ri":[41.60,-71.25]};
-function geocode(s){const k=s.trim().toLowerCase();if(PLACES[k])return PLACES[k];let h=0;for(let i=0;i<k.length;i++)h=(h*31+k.charCodeAt(i))>>>0;return[20+(h%500)/10,-130+((h>>9)%2600)/10];}
+const PLACES={"birmingham, al": [33.52, -86.8], "montgomery, al": [32.37, -86.3], "anchorage, ak": [61.22, -149.9], "phoenix, az": [33.45, -112.07], "tucson, az": [32.22, -110.97], "little rock, ar": [34.75, -92.29], "los angeles, ca": [34.05, -118.24], "san francisco, ca": [37.77, -122.42], "san diego, ca": [32.72, -117.16], "sacramento, ca": [38.58, -121.49], "san jose, ca": [37.34, -121.89], "oakland, ca": [37.8, -122.27], "denver, co": [39.74, -104.99], "colorado springs, co": [38.83, -104.82], "hartford, ct": [41.76, -72.69], "bridgeport, ct": [41.18, -73.2], "wilmington, de": [39.74, -75.55], "dover, de": [39.16, -75.52], "miami, fl": [25.76, -80.19], "orlando, fl": [28.54, -81.38], "tampa, fl": [27.95, -82.46], "jacksonville, fl": [30.33, -81.66], "atlanta, ga": [33.75, -84.39], "savannah, ga": [32.08, -81.09], "honolulu, hi": [21.31, -157.86], "boise, id": [43.62, -116.21], "chicago, il": [41.88, -87.63], "springfield, il": [39.78, -89.65], "indianapolis, in": [39.77, -86.16], "des moines, ia": [41.59, -93.62], "wichita, ks": [37.69, -97.34], "louisville, ky": [38.25, -85.76], "lexington, ky": [38.04, -84.5], "new orleans, la": [29.95, -90.07], "baton rouge, la": [30.45, -91.19], "portland, me": [43.66, -70.26], "baltimore, md": [39.29, -76.61], "boston, ma": [42.36, -71.06], "worcester, ma": [42.26, -71.8], "detroit, mi": [42.33, -83.05], "grand rapids, mi": [42.96, -85.67], "minneapolis, mn": [44.98, -93.27], "st. paul, mn": [44.95, -93.09], "jackson, ms": [32.3, -90.18], "kansas city, mo": [39.1, -94.58], "st. louis, mo": [38.63, -90.2], "billings, mt": [45.79, -108.5], "omaha, ne": [41.26, -95.93], "las vegas, nv": [36.17, -115.14], "reno, nv": [39.53, -119.81], "manchester, nh": [42.99, -71.45], "newark, nj": [40.74, -74.17], "jersey city, nj": [40.73, -74.08], "albuquerque, nm": [35.08, -106.65], "santa fe, nm": [35.69, -105.94], "new york, ny": [40.71, -74.01], "buffalo, ny": [42.89, -78.88], "rochester, ny": [43.16, -77.61], "albany, ny": [42.65, -73.75], "charlotte, nc": [35.23, -80.84], "raleigh, nc": [35.78, -78.64], "fargo, nd": [46.88, -96.79], "columbus, oh": [39.96, -82.99], "cleveland, oh": [41.5, -81.69], "cincinnati, oh": [39.1, -84.51], "oklahoma city, ok": [35.47, -97.52], "tulsa, ok": [36.15, -95.99], "portland, or": [45.52, -122.68], "eugene, or": [44.05, -123.09], "philadelphia, pa": [39.95, -75.16], "pittsburgh, pa": [40.44, -79.996], "providence, ri": [41.82, -71.41], "newport, ri": [41.49, -71.31], "portsmouth, ri": [41.6, -71.25], "columbia, sc": [34.0, -81.03], "charleston, sc": [32.78, -79.93], "sioux falls, sd": [43.54, -96.73], "nashville, tn": [36.16, -86.78], "memphis, tn": [35.15, -90.05], "knoxville, tn": [35.96, -83.92], "houston, tx": [29.76, -95.37], "dallas, tx": [32.78, -96.8], "austin, tx": [30.27, -97.74], "san antonio, tx": [29.42, -98.49], "fort worth, tx": [32.76, -97.33], "el paso, tx": [31.76, -106.49], "salt lake city, ut": [40.76, -111.89], "burlington, vt": [44.48, -73.21], "virginia beach, va": [36.85, -75.98], "richmond, va": [37.54, -77.44], "seattle, wa": [47.61, -122.33], "spokane, wa": [47.66, -117.43], "charleston, wv": [38.35, -81.63], "milwaukee, wi": [43.04, -87.91], "madison, wi": [43.07, -89.4], "cheyenne, wy": [41.14, -104.82], "washington, dc": [38.91, -77.04], "london, uk": [51.51, -0.13], "manchester, uk": [53.48, -2.24], "edinburgh, uk": [55.95, -3.19], "dublin, ireland": [53.35, -6.26], "paris, france": [48.86, 2.35], "lyon, france": [45.76, 4.84], "madrid, spain": [40.42, -3.7], "barcelona, spain": [41.39, 2.17], "lisbon, portugal": [38.72, -9.14], "rome, italy": [41.9, 12.5], "milan, italy": [45.46, 9.19], "venice, italy": [45.44, 12.32], "berlin, germany": [52.52, 13.4], "munich, germany": [48.14, 11.58], "amsterdam, netherlands": [52.37, 4.9], "brussels, belgium": [50.85, 4.35], "zurich, switzerland": [47.38, 8.54], "vienna, austria": [48.21, 16.37], "prague, czechia": [50.08, 14.44], "stockholm, sweden": [59.33, 18.07], "oslo, norway": [59.91, 10.75], "copenhagen, denmark": [55.68, 12.57], "helsinki, finland": [60.17, 24.94], "athens, greece": [37.98, 23.73], "moscow, russia": [55.76, 37.62], "istanbul, turkey": [41.01, 28.98], "toronto, canada": [43.65, -79.38], "vancouver, canada": [49.28, -123.12], "montreal, canada": [45.5, -73.57], "mexico city, mexico": [19.43, -99.13], "tokyo, japan": [35.68, 139.69], "osaka, japan": [34.69, 135.5], "beijing, china": [39.9, 116.41], "shanghai, china": [31.23, 121.47], "hong kong": [22.32, 114.17], "seoul, south korea": [37.57, 126.98], "singapore": [1.35, 103.82], "bangkok, thailand": [13.76, 100.5], "mumbai, india": [19.08, 72.88], "delhi, india": [28.7, 77.1], "dubai, uae": [25.2, 55.27], "sydney, australia": [-33.87, 151.21], "melbourne, australia": [-37.81, 144.96], "auckland, new zealand": [-36.85, 174.76], "cape town, south africa": [-33.92, 18.42], "cairo, egypt": [30.04, 31.24], "rio de janeiro, brazil": [-22.91, -43.17], "sao paulo, brazil": [-23.55, -46.63], "buenos aires, argentina": [-34.6, -58.38], "lima, peru": [-12.05, -77.04]};
+function geocode(s){
+  const k=s.trim().toLowerCase().replace(/\s+/g,' ');
+  if(PLACES[k])return PLACES[k];
+  const city=k.split(',')[0].trim();
+  for(const key in PLACES){ if(key.split(',')[0].trim()===city) return PLACES[key]; }
+  let h=0; for(let i=0;i<k.length;i++)h=(h*31+k.charCodeAt(i))>>>0;
+  return[20+(h%500)/10,-130+((h>>9)%2600)/10];
+}
 
 /* ───── geometry ───── */
 const MOON_CRATERS=[[-0.095, 0.12, 0.185], [0.71, -0.62, 0.201], [-0.393, -0.819, 0.044], [-0.208, -0.094, 0.067], [0.199, 0.556, 0.112], [0.685, 0.038, 0.094], [0.325, -0.085, 0.09], [0.103, 0.863, 0.058], [-0.369, -0.541, 0.073], [0.126, -0.784, 0.061], [-0.227, 0.916, 0.036], [-0.249, 0.418, 0.117], [0.259, 0.557, 0.087], [-0.18, 0.846, 0.055], [0.594, -0.645, 0.072], [-0.619, 0.464, 0.061], [-0.232, -0.21, 0.056], [0.154, -0.916, 0.054], [-0.483, 0.545, 0.134], [-0.228, -0.851, 0.076], [-0.514, 0.203, 0.122], [-0.746, 0.175, 0.074], [-0.634, -0.692, 0.085], [-0.501, -0.62, 0.08], [-0.224, -0.035, 0.051], [0.409, -0.486, 0.17], [-0.649, 0.441, 0.043], [-0.041, 0.307, 0.047], [-0.109, -0.879, 0.056], [0.062, 0.946, 0.049], [0.314, 0.382, 0.066], [0.847, -0.05, 0.127], [0.272, -0.036, 0.086], [0.092, 0.474, 0.072], [0.83, -0.296, 0.225], [0.742, -0.166, 0.049], [0.146, 0.25, 0.139], [-0.486, -0.168, 0.109], [0.47, 0.162, 0.186], [0.083, 0.037, 0.038], [0.56, 0.32, 0.167], [0.356, -0.595, 0.071], [-0.315, 0.861, 0.224], [-0.346, 0.332, 0.078], [0.607, 0.509, 0.087], [-0.231, 0.166, 0.1], [-0.731, -0.299, 0.046], [-0.662, -0.099, 0.114], [0.662, -0.235, 0.204], [0.433, 0.684, 0.173], [0.657, -0.444, 0.046], [-0.438, -0.292, 0.045], [-0.19, -0.62, 0.083], [0.258, -0.107, 0.141], [0.369, -0.601, 0.167], [0.428, 0.51, 0.036], [-0.455, -0.309, 0.06], [0.445, -0.74, 0.162], [0.1, 0.305, 0.114], [0.303, -0.59, 0.045], [0.955, 0.074, 0.102], [0.009, -0.926, 0.118], [0.536, -0.025, 0.036], [0.735, -0.142, 0.035], [-0.33, 0.576, 0.062], [0.036, 0.356, 0.229], [-0.015, 0.898, 0.059], [-0.121, 0.118, 0.064], [0.687, 0.12, 0.102], [0.219, -0.391, 0.077]];
 const MOON_MARIA=[[-0.25, -0.15, 0.34], [0.3, 0.32, 0.26], [0.05, -0.4, 0.22], [-0.4, 0.3, 0.2], [0.42, -0.18, 0.18]];
-const VW=480, R=212, cx=240, cy=232;
+const VW=480, R=198, cx=240, cy=256;
 function project(ra,dec,lat,lon,date){const{alt,az}=altAz(ra,dec,lat,lon,date);if(alt<=0)return null;const r=R*(1-alt/90);const a=rad(az);return[cx+r*Math.sin(a),cy-r*Math.cos(a)];}
 
 const THEMES={
@@ -460,11 +546,19 @@ function starColor(idx, th){
   if(th.dark) return "#2a3148";
   return PALETTE[idx];
 }
+// More saturated tints for bright stars (PALETTE idx: 0 hot-blue,1 blue-white,2 amber,3 orange,4 warm,5 white)
+const TINT_BRIGHT=["#aec4ff","#d4e0ff","#ffc27a","#ffd896","#fff0d4","#ffffff"];
+const TINT_GLOW  =["#6f94ff","#9fc0ff","#ff9d4d","#ffb86b","#ffe4a8","#cfe0ff"];
 
 function render(){
-  const place=document.getElementById('place').value||"—";
+  const city=document.getElementById('place').value||"";
+  const region=(document.getElementById('region')?document.getElementById('region').value:"")||"";
+  const country=(document.getElementById('country')?document.getElementById('country').value:"")||"";
+  // geocode query: prefer "city, region", fall back gracefully
+  const geoQuery = region ? `${city}, ${region}` : (country?`${city}, ${country}`:city);
+  const place = [city, region].filter(Boolean).join(", ") || "—";
   const dStr=document.getElementById('date').value, tStr=document.getElementById('time').value||"21:00";
-  const [lat,lon]=geocode(place);
+  const [lat,lon]=geocode(geoQuery);
   let date;
   if(dStr){const[Y,M,D]=dStr.split('-').map(Number);const[hh,mm]=tStr.split(':').map(Number);const offset=Math.round(lon/15);date=new Date(Date.UTC(Y,M-1,D,hh-offset,mm||0,0));}else date=new Date();
   const th=THEMES[theme];
@@ -491,9 +585,16 @@ function render(){
     const mag=s[2];
     const size = mag<1.5 ? 2.6 - mag*0.5 : Math.max(0.32, (6.6-mag)*0.34);
     const op = Math.min(1, Math.max(0.28,(7.0-mag)/6.5));
-    const col = starColor(s[3], th);
-    if(mag<2.2 && !th.dark){
-      glows+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${(size*3.4).toFixed(1)}" fill="url(#glow)" opacity="${(op*0.45).toFixed(2)}"/>`;
+    let col = starColor(s[3], th);
+    // brighter stars show MORE saturated tint for premium colored contrast
+    if(mag<2.6 && !th.dark && !th.sepiaSky){
+      col = TINT_BRIGHT[s[3]] || col;
+      // colored glow halo matching the star's hue
+      const halo = TINT_GLOW[s[3]] || "#ffffff";
+      glows+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${(size*3.6).toFixed(1)}" fill="${halo}" opacity="${(op*0.22).toFixed(2)}"/>`;
+      glows+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${(size*2.0).toFixed(1)}" fill="url(#glow)" opacity="${(op*0.4).toFixed(2)}"/>`;
+    } else if(mag<2.2 && (th.dark||th.sepiaSky)){
+      glows+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${(size*3.0).toFixed(1)}" fill="url(#glow)" opacity="${(op*0.35).toFixed(2)}"/>`;
     }
     dots+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${size.toFixed(2)}" fill="${col}" opacity="${op.toFixed(2)}"/>`;
   }
@@ -647,7 +748,12 @@ function render(){
     frame=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${ring}" stroke-width="1.1" opacity=".85"/>`;
   }
 
-  /* caption block — refined architecture with moon-phase glyph */
+  /* title above the circle (customizable) */
+  const titleVal=(document.getElementById('title')?document.getElementById('title').value:"")||"";
+  const titleSvg = titleVal ? `<text x="${cx}" y="40" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="500" font-size="18" fill="${th.capName}" letter-spacing="0.5">${escapeXml(titleVal)}</text>
+    <line x1="${cx-44}" y1="50" x2="${cx+44}" y2="50" stroke="${th.capGold}" stroke-width="0.6" opacity="0.6"/>` : "";
+
+  /* caption block — refined architecture */
   const names=document.getElementById('names').value||"Your names";
   const msg=document.getElementById('msg').value||"";
   const dn=dStr?new Date(dStr+"T00:00").toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):"—";
@@ -711,15 +817,29 @@ function render(){
     <rect width="${VW}" height="576" fill="url(#wm)"/>
   </g>
   ${frame}
+  ${titleSvg}
   ${caption}`;
 }
 function escapeXml(s){return (s||"").replace(/[<>&'"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;',"'":'&apos;','"':'&quot;'}[c]));}
 
-['place','date','time','names','msg'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+['title','place','region','country','date','time','names','msg'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('input',render);});
 document.getElementById('themes').addEventListener('click',e=>{const t=e.target.closest('.theme');if(!t)return;document.querySelectorAll('.theme').forEach(x=>x.classList.remove('active'));t.classList.add('active');theme=t.dataset.theme;render();});
 document.getElementById('frames').addEventListener('click',e=>{const t=e.target.closest('.frameopt');if(!t)return;document.querySelectorAll('#frames .frameopt').forEach(x=>x.classList.remove('active'));t.classList.add('active');frameStyle=t.dataset.frame;render();});
 document.getElementById('moontoggle').addEventListener('click',e=>{const t=e.target.closest('.frameopt');if(!t)return;document.querySelectorAll('#moontoggle .frameopt').forEach(x=>x.classList.remove('active'));t.classList.add('active');showMoon=(t.dataset.moon==='on');render();});
-document.getElementById('cta').addEventListener('click',()=>{document.getElementById('cta').querySelector('small').textContent="↑ checkout opens here (next build step)";});
+// open lead-capture modal from any "continue"/"create" CTA
+function openLead(){document.getElementById('leadModal').classList.add('open');}
+document.getElementById('cta').addEventListener('click',openLead);
+document.getElementById('leadClose').addEventListener('click',()=>document.getElementById('leadModal').classList.remove('open'));
+document.getElementById('leadModal').addEventListener('click',e=>{if(e.target.id==='leadModal')document.getElementById('leadModal').classList.remove('open');});
+document.getElementById('leadSubmit').addEventListener('click',()=>{
+  const name=document.getElementById('leadName').value.trim();
+  const email=document.getElementById('leadEmail').value.trim();
+  if(!name||!email||!email.includes('@')){alert('Please enter your name and a valid email.');return;}
+  // capture point — wire to backend later. For now, advance to (future) gift options.
+  document.getElementById('leadSubmit').textContent='✓ Saved — gift options open here next';
+});
+// wire pricing-tier + finale CTAs to also open the lead modal
+document.querySelectorAll('.tcta, .fcta').forEach(b=>b.addEventListener('click',openLead));
 render();
 </script>
 </body>
